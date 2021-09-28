@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const router = Router();
+const { Pokemon } = require('../db');
 
 const {getApiInfo, getPokemonsInfo, getPokemonByName, getPokemonById, responseShort} = require('../Utils/methods')
 
@@ -26,7 +27,6 @@ router.get('/', async (req,res)=>{
         try{
             info = await getApiInfo(page, limit)
             pokemon = await getPokemonsInfo(info.data)
-            console.log(info.data)
             res.status(200).json(pokemon)
         }catch(e){
             res.status(500).send(e)
@@ -48,10 +48,21 @@ router.get('/:id', async (req,res)=>{
         }
 })
 
-router.post('/', (req, res)=>{
-    let {Nombre, Vida, Fuerza, Defensa, Velocidad, Altura, Peso} = req.body;
+router.post('/', async (req, res)=>{
+    const {name, hp, attack, defense, speed, height, weight, types} = req.body;
     
-    res.send({recibido: true, ...req.body});
+    // res.send({recibido: true, ...req.body});
+
+    const [pokemon, created] = await Pokemon.findOrCreate({
+        where: {
+          name,hp, attack, defense, speed, height, weight
+        },
+        
+      });
+    
+      await pokemon.addType(types)
+
+      res.send(pokemon);
 })
 
 

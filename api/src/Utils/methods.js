@@ -2,8 +2,9 @@ const axios = require('axios')
 
  const getApiInfo = async (page, limit)=>{
     let url = "https://pokeapi.co/api/v2/pokemon";
-    if(page && limit){url = `${url}?offset=${(page-1)*limit}&limit=${limit}`}
-    else{url = `${url}?limit=40`}
+    
+    // if(page && limit){url = `${url}?offset=${(page-1)*limit}&limit=${limit}`}
+    // else{url = `${url}?limit=40`}
 
     try{
         const info = await axios.get(url);
