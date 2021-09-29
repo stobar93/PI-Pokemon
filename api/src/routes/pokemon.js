@@ -9,12 +9,8 @@ const {getApiInfo, getPokemonsInfo, getPokemonByName, getPokemonById, responseSh
 // - GET https://pokeapi.co/api/v2/pokemon/{name}
 // - GET https://pokeapi.co/api/v2/type
 
-
-
-
 router.get('/', async (req,res)=>{
     let {name, page, limit} = req.query;
-    let info = "";
     if(name){ 
         try{
            let pokemon = await getPokemonByName(name)
@@ -25,10 +21,23 @@ router.get('/', async (req,res)=>{
     }
     else{
         try{
-            info = await getApiInfo(page, limit)
-            pokemon = await getPokemonsInfo(info.data)
+
+            let [pokemonDB, pokemonAPI] = await Promise.allSettled([Pokemon.findAll({
+                attributes: ['name', 'id']
+            }),
+                getApiInfo(page, limit)
+            ])
+            
+            pokemonDB = pokemonDB.value.map(p=>{
+                return p.dataValues
+            })            
+            pokemonAPI = await getPokemonsInfo(pokemonAPI)
+
+            pokemon = [...pokemonDB, ...pokemonAPI]
+            if(pokemonDB.length===0) console.log('There is no pokemon created in DB')
             res.status(200).json(pokemon)
         }catch(e){
+            console.log(e)
             res.status(500).send(e)
         }
         
@@ -52,7 +61,6 @@ router.post('/', async (req, res)=>{
     const {name, hp, attack, defense, speed, height, weight, types} = req.body;
     
     // res.send({recibido: true, ...req.body});
-
     const [pokemon, created] = await Pokemon.findOrCreate({
         where: {
           name,hp, attack, defense, speed, height, weight

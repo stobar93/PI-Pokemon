@@ -3,8 +3,8 @@ const axios = require('axios')
  const getApiInfo = async (page, limit)=>{
     let url = "https://pokeapi.co/api/v2/pokemon";
     
-    // if(page && limit){url = `${url}?offset=${(page-1)*limit}&limit=${limit}`}
-    // else{url = `${url}?limit=40`}
+    if(page && limit){url = `${url}?offset=${(page-1)*limit}&limit=${limit}`}
+    else{url = `${url}?limit=40`}
 
     try{
         const info = await axios.get(url);
@@ -13,21 +13,22 @@ const axios = require('axios')
 }
 
  const getPokemonsInfo = async (data)=>{
-    let pokemons = data.results;
+    let pokemons = data.value.data.results;
     let promises = pokemons.map(p =>{
-        return new Promise((resolve, reject) => {
-            resolve(axios.get(p.url))
-          });
+        
+        return axios.get(p.url)
+    
     })
-    await Promise.all(promises).then(values=>{
-        pokemons = values.map(p=>{
-            return responseShort(p.data, 'short')
-            // let {name, id} = p.data;
-            // let imgUrl = p.data.sprites.other.dream_world.front_default
-            // return {name, id, imgUrl}
-        })
-        }
-    )
+    
+    const values = await Promise.all(promises)
+    pokemons = values.map(p=>{
+        
+                return responseShort(p.data, 'short')
+                // let {name, id} = p.data;
+                // let imgUrl = p.data.sprites.other.dream_world.front_default
+                // return {name, id, imgUrl}
+            })
+    
     return pokemons
 }
 
@@ -56,10 +57,20 @@ const axios = require('axios')
     }
 }
 
+const getTypesFromApi = async ()=>{
+    let apiTypes = await axios.get('https://pokeapi.co/api/v2/type');
+        
+        apiTypes = apiTypes.data.results.map(t=>{
+            return {name: t.name}
+        });
+        return apiTypes;
+}
+
 module.exports = {
     getApiInfo,
     getPokemonsInfo,
     getPokemonByName,
     getPokemonById,
-    responseShort
+    responseShort,
+    getTypesFromApi
 }

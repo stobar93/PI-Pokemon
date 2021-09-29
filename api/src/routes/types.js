@@ -2,6 +2,7 @@ const { default: axios } = require('axios');
 const { Router } = require('express');
 const router = Router();
 const {Type} = require('../db')
+const {getTypesFromApi} = require('../Utils/methods')
 // - GET https://pokeapi.co/api/v2/type
 router.get('/', async (req,res)=>{
     //Validar si existe la información en la DB
@@ -20,14 +21,7 @@ router.get('/', async (req,res)=>{
     
 })
 
-const getTypesFromApi = async ()=>{
-    let apiTypes = await axios.get('https://pokeapi.co/api/v2/type');
-        
-        apiTypes = apiTypes.data.results.map(t=>{
-            return {name: t.name}
-        });
-        return apiTypes;
-}
+
 
 
 
