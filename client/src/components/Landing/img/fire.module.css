@@ -1,0 +1,20 @@
+    .st0{fill:#E95018;}
+	.st1{fill:#EE8800;}
+	.st2{fill:#ED730A;}
+	.st3{fill:#FFFFFF;}
+
+   
+
+    svg{
+        width: 100%;
+        height: auto;
+    }
+
+    
+
+    .Group:hover{
+        stroke: #E95018;
+        stroke-width: 1px;
+        fill-opacity: 0%;
+        cursor: pointer;    
+    }

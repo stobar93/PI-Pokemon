@@ -1,0 +1,17 @@
+.cls1{fill:#fff;}
+.cls2{fill:#00c0f3;}
+.cls3{fill:#00529c;}
+
+svg{
+    width: 100%;
+    height: auto;
+}
+
+
+
+.Group:hover{
+    stroke: #00529c;
+    stroke-width: 15px;
+    fill-opacity: 0%;
+    cursor: pointer;    
+}

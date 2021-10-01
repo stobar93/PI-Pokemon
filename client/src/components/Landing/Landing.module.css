@@ -1,0 +1,65 @@
+.Landing{
+    background-color: white;
+    border: solid 30px black;
+    border-radius: 50%;
+    width: 30vw;
+    height: 30vw;
+    margin: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    
+}
+
+.Container{
+    display: flex;
+    height: 100vh;
+    
+    background: url("./img/background.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100vh;
+    
+}
+/* body{
+    background: url("./img/background.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 100vh;
+    
+} */
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    height: 20%;
+    max-width: 100%;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+    
+    
+}
+
+.Svg{
+    width: 100%;
+    height: 100%;
+}
+
+.leaf{
+    fill:#1c8514;      
+}
+
+.Svg:hover{
+    fill:crimson;
+    stroke: #1c8514;
+    stroke-width: 10px;
+}
+
+
