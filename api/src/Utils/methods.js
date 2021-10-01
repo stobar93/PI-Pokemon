@@ -45,13 +45,25 @@ const axios = require('axios')
 }
 
  const responseShort = (pokemon, length)=>{   
-    let {name, id, height, weight, stats} = pokemon;
+    let {name, id, height, weight, stats, types} = pokemon;
     let imgUrl = pokemon.sprites.other.dream_world.front_default;  
+    
+    stats = stats.map(s=>{
+        return {
+           [s.stat.name]: s.base_stat
+        }
+    });
+
+    types = types.map(t=>{
+        return t.type.name;
+    });
+    
     switch(length){
         case 'short':
-            return {name, id, imgUrl};
+            return {name, id, imgUrl, types};
         case 'long':
-            return {name, id, imgUrl, height, weight, stats};
+            
+            return {name, id, imgUrl, height, weight, stats, types};
         default:
             return pokemon;
     }
