@@ -1,0 +1,32 @@
+.Container{
+    display: flex;
+    flex-direction: column;
+    
+    
+}
+
+.Bar{
+    display: flex;
+    flex-direction: row;
+    place-content: center;
+}
+
+.CardContainer{
+    max-width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    place-content: center;
+    justify-content: space-evenly;
+    
+}
+
+.Pagination{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    place-content: center;
+    
+    max-width: 80%;
+}

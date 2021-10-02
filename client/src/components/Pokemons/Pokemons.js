@@ -1,72 +1,53 @@
-import React, { useState } from "react";
+import React from "react";
 import {connect} from 'react-redux';
 import Card from "../Card/Card";
+import Pagination from "../Pagination/Pagination";
+import Style from "./Pokemons.module.css"
 
+import { getPokemons } from "../../actions/index.js";
+import { loadInfo } from "../../Utils/Methods.js";
 
-export function Pokemons({pokemons}){
-   
-    const [page, setPage] = useState({page:1, limit:10});
-    
-    const countPages = ()=>{
-        let pages = []
-        let numPages = pokemons.length%page.limit===0 ? pokemons.length/page.limit : Math.ceil(pokemons.length/page.limit)
-        for(let i=1; i<=numPages; i++){
-            pages.push(i)
-        }
-        pages.push('Next>')
-        return pages;
-    }
+export function Pokemons({pokemons, pokemonsToRender, getPokemons}){
 
-    const handlePaginationClick = (event)=>{
-        console.log(event)
-        setPage({...page, page:event.target.value})
-    }
-
-    const handleLimitChange = ()=>{
-        let input = document.getElementById('limitInput');
-        setPage({...page, limit:input.value});
-    }
-    
-    let pages = countPages()
-    
     
     
     return (
-        <div>
+        <div className={Style.Container}>
             <h1>Pokemons</h1>
-            {/* <input type="number" onChange={()=>handleLimitChange()} id="limitInput"  /> */}
-            
-            {/* <label>Limit: </label> */}
-            <select onChange={()=>handleLimitChange()} placeholder={page.limit} id="limitInput">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="40">40</option>
-            </select>
-            
-            {
-                pages && pages.map((p)=>{
-                    return <button key={`button${p}`} onClick={e=>handlePaginationClick(e)} value={p}>{p}</button>
+
+            <Pagination />
+                <div className={Style.CardContainer}>
+                { 
+                pokemonsToRender && pokemonsToRender.map(p=>{
+                    return <Card key={p.id} name={p.name} id={p.id} img={p.imgUrl} types={p.types} />
                 })
             }
-
-            { 
-                pokemons && pokemons.map(p=>{
-                    return <Card key={p.id} name={p.name} id={p.id} img={p.img} types={p.types} />
-                }).filter((p,i)=>{
-                    return i<page.limit*page.page && i>=(page.limit*(page.page-1))
-                })
-            }
-            
-            
-
+                </div>
         </div>
     )
 }
 
 const mapStateToProps = (state)=>{
     return {
-        pokemons: state.pokemon
+        pokemons: state.pokemon,
+        pokemonsToRender: state.pokemonsToRender
     }
 }
 
-export default connect(mapStateToProps)(Pokemons);
+export default connect(mapStateToProps, {getPokemons})(Pokemons);
+
+{/* <div className={Style.Bar}>
+                <select onChange={()=>handleLimitChange()} id="limitInput">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="40">40</option>
+                </select>
+            
+            <div className={Style.Pagination}>
+                 {
+                    pages && pages.map((p)=>{
+                        return <button key={`button${p}`} onClick={e=>handlePaginationClick(e)} value={p}>{p}</button>
+                    })
+                }
+            </div>
+            </div>             */}
