@@ -1,10 +1,11 @@
 const axios = require('axios')
 
- const getApiInfo = async (page, limit)=>{
+ const getApiInfo = async ()=>{
     let url = "https://pokeapi.co/api/v2/pokemon";
     
-    if(page && limit){url = `${url}?offset=${(page-1)*limit}&limit=${limit}`}
-    else{url = `${url}?limit=40`}
+    
+    url = `${url}?limit=1118` 
+
 
     try{
         const info = await axios.get(url);
@@ -12,8 +13,15 @@ const axios = require('axios')
     }catch(e){return e}
 }
 
- const getPokemonsInfo = async (data)=>{
-    let pokemons = data.value.data.results;
+ const getPokemonsInfo = async (data, page)=>{
+     console.log(data.value.data.results.length)
+     let pokemons = data.value.data.results
+     if(page){
+        pokemons = pokemons.slice(40*(page-1),40*page);
+     }else {
+         pokemons = pokemons.slice(0,40);
+     }
+    
     let promises = pokemons.map(p =>{
         
         return axios.get(p.url)
@@ -21,15 +29,8 @@ const axios = require('axios')
     })
     
     const values = await Promise.all(promises)
-    pokemons = values.map(p=>{
-        
-                return responseShort(p.data, 'short')
-                // let {name, id} = p.data;
-                // let imgUrl = p.data.sprites.other.dream_world.front_default
-                // return {name, id, imgUrl}
-            })
-    
-    return pokemons
+    //Nos interesa la propiedad data de cada obj contenido en values
+    return values
 }
 
  const getPokemonByName = async (name)=>{
@@ -50,14 +51,17 @@ const axios = require('axios')
     
     stats = stats.map(s=>{
         return {
-           [s.stat.name]: s.base_stat
+           [capitalLetter(s.stat.name)]: s.base_stat
         }
     });
 
     types = types.map(t=>{
-        return t.type.name;
+
+        return capitalLetter(t.type.name);
     });
-    
+
+    name = capitalLetter(name)
+
     switch(length){
         case 'short':
             return {name, id, imgUrl, types};
@@ -78,11 +82,16 @@ const getTypesFromApi = async ()=>{
         return apiTypes;
 }
 
+const capitalLetter = (str)=>{
+    return str.slice(0,1).toUpperCase() + str.slice(1)
+}
+
 module.exports = {
     getApiInfo,
     getPokemonsInfo,
     getPokemonByName,
     getPokemonById,
     responseShort,
-    getTypesFromApi
+    getTypesFromApi,
+    capitalLetter
 }

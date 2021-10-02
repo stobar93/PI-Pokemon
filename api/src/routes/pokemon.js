@@ -2,46 +2,76 @@ const { Router } = require('express');
 const router = Router();
 const { Pokemon } = require('../db');
 
-const {getApiInfo, getPokemonsInfo, getPokemonByName, getPokemonById, responseShort} = require('../Utils/methods')
+const {getApiInfo, getPokemonsInfo, getPokemonByName, getPokemonById, responseShort, capitalLetter} = require('../Utils/methods')
 
 // - GET https://pokeapi.co/api/v2/pokemon
 // - GET https://pokeapi.co/api/v2/pokemon/{id}
 // - GET https://pokeapi.co/api/v2/pokemon/{name}
 // - GET https://pokeapi.co/api/v2/type
 
+let pokemon = [];
+    let pokemonDB = [];
+    let pokemonAPI = [];
 router.get('/', async (req,res)=>{
-    let {name, page, limit} = req.query;
-    if(name){ 
-        try{
-           let pokemon = await getPokemonByName(name)
-           res.status(200).json(responseShort(pokemon, 'short'))
-        } catch(e){
-            res.status(404).send(`${name} not found. Does not exist`)
-        }
-    }
-    else{
-        try{
 
-            let [pokemonDB, pokemonAPI] = await Promise.allSettled([Pokemon.findAll({
-                attributes: ['name', 'id']
-            }),
-                getApiInfo(page, limit)
-            ])
-            
-            pokemonDB = pokemonDB.value.map(p=>{
-                return p.dataValues
-            })            
-            pokemonAPI = await getPokemonsInfo(pokemonAPI)
+    
 
-            pokemon = [...pokemonDB, ...pokemonAPI]
-            if(pokemonDB.length===0) console.log('There is no pokemon created in DB')
-            res.status(200).json(pokemon)
-        }catch(e){
-            console.log(e)
-            res.status(500).send(e)
-        }
+    let {name, page} = req.query;
+    
+    page = parseInt(page);
+    try{
+        let arr = await Promise.allSettled([Pokemon.findAll({
+            attributes: ['name', 'id']
+        }),
+            getApiInfo()
+        ])
+
+        pokemonDB = arr[0].value.map(p=>{
+            return p.dataValues
+        })  // pendiente incluir todos los atributos de cada pokemon
         
-    }   
+        let apiInfo = arr[1]
+        
+        
+
+        if(name){
+            pokemonAPI = await getPokemonsInfo(apiInfo)
+           pokemon = [...pokemonDB.filter(p=>p.name === name),...pokemonAPI.map(p=>{
+               return responseShort(p.data, 'short')
+           }).filter(p=>p.name === capitalLetter(name))]
+
+           if(pokemon.length===0){
+               res.status(404).send(`${name} not found. Does not exist`)}
+
+        } 
+        else if(page){
+            
+            
+            let nextPage = await getPokemonsInfo(apiInfo, page)
+            pokemon = [...pokemon, ...nextPage.map(p=>{
+                return responseShort(p.data, 'short')
+            })
+            ];
+         }
+         else{
+            pokemonAPI = await getPokemonsInfo(apiInfo)
+            pokemon = [...pokemonDB,
+                ...pokemonAPI.map(p=>{
+                return responseShort(p.data, 'short')
+            })]
+         }
+         if(pokemonDB.length===0) console.log('There is no pokemon created in DB')
+         res.status(200).send(pokemon)
+
+    } catch(e){
+        console.log(e)
+        res.status(500).send(e)
+    }
+
+//////////////////////////////////////////////////////////////////////
+   
+        
+    
 })
 
 router.get('/:id', async (req,res)=>{
