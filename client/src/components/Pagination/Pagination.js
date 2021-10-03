@@ -1,63 +1,69 @@
 import React, { useEffect, useState } from "react";
 import {connect} from 'react-redux';
-import {changePage} from '../../actions/index'
+import {changePage, newPokemons} from '../../actions/index'
+import { loadInfo } from "../../Utils/Methods";
 
-export function Pagination({pokemons, pokemonsToRender, changePage}){
+export function Pagination({pokemons, pokemonsToRender, changePage, newPokemons}){
+    
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const [pages, setPages] = useState([1,2,3,4])
+    
+    useEffect(()=>{
+        changePage(page,limit)
+    }, [page, limit])
 
-    const [page, setPage] = useState(1)
-    const [limit, setLimit] = useState(10)
-    useEffect(()=>{console.log(limit)})
-    useEffect(()=>{console.log(page)})
-    
-    
-    const countPages = ()=>{
-        let pages = []
-        let numPages = pokemons.length%pokemonsToRender.length===0 ? pokemons.length/pokemonsToRender.length : Math.ceil(pokemons.length/pokemonsToRender.length)
-        for(let i=1; i<=numPages; i++){
-            pages.push(i)
+    const countPages = (page, limit)=>{
+        let p = []
+        for(let i=page; i<page+(40/limit); i++){
+            p.push(i)
         }
 
-        return ['<Prev',...pages,'Next>'];
+        return p
     }
 
-    let pages = countPages()
-
-
-    const handlePaginationClick =  async (event)=>{
+    const handleClick = async (event)=>{
         let value = event.target.value;
-
-        //Si value = next, llamado a la api
-        //Pasar a la siguiente pagina
-        //
-        setPage(value)
-        changePage(value, limit)
-        
+        if(value === 'Next>'){
+            let lastPage = pages[pages.length-1];
+            if(page<lastPage){
+                setPage(Number(page)+1)
+            }else if(page === lastPage){
+                await loadInfo(newPokemons, Math.floor((lastPage*limit/40)+1))
+                
+                setPage(Number(page)+1)
+                setPages(pages.map(p=>p+4))
+            }   
+        } else if(value === '<Prev'){
+            let firstPage = pages[0];
+            if(page>firstPage){
+                setPage(Number(page)-1)
+            }else if(page === firstPage && page!==1){
+                
+                setPage(Number(page)-1)
+                setPages(pages.map(p=>p-4))
+            }
+        } else {
+            setPage(Number(value))    
+        }
     }
-
-    const handleLimitChange = ()=>{
-        let input = document.getElementById('limitInput');
-        let prevLimit = limit;
-        let newPageNumber = Math.ceil((prevLimit*(page-1))+1/input.value)
-
-        setLimit(input.value);
-        setPage(newPageNumber)
-        changePage(newPageNumber, input.value)
-     }
 
     return(
         <div>
-            <select onChange={()=>handleLimitChange()} id="limitInput">
+            <select id="limitInput">
                 <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="40">40</option>
             </select>
             
             <div>
+            <button key="prev" onClick={(e)=>handleClick(e)} value='<Prev'>{`\<Prev`}</button>
                  {
-                    pages && pages.map((p)=>{
-                        return <button key={`button${p}`} onClick={e=>handlePaginationClick(e)} value={p}>{p}</button>
+                     pages.map((p)=>{
+                        return <button key={`button${p}`} onClick={(e)=>handleClick(e)} value={p}>{p}</button>
                     })
                 }
+            <button key="next" onClick={(e)=>handleClick(e)} value='Next>'>{`Next\>`}</button>
             </div>
         </div>    
     )
@@ -70,4 +76,4 @@ const mapStateToProps = (state)=>{
     }
 }
         
-export default connect(mapStateToProps, {changePage})(Pagination);
+export default connect(mapStateToProps, {changePage, newPokemons})(Pagination);

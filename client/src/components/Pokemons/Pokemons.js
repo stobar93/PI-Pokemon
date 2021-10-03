@@ -15,7 +15,7 @@ export function Pokemons({pokemons, pokemonsToRender, getPokemons}){
         <div className={Style.Container}>
             <h1>Pokemons</h1>
 
-            <Pagination />
+            
                 <div className={Style.CardContainer}>
                 { 
                 pokemonsToRender && pokemonsToRender.map(p=>{

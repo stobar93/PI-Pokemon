@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 //Redux
 import {connect} from 'react-redux';
 //Import actions
-import { getPokemons, changePage } from "../../actions/index.js";
+import { getPokemons } from "../../actions/index.js";
 
 import FireIcon from './img/fire.js'
 import WaterIcon from './img/water.js'
@@ -14,7 +14,7 @@ import LeafIcon from './img/leaf.js'
 
 import Style from "./Landing.module.css"
 import { loadInfo } from "../../Utils/Methods.js";
-export function Landing ({getPokemons, changePage}){
+export function Landing ({getPokemons}){
 
     
 //GET "/pokemons" from DB & API after componentDidMount
@@ -22,7 +22,7 @@ export function Landing ({getPokemons, changePage}){
 useEffect(()=>{
     (async ()=>{
        await loadInfo(getPokemons)
-       await changePage(1,10)
+       
     })()
 
     
@@ -46,4 +46,4 @@ useEffect(()=>{
     )
 }
 
-export default connect(null, {getPokemons, changePage})(Landing)
+export default connect(null, {getPokemons})(Landing)

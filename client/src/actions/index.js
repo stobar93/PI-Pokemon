@@ -1,6 +1,6 @@
 export const GET_POKEMONS = 'GET_POKEMONS';
-export const CHANGE_PAGE = 'CHANGE_PAGE'
-
+export const CHANGE_PAGE = 'CHANGE_PAGE';
+export const NEW_POKEMONS = 'NEW_POKEMONS';
 
 
 export const getPokemons = (data)=>{
@@ -18,3 +18,9 @@ export const changePage = (page, limit)=>{
     }
 }
 
+export const newPokemons = (data)=>{
+    return {
+        type: NEW_POKEMONS,
+        payload: data
+    }
+}
