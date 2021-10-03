@@ -9,11 +9,11 @@ const {getApiInfo, getPokemonsInfo, getPokemonByName, getPokemonById, responseSh
 // - GET https://pokeapi.co/api/v2/pokemon/{name}
 // - GET https://pokeapi.co/api/v2/type
 
-let pokemon = [];
+    let pokemon = [];
     let pokemonDB = [];
     let pokemonAPI = [];
+    let pages = [];
 router.get('/', async (req,res)=>{
-
     
 
     let {name, page} = req.query;
@@ -29,39 +29,45 @@ router.get('/', async (req,res)=>{
         pokemonDB = arr[0].value.map(p=>{
             return p.dataValues
         })  // pendiente incluir todos los atributos de cada pokemon
+        if(pokemonDB.length===0) console.log('There is no pokemon created in DB')
         
         let apiInfo = arr[1]
-        
+        pokemonAPI = await getPokemonsInfo(apiInfo)
         
 
         if(name){
-            pokemonAPI = await getPokemonsInfo(apiInfo)
-           pokemon = [...pokemonDB.filter(p=>p.name === name),...pokemonAPI.map(p=>{
+            
+           let singlePokemon = [...pokemonDB.filter(p=>p.name === name),...pokemonAPI.map(p=>{
                return responseShort(p.data, 'short')
            }).filter(p=>p.name === capitalLetter(name))]
 
-           if(pokemon.length===0){
+           if(singlePokemon.length===0){
                res.status(404).send(`${name} not found. Does not exist`)}
-
+            else {res.status(200).send(singlePokemon)}
         } 
         else if(page){
-            
-            
             let nextPage = await getPokemonsInfo(apiInfo, page)
-            pokemon = [...pokemon, ...nextPage.map(p=>{
+            nextPage = nextPage.map(p=>{
                 return responseShort(p.data, 'short')
-            })
-            ];
+                                            })
+            if(page>pages[pages.length-1]){
+                pokemon = [...pokemon, ...nextPage];
+                pages.push(page)
+                
+            } 
+            res.status(200).send(nextPage)
          }
          else{
-            pokemonAPI = await getPokemonsInfo(apiInfo)
+            
             pokemon = [...pokemonDB,
                 ...pokemonAPI.map(p=>{
                 return responseShort(p.data, 'short')
             })]
+            pages.push(1)
+            res.status(200).send(pokemon)
          }
-         if(pokemonDB.length===0) console.log('There is no pokemon created in DB')
-         res.status(200).send(pokemon)
+         
+         
 
     } catch(e){
         console.log(e)
