@@ -38,7 +38,7 @@ router.get('/', async (req,res)=>{
         if(name){
             
            let singlePokemon = [...pokemonDB.filter(p=>p.name === name),...pokemonAPI.map(p=>{
-               return responseShort(p.data, 'short')
+               return responseShort(p.data, 'long')
            }).filter(p=>p.name === capitalLetter(name))]
 
            if(singlePokemon.length===0){
@@ -48,7 +48,7 @@ router.get('/', async (req,res)=>{
         else if(page){
             let nextPage = await getPokemonsInfo(apiInfo, page)
             nextPage = nextPage.map(p=>{
-                return responseShort(p.data, 'short')
+                return responseShort(p.data, 'long')
                                             })
             if(page>pages[pages.length-1]){
                 pokemon = [...pokemon, ...nextPage];
@@ -61,7 +61,7 @@ router.get('/', async (req,res)=>{
             
             pokemon = [...pokemonDB,
                 ...pokemonAPI.map(p=>{
-                return responseShort(p.data, 'short')
+                return responseShort(p.data, 'long')
             })]
             pages.push(1)
             res.status(200).send(pokemon)

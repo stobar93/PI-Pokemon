@@ -54,7 +54,14 @@ const axios = require('axios')
            [capitalLetter(s.stat.name)]: s.base_stat
         }
     });
-
+    let obj = {}
+    for(let stat of stats){
+         obj = {
+             ...obj,
+             ...stat
+        }
+    }
+    stats = {...obj}
     types = types.map(t=>{
 
         return capitalLetter(t.type.name);
@@ -66,7 +73,7 @@ const axios = require('axios')
         case 'short':
             return {name, id, imgUrl, types};
         case 'long':
-            
+            console.log({name, id, imgUrl, height, weight, stats, types})
             return {name, id, imgUrl, height, weight, stats, types};
         default:
             return pokemon;
