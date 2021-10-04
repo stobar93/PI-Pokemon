@@ -1,4 +1,4 @@
-import { GET_POKEMONS, CHANGE_PAGE, NEW_POKEMONS } from "../actions";
+import { GET_POKEMONS, CHANGE_PAGE, NEW_POKEMONS, CHANGE_LIMIT } from "../actions";
 
 const initialState = {
     pokemons: [],
@@ -18,11 +18,18 @@ export default function reducer (state=initialState, action){
             }
         case CHANGE_PAGE:
             
-            return{
+            return {
                 ...state,
                 pokemonsToRender: state.pokemons.filter((p,i)=>{
                     return i >= (action.page-1) * action.limit && i < (action.page) * action.limit 
                  })
+            }
+        case CHANGE_LIMIT:
+            let firstPokemonId = state.pokemonsToRender[0].id;
+            let index = state.pokemons.map(p=>p.id).indexOf(firstPokemonId)
+            return {
+                ...state,
+                pokemonsToRender: state.pokemons.slice(index,index+action.limit)
             }
         case NEW_POKEMONS:
             return {

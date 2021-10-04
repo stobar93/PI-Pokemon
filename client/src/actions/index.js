@@ -1,7 +1,7 @@
 export const GET_POKEMONS = 'GET_POKEMONS';
 export const CHANGE_PAGE = 'CHANGE_PAGE';
 export const NEW_POKEMONS = 'NEW_POKEMONS';
-
+export const CHANGE_LIMIT = 'CHANGE_LIMIT';
 
 export const getPokemons = (data)=>{
     return {
@@ -10,11 +10,18 @@ export const getPokemons = (data)=>{
     }
 }
 
-export const changePage = (page, limit)=>{
+export const changePage = (newPage, limit)=>{
     return {
         type: CHANGE_PAGE,
-        page: page,
+        page: newPage,
         limit: limit
+    }
+}
+
+export const changeLimit = (newLimit)=>{
+    return {
+        type: CHANGE_LIMIT,
+        limit: newLimit
     }
 }
 

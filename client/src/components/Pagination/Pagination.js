@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {connect} from 'react-redux';
-import {changePage, newPokemons} from '../../actions/index'
+import {changeLimit, changePage, newPokemons} from '../../actions/index'
 import { loadInfo } from "../../Utils/Methods";
 
-export function Pagination({pokemons, pokemonsToRender, changePage, newPokemons}){
+export function Pagination({pokemons, pokemonsToRender, changePage, changeLimit, newPokemons}){
     
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
@@ -11,16 +11,23 @@ export function Pagination({pokemons, pokemonsToRender, changePage, newPokemons}
     
     useEffect(()=>{
         changePage(page,limit)
-    }, [page, limit])
+    }, [page])
 
-    const countPages = (page, limit)=>{
-        let p = []
-        for(let i=page; i<page+(40/limit); i++){
-            p.push(i)
-        }
+    useEffect(()=>{
+        console.log([pages])
+    }, [pages])
+    // useEffect(()=>{
+    //     changeLimit(limit)
+    // }, [limit])
 
-        return p
-    }
+    // const handleLimitChange = (event)=>{
+    //     let value = event.target.value;
+    //     setLimit(Number(value))
+    //     for(var i=1, j=[]; i<=(40/Number(value)); i++){
+    //         j = [...j,i]
+    //     }
+    //     setPages(j)
+    // }
 
     const handleClick = async (event)=>{
         let value = event.target.value;
@@ -29,10 +36,13 @@ export function Pagination({pokemons, pokemonsToRender, changePage, newPokemons}
             if(page<lastPage){
                 setPage(Number(page)+1)
             }else if(page === lastPage){
-                await loadInfo(newPokemons, Math.floor((lastPage*limit/40)+1))
-                
+                document.getElementById("next").disabled = true;
+                if(pokemons.length === page*limit){
+                    await loadInfo(newPokemons, Math.floor((lastPage*limit/40)+1))
+                }                
+                setPages(pages.map(p=>p+(40/limit)))
                 setPage(Number(page)+1)
-                setPages(pages.map(p=>p+4))
+                document.getElementById("next").disabled = false;
             }   
         } else if(value === '<Prev'){
             let firstPage = pages[0];
@@ -41,7 +51,7 @@ export function Pagination({pokemons, pokemonsToRender, changePage, newPokemons}
             }else if(page === firstPage && page!==1){
                 
                 setPage(Number(page)-1)
-                setPages(pages.map(p=>p-4))
+                setPages(pages.map(p=>p-(40/limit)))
             }
         } else {
             setPage(Number(value))    
@@ -49,23 +59,23 @@ export function Pagination({pokemons, pokemonsToRender, changePage, newPokemons}
     }
 
     return(
-        <div>
-            <select id="limitInput">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="40">40</option>
-            </select>
+        // <div>
+        //     <select id="limitInput"> {/*onChange={(e)=>handleLimitChange(e)}*/}
+        //         <option value="10">10</option>
+        //         <option value="20">20</option>
+        //         <option value="40">40</option>
+        //     </select>
             
             <div>
-            <button key="prev" onClick={(e)=>handleClick(e)} value='<Prev'>{`\<Prev`}</button>
+            <button key="prev" id="prev" onClick={(e)=>handleClick(e)} value='<Prev'>{`\<Prev`}</button>
                  {
                      pages.map((p)=>{
                         return <button key={`button${p}`} onClick={(e)=>handleClick(e)} value={p}>{p}</button>
                     })
                 }
-            <button key="next" onClick={(e)=>handleClick(e)} value='Next>'>{`Next\>`}</button>
+            <button key="next" id="next" onClick={(e)=>handleClick(e)} value='Next>'>{`Next\>`}</button>
             </div>
-        </div>    
+        // </div>    
     )
         }
 
@@ -76,4 +86,4 @@ const mapStateToProps = (state)=>{
     }
 }
         
-export default connect(mapStateToProps, {changePage, newPokemons})(Pagination);
+export default connect(mapStateToProps, {changePage, changeLimit, newPokemons})(Pagination);
