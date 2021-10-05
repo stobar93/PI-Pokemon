@@ -9,8 +9,7 @@ export function NavBar(){
             <h1>Pokemon App</h1>
             <Link to="/pokemons">Pokemons</Link>
             <Link to="/pokemons/create">Create</Link>
-            <Route exact path="/pokemons"><Link to="/pokemons/search">Search</Link></Route> 
-            <Route exact path="/pokemons/search" component={SearchBar} />
+            <SearchBar/>
         </div>
         
     )

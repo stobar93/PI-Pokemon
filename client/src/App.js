@@ -16,9 +16,9 @@ function App() {
       <Route path="/pokemons" component={NavBar} />
       <Route path="/pokemons" component={Pagination}/>
       <Route path="/pokemons" component={Pokemons} />
-      <Route exact path="/pokemons/:id" render={({match})=>{
+      <Route exact path="/pokemons/:id" render={({match,history})=>{
         if(match.params.id === 'create') return <Create />
-        else {return <Detail id={match.params.id} /> }  
+        else {return <Detail id={match.params.id} match={match} history={history} /> }  
       }} />
       
     </div>
