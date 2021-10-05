@@ -1,14 +1,9 @@
-export const GET_POKEMONS = 'GET_POKEMONS';
-
-export const NEW_POKEMONS = 'NEW_POKEMONS';
-export const CHANGE_LIMIT = 'CHANGE_LIMIT';
-export const SORT_POKEMONS = 'SORT_POKEMONS';
-export const GET_TYPES = 'GET_TYPES';
-export const FILTER_TYPE = 'FILTER TYPE';
-
 /////////////////////////////////////////////
-export const CHANGE_COPY = 'CHANGE_COPY';
+export const GET_POKEMONS = 'GET_POKEMONS';
 export const CHANGE_PAGE = 'CHANGE_PAGE';
+export const CHANGE_COPY = 'CHANGE_COPY';
+export const GET_TYPES = 'GET_TYPES';
+export const NEW_POKEMONS = 'NEW_POKEMONS';
 
 export const getPokemons = (data)=>{
     return {
@@ -38,7 +33,7 @@ export const changeCopy = (ptr)=>{
     }
 }
 
-/////////////////////////////////////////////
+
 export const newPokemons = (data)=>{
     return {
         type: NEW_POKEMONS,
@@ -46,9 +41,3 @@ export const newPokemons = (data)=>{
     }
 }
 
-// export const filterType = (type)=>{
-//     return {
-//         type: FILTER_TYPE,
-//         payload: type
-//     }
-// }

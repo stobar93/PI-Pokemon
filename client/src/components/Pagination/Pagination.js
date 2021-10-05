@@ -1,10 +1,10 @@
 import React, {  useState } from "react";
 import {connect} from 'react-redux';
-import { changeCopy, changePage } from "../../actions";
+import { changeCopy, changePage, newPokemons } from "../../actions";
 import { loadNewPokemons ,capitalLetter } from "../../Utils/Methods";
 
 
-export function Pagination({pokemons, types, changeCopy, changePage}){
+export function Pagination({pokemons, types, queryPage, changeCopy, changePage, newPokemons}){
     
     const [page, setPage] = useState(1);
     const [pages, setPages] = useState([1,2,3,4]);
@@ -28,22 +28,13 @@ export function Pagination({pokemons, types, changeCopy, changePage}){
         'AD':(a, b)=>{
             return b.stats.Attack-a.stats.Attack
           }
-    };
-
-    // useEffect(()=>{
-    //     changePage(page)
-    // }, [page]);
-
-    
-    
+    };   
     
     const handleDbChange = (value)=>{
         setDb(value);
     };
 
     const handleFilterChange = (value)=>{
-        
-
         let copy = [...pokemons]
         copy = copy.sort(sortOptions[sort]).filter(p=>{
             if(value === 'All') {return true}
@@ -61,39 +52,56 @@ export function Pagination({pokemons, types, changeCopy, changePage}){
         setType(value);
     };
 
+    const countPages = (arr)=>{
+        let length
+        if(Array.isArray(arr)){length = Math.ceil(arr.length/10)}
+        else length = arr
+        for(var i=1,j=[];i<=length;i++){
+            j.push(i)
+        }
+        return j
+    }
+
     const handleSortChange = (value)=>{
         
-        let copy = [...pokemons]
-        copy = copy.sort(sortOptions[value]).filter(p=>{
+        let copyPokemons = [...pokemons]
+        copyPokemons = copyPokemons.sort(sortOptions[value]).filter(p=>{
             if(type === 'All') {return true}
             else {return p.types.includes(type) }
              //&& p.createdBy === db
         })
-        for(var i=1,j=[];i<=Math.ceil(copy.length/10);i++){
-            j.push(i)
-        }
+        // for(var i=1,j=[];i<=Math.ceil(copy.length/10);i++){
+        //     j.push(i)
+        // }
         
-        changeCopy(copy);
-        setPages(j);
+        changeCopy(copyPokemons);
+        setPages(countPages(copyPokemons));
         setPage(1);
         changePage(1);
         setSort(value);
         
     };
 
-    const handleClick = (value)=>{
+    const handleClick = async (value)=>{
         
         switch(value){
             case '<Prev':
                 if(page > pages[0]){
                     setPage(Number(page)-1)
                     changePage(Number(page)-1)
-                }
+                } 
                 return
             case 'Next>':
-                if(page < pages[pages.length-1]){
+                let lastPage = pages[pages.length-1]
+                if(page < lastPage){
                         setPage(Number(page)+1)
                         changePage(Number(page)+1)  
+                    } else if(page === lastPage){
+                        await loadNewPokemons(newPokemons, queryPage+1)
+                        setPages(countPages(Math.ceil(pokemons.length/10)+4));
+                        setPage(1);
+                        changePage(1);
+                        setSort("ID");
                     }
                 return
             default:
@@ -150,8 +158,9 @@ export function Pagination({pokemons, types, changeCopy, changePage}){
 const mapStateToProps = (state)=>{
     return {
         pokemons: state.pokemons,
-        types: state.types
+        types: state.types,
+        queryPage: state.queryPage
     }
 }
         
-export default connect(mapStateToProps, {changeCopy, changePage})(Pagination);
+export default connect(mapStateToProps, {changeCopy, changePage, newPokemons})(Pagination);

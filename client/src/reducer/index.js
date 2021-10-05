@@ -1,10 +1,11 @@
-import { CHANGE_COPY, CHANGE_PAGE, GET_POKEMONS, GET_TYPES } from "../actions";
+import { CHANGE_COPY, CHANGE_PAGE, GET_POKEMONS, GET_TYPES, NEW_POKEMONS } from "../actions";
 
 const initialState = {
     pokemons: [],
     copy: [],
     pokemonsToRender: [],
-    types:[]
+    types:[],
+    queryPage: 0
 };
 
 export default function reducer (state=initialState, action){
@@ -13,7 +14,8 @@ export default function reducer (state=initialState, action){
             return {
                 ...state,
                 pokemons: action.payload,
-                copy: action.payload
+                copy: action.payload,
+                queryPage: state.queryPage + 1
             }
         case CHANGE_COPY:
             return {
@@ -32,7 +34,13 @@ export default function reducer (state=initialState, action){
                 ...state,
                 types: action.payload
             }
-
+        case NEW_POKEMONS:
+            return {
+                ...state,
+                pokemons: [...state.pokemons, ...action.payload],
+                queryPage: state.queryPage + 1,
+                copy: [...state.pokemons, ...action.payload]
+            }
         default:
             return state;
     }
