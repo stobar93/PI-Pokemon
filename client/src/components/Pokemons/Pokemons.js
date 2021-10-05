@@ -3,18 +3,14 @@ import {connect} from 'react-redux';
 import Card from "../Card/Card";
 import Style from "./Pokemons.module.css"
 
-import { getPokemons } from "../../actions/index.js";
 
 
-export function Pokemons({pokemons, pokemonsToRender, getPokemons}){
+export function Pokemons({pokemonsToRender}){
 
     
     
     return (
         <div className={Style.Container}>
-            <h1>Pokemons</h1>
-
-            
                 <div className={Style.CardContainer}>
                 { 
                 pokemonsToRender && pokemonsToRender.map(p=>{
@@ -28,10 +24,9 @@ export function Pokemons({pokemons, pokemonsToRender, getPokemons}){
 
 const mapStateToProps = (state)=>{
     return {
-        pokemons: state.pokemon,
         pokemonsToRender: state.pokemonsToRender
     }
 }
 
-export default connect(mapStateToProps, {getPokemons})(Pokemons);
+export default connect(mapStateToProps)(Pokemons);
 

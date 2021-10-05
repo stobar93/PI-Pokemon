@@ -14,7 +14,7 @@ const axios = require('axios')
 }
 
  const getPokemonsInfo = async (data, page)=>{
-     console.log(data.value.data.results.length)
+     
      let pokemons = data.value.data.results
      if(page){
         pokemons = pokemons.slice(40*(page-1),40*page);
@@ -34,9 +34,13 @@ const axios = require('axios')
 }
 
  const getPokemonByName = async (name)=>{
-    const pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
-
-    return pokemon.data;
+    try{
+        const pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        return pokemon.data;
+    }catch(e){
+        return null
+    }
+    
 }
 
  const getPokemonById = async (id)=>{
@@ -73,7 +77,7 @@ const axios = require('axios')
         case 'short':
             return {name, id, imgUrl, types};
         case 'long':
-            console.log({name, id, imgUrl, height, weight, stats, types})
+            
             return {name, id, imgUrl, height, weight, stats, types};
         default:
             return pokemon;
@@ -84,7 +88,7 @@ const getTypesFromApi = async ()=>{
     let apiTypes = await axios.get('https://pokeapi.co/api/v2/type');
         
         apiTypes = apiTypes.data.results.map(t=>{
-            return {name: t.name}
+            return {name:t.name}
         });
         return apiTypes;
 }

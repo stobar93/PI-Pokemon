@@ -36,14 +36,26 @@ router.get('/', async (req,res)=>{
         
 
         if(name){
-            
-           let singlePokemon = [...pokemonDB.filter(p=>p.name === name),...pokemonAPI.map(p=>{
-               return responseShort(p.data, 'long')
-           }).filter(p=>p.name === capitalLetter(name))]
+           try{
+                let searchPokemonAPI = await getPokemonByName(name) 
+                let singlePokemon = []
 
-           if(singlePokemon.length===0){
-               res.status(404).send(`${name} not found. Does not exist`)}
-            else {res.status(200).send(singlePokemon)}
+                if(searchPokemonAPI!==null){
+                    searchPokemonAPI = responseShort(searchPokemonAPI, 'long')
+                    singlePokemon = [...pokemonDB.filter(p=>p.name === name), searchPokemonAPI ]
+                } else {
+                    singlePokemon = pokemonDB.filter(p=>p.name === name)
+                }
+                                
+                if(singlePokemon.length===0){
+                    res.status(404).send(`${name} not found. Does not exist`)}
+                 else {res.status(200).send(singlePokemon)}
+           }catch(e){
+                console.log(e)
+           }
+            
+
+           
         } 
         else if(page){
             let nextPage = await getPokemonsInfo(apiInfo, page)

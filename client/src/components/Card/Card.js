@@ -7,7 +7,9 @@ export default function Card({name, id, img, types}){
         <div className={Style.Card}>
             <h3>{name}</h3>
             
-                <Link to={`/pokemons/${id}`}><img className={Style.img} src={img} alt={name}/></Link>
+                <Link to={`/pokemons/${id}`}>
+                    <img id={`pokemonsImg${id}`} className={Style.img} src={img} alt={name}/>
+                </Link>
             
             
             <ul className={Style.cardUl}>
@@ -22,3 +24,4 @@ export default function Card({name, id, img, types}){
         </div>
     )
 }
+

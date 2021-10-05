@@ -1,0 +1,14 @@
+.NavBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+}
+
+.NavBar h1{
+    margin: 0;
+}
+
+.NavBar a{
+    align-self: center;
+}
