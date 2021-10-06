@@ -1,4 +1,5 @@
-import { CHANGE_COPY, CHANGE_PAGE, GET_POKEMONS, GET_TYPES, NEW_POKEMONS } from "../actions";
+
+import { CHANGE_COPY, CHANGE_PAGE, GET_POKEMONS, GET_TYPES, NEW_POKEMONS, SEARCH } from "../actions";
 
 const initialState = {
     pokemons: [],
@@ -40,6 +41,12 @@ export default function reducer (state=initialState, action){
                 pokemons: [...state.pokemons, ...action.payload],
                 queryPage: state.queryPage + 1,
                 copy: [...state.pokemons, ...action.payload]
+            }
+        case SEARCH:
+            
+            return {
+                ...state,
+                pokemonsToRender: [action.payload]
             }
         default:
             return state;

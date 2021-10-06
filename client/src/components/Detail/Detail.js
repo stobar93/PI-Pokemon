@@ -4,7 +4,13 @@ import { Link } from "react-router-dom";
 
 export function Detail (props){
     
-    let pokemonDetail = props.pokemons.find(p=>{return p.id === Number(props.id)}) 
+    let pokemonDetail = {}
+    if(props.id){
+        console.log('vino ID')
+        pokemonDetail = props.pokemonsToRender.find(p=>{return p.id === Number(props.id)}) }
+    else {
+        console.log('NO vino ID')
+        pokemonDetail = props.pokemonsToRender[0]}
     
     
 
@@ -28,7 +34,7 @@ export function Detail (props){
 
 const mapStateToProps = (state)=>{
     return {
-        pokemons: state.pokemons,
+        pokemonsToRender: state.pokemonsToRender,
     }
 }
         

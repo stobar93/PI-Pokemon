@@ -4,6 +4,7 @@ export const CHANGE_PAGE = 'CHANGE_PAGE';
 export const CHANGE_COPY = 'CHANGE_COPY';
 export const GET_TYPES = 'GET_TYPES';
 export const NEW_POKEMONS = 'NEW_POKEMONS';
+export const SEARCH = 'SEARCH';
 
 export const getPokemons = (data)=>{
     return {
@@ -37,6 +38,13 @@ export const changeCopy = (ptr)=>{
 export const newPokemons = (data)=>{
     return {
         type: NEW_POKEMONS,
+        payload: data
+    }
+}
+
+export const searchPokemon = (data)=>{
+    return {
+        type: SEARCH,
         payload: data
     }
 }

@@ -1,5 +1,9 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import {connect} from 'react-redux';
 import axios from "axios";
+import {searchPokemon} from '../../actions/index';
+
 
 class SearchBar extends Component {
     constructor(props){
@@ -13,13 +17,13 @@ class SearchBar extends Component {
         this.setState({name: value})
     }
 
-    handleSubmit = async (event)=>{
+    handleSubmit = async (event)=> {
         event.preventDefault()
         let name = this.state.name;
-        
+        console.log(this)
         try{
             let pokemon = await axios.get(`http://localhost:3001/pokemons?name=${name}`)
-            console.log(pokemon)
+            this.props.searchPokemon(pokemon.data)
         } catch(e){
             alert('Pokemon not found')
             
@@ -40,10 +44,11 @@ class SearchBar extends Component {
         return (
             <form onSubmit={(e)=>this.handleSubmit(e)}>
                 <input onChange={(e)=>this.handleChange(e)} value={this.state.name} type="text" id="searchInput" placeholder="Pokemon name..."/>
-                <button type="submit" id="searchSubmit">Search</button>
+                <Link to={`/pokemons/search/${this.state.name}`}><button type="submit" id="searchSubmit">Search</button></Link>
             </form>
         )
     }
 } 
 
-export default SearchBar;
+
+export default connect(null, {searchPokemon})(SearchBar);

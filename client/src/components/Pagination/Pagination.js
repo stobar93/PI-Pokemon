@@ -128,7 +128,7 @@ export function Pagination({pokemons, types, queryPage, changeCopy, changePage, 
             <select id="filterType" onChange={(e)=>handleFilterChange(e.target.value)}>
                 <option value="All">All</option>
                 {
-                    types.map(t=>{
+                    types && types.map(t=>{
                         return <option key={`option${t.name}`} value={capitalLetter(t.name)}>{capitalLetter(t.name)}</option>
                     })
                 }

@@ -20,64 +20,67 @@ router.get('/', async (req,res)=>{
     
     page = parseInt(page);
     try{
-        let arr = await Promise.allSettled([Pokemon.findAll({
-            attributes: ['name', 'id']
-        }),
-            getApiInfo()
-        ])
-
-        pokemonDB = arr[0].value.map(p=>{
-            return p.dataValues
-        })  // pendiente incluir todos los atributos de cada pokemon
-        if(pokemonDB.length===0) console.log('There is no pokemon created in DB')
-        
-        let apiInfo = arr[1]
-        pokemonAPI = await getPokemonsInfo(apiInfo)
-        
-
         if(name){
-           try{
-                let searchPokemonAPI = await getPokemonByName(name) 
-                let singlePokemon = []
-
-                if(searchPokemonAPI!==null){
-                    searchPokemonAPI = responseShort(searchPokemonAPI, 'long')
-                    singlePokemon = [...pokemonDB.filter(p=>p.name === name), searchPokemonAPI ]
-                } else {
-                    singlePokemon = pokemonDB.filter(p=>p.name === name)
-                }
-                                
-                if(singlePokemon.length===0){
-                    res.status(404).send(`${name} not found. Does not exist`)}
-                 else {res.status(200).send(singlePokemon)}
-           }catch(e){
-                console.log(e)
-           }
+            try{
+                 let searchPokemonAPI = await getPokemonByName(name) 
+                 let singlePokemon = []
+ 
+                 if(searchPokemonAPI!==null){
+                     searchPokemonAPI = responseShort(searchPokemonAPI, 'long')
+                     singlePokemon = [...pokemonDB.filter(p=>p.name === name), searchPokemonAPI ]
+                 } else {
+                     singlePokemon = pokemonDB.filter(p=>p.name === name)
+                 }
+                                 
+                 if(singlePokemon.length===0){
+                     res.status(404).send(`${name} not found. Does not exist`)}
+                  else {res.status(200).send(...singlePokemon)}
+            }catch(e){
+                 console.log(e)
+            }
+             
+ 
             
-
-           
-        } 
-        else if(page){
-            let nextPage = await getPokemonsInfo(apiInfo, page)
-            nextPage = nextPage.map(p=>{
-                return responseShort(p.data, 'long')
-                                            })
-            if(page>pages[pages.length-1]){
-                pokemon = [...pokemon, ...nextPage];
-                pages.push(page)
+         } else {
+            let arr = await Promise.allSettled([Pokemon.findAll({
+                attributes: ['name', 'id']
+            }),
+                getApiInfo()
+            ])
+    
+            pokemonDB = arr[0].value.map(p=>{
+                return p.dataValues
+            })  // pendiente incluir todos los atributos de cada pokemon
+            if(pokemonDB.length===0) console.log('There is no pokemon created in DB')
+            
+            let apiInfo = arr[1]
+            pokemonAPI = await getPokemonsInfo(apiInfo)
+            
+    
+            
+            if(page){
+                let nextPage = await getPokemonsInfo(apiInfo, page)
+                nextPage = nextPage.map(p=>{
+                    return responseShort(p.data, 'long')
+                                                })
+                if(page>pages[pages.length-1]){
+                    pokemon = [...pokemon, ...nextPage];
+                    pages.push(page)
+                    
+                } 
+                res.status(200).send(nextPage)
+             }
+             else{
                 
-            } 
-            res.status(200).send(nextPage)
+                pokemon = [...pokemonDB,
+                    ...pokemonAPI.map(p=>{
+                    return responseShort(p.data, 'long')
+                })]
+                pages.push(1)
+                res.status(200).send(pokemon)
+             }
          }
-         else{
-            
-            pokemon = [...pokemonDB,
-                ...pokemonAPI.map(p=>{
-                return responseShort(p.data, 'long')
-            })]
-            pages.push(1)
-            res.status(200).send(pokemon)
-         }
+        
          
          
 
