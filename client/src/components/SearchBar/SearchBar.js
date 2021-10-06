@@ -1,34 +1,35 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {connect} from 'react-redux';
 import axios from "axios";
 import {searchPokemon} from '../../actions/index';
+import { useHistory } from "react-router-dom";
 
+export const SearchBar = ({searchPokemon})=>{
+    
+    const [name, setName] = useState('');
+    let history = useHistory();
 
-class SearchBar extends Component {
-    constructor(props){
-        super(props)
-        this.state = {name: ''}
-    }
-
-    handleChange = (event)=>{
+    const handleChange = (event)=>{
         let value = event.target.value
         value = value.match(/[a-z]/ig) ? value.match(/[a-z]/ig).join('') : ""
-        this.setState({name: value})
+        setName(value)
     }
 
-    handleSubmit = async (event)=> {
+    const handleSubmit = async (event)=> {
         event.preventDefault()
-        let name = this.state.name;
-        console.log(this)
+        
+        
         try{
             let pokemon = await axios.get(`http://localhost:3001/pokemons?name=${name}`)
-            this.props.searchPokemon(pokemon.data)
+            searchPokemon(pokemon.data)
+            
         } catch(e){
             alert('Pokemon not found')
             
         }
-        this.setState({name: ''})
+        setName('')
+        history.push(`/pokemons/search/${name}`)
         ////////////////////////
         ////////////////////////
         // VAS POR AQUI
@@ -40,15 +41,15 @@ class SearchBar extends Component {
 
     }
 
-    render(){
-        return (
-            <form onSubmit={(e)=>this.handleSubmit(e)}>
-                <input onChange={(e)=>this.handleChange(e)} value={this.state.name} type="text" id="searchInput" placeholder="Pokemon name..."/>
-                <Link to={`/pokemons/search/${this.state.name}`}><button type="submit" id="searchSubmit">Search</button></Link>
+    return (
+        <form>
+                <input onChange={(e)=>handleChange(e)} value={name} type="text" id="searchInput" placeholder="Pokemon name..."/>
+                
+                <button type="submit" onClick={(e)=>{handleSubmit(e)}} id="searchSubmit">Search</button>
             </form>
-        )
-    }
-} 
+    )  
+}
+
 
 
 export default connect(null, {searchPokemon})(SearchBar);
