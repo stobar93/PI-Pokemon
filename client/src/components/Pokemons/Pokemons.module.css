@@ -1,8 +1,13 @@
 .Container{
     display: flex;
     flex-direction: column;
+    /* background-color: #0AA94E;
+    background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg'); */
     
     
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    height: 100vh;
 }
 
 .Bar{
@@ -12,7 +17,7 @@
 }
 
 .CardContainer{
-    max-width: 80%;
+    max-width: 90%;
     margin: auto;
     display: flex;
     flex-direction: row;
