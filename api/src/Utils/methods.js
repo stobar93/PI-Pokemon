@@ -17,7 +17,7 @@ const axios = require('axios')
      
      let pokemons = data.value.data.results
      if(page){
-        pokemons = pokemons.slice(40*(page-1),40*page);
+        pokemons = pokemons.slice(0,40*page);
      }else {
          pokemons = pokemons.slice(0,40);
      }

@@ -46,9 +46,9 @@ export default function reducer (state=initialState, action){
         case NEW_POKEMONS:
             return {
                 ...state,
-                pokemons: [...state.pokemons, ...action.payload],
+                pokemons: action.payload,
                 queryPage: state.queryPage + 1,
-                copy: [...state.pokemons, ...action.payload]
+                copy: action.payload
             }
         case SEARCH:
             

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import {connect} from 'react-redux';
 import axios from "axios";
 import {searchPokemon} from '../../actions/index';
@@ -18,32 +17,27 @@ export const SearchBar = ({searchPokemon})=>{
 
     const handleSubmit = async (event)=> {
         event.preventDefault()
-        
+        document.getElementById('searchSubmit').disabled = true;
         
         try{
-            let pokemon = await axios.get(`http://localhost:3001/pokemons?name=${name}`)
-            searchPokemon(pokemon.data)
-            
+            if(name !== ''){
+                let pokemon = await axios.get(`http://localhost:3001/pokemons?name=${name}`)
+                searchPokemon(pokemon.data)
+                history.push(`/pokemons/search/${name}`)
+            } else {
+                alert('Please type a valid name')
+            }  
         } catch(e){
-            alert('Pokemon not found')
-            
+            history.push(`/pokemons`)
+            alert(`${name} not found`)   
         }
         setName('')
-        history.push(`/pokemons/search/${name}`)
-        ////////////////////////
-        ////////////////////////
-        // VAS POR AQUI
-        // FALTA DESPACHAR LA INFO 
-        // DEL POKEMON ENCONTRADO AL STORE
-        ////////////////////////
-        ////////////////////////
-
-
+        document.getElementById('searchSubmit').disabled = false;
     }
 
     return (
-        <form>
-                <input onChange={(e)=>handleChange(e)} value={name} type="text" id="searchInput" placeholder="Pokemon name..."/>
+        <form autoComplete="off">
+                <input  onChange={(e)=>handleChange(e)} value={name} type="search" id="searchInput" placeholder="Pokemon name..."/>
                 
                 <button type="submit" onClick={(e)=>{handleSubmit(e)}} id="searchSubmit">Search</button>
             </form>

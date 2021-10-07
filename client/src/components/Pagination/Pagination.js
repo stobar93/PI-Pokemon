@@ -1,4 +1,5 @@
-import React, {  useEffect, useState } from "react";
+import React from "react";
+// import {  useEffect, useState } from "react";
 import {connect} from 'react-redux';
 import { changeCopy, changePage, newPokemons, setPages, setPage, setDb, setSort, setType } from "../../actions";
 import { loadNewPokemons ,capitalLetter } from "../../Utils/Methods";

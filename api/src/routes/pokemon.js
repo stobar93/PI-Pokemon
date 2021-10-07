@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const { Pokemon } = require('../db');
+const {Type} = require('../db')
 
 const {getApiInfo, getPokemonsInfo, getPokemonByName, getPokemonById, responseShort, capitalLetter} = require('../Utils/methods')
 
@@ -43,7 +44,8 @@ router.get('/', async (req,res)=>{
             
          } else {
             let arr = await Promise.allSettled([Pokemon.findAll({
-                attributes: ['name', 'id']
+                attributes: ['name', 'id', 'hp', 'attack', 'defense', 'speed', 'height', 'weight'],
+                include: Type
             }),
                 getApiInfo()
             ])
@@ -54,7 +56,6 @@ router.get('/', async (req,res)=>{
             if(pokemonDB.length===0) console.log('There is no pokemon created in DB')
             
             let apiInfo = arr[1]
-            pokemonAPI = await getPokemonsInfo(apiInfo)
             
     
             
@@ -64,18 +65,20 @@ router.get('/', async (req,res)=>{
                     return responseShort(p.data, 'long')
                                                 })
                 if(page>pages[pages.length-1]){
-                    pokemon = [...pokemon, ...nextPage];
+                    pokemon = [...pokemonDB, ...nextPage];
+                    
                     pages.push(page)
                     
                 } 
-                res.status(200).send(nextPage)
+                res.status(200).send(pokemon)
              }
              else{
-                
+                pokemonAPI = await getPokemonsInfo(apiInfo)
+                pokemonAPI = pokemonAPI.map(p=>{
+                return responseShort(p.data, 'long')
+            })
                 pokemon = [...pokemonDB,
-                    ...pokemonAPI.map(p=>{
-                    return responseShort(p.data, 'long')
-                })]
+                    ...pokemonAPI]
                 pages.push(1)
                 res.status(200).send(pokemon)
              }

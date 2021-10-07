@@ -17,7 +17,7 @@ export default function Card({name, id, img, types}){
                 <li className={Style.cardLi}>ID: {id}</li>
                 
                 <li>Types:</li>
-                <li>{types.map(t=>{
+                <li>{types && types.map(t=>{
                     return <button key={`button${t}`}  value={t}>{t}</button> 
                 }).slice(0,2)}</li>
             </ul>
