@@ -6,6 +6,7 @@ import Pokemons from './components/Pokemons/Pokemons';
 import Detail from './components/Detail/Detail';
 import Landing from './components/Landing/Landing';
 import Create from './components/Create/Create';
+import Pagination from './components/Pagination/Pagination';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <Route exact path="/" component={Landing} />
       <Route path="/pokemons" component={NavBar} />
       
+      <Route exact path="/pokemons" component={Pagination} />
       <Route exact path="/pokemons" component={Pokemons} />
       <Route exact path="/pokemons/:id" render={({match,history})=>{
         if(match.params.id === 'create') return <Create />

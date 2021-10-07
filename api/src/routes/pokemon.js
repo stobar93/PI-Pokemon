@@ -51,8 +51,16 @@ router.get('/', async (req,res)=>{
             ])
     
             pokemonDB = arr[0].value.map(p=>{
-                return p.dataValues
-            })  // pendiente incluir todos los atributos de cada pokemon
+                let {name, id, hp, attack, defense, speed, height, weight, types} = p.dataValues
+
+                return {
+                    name,
+                    id,
+                    stats: {hp,attack, defense, speed},
+                    height,
+                    weight,
+                    types: types.map(t=>capitalLetter(t.name))
+            }})  // pendiente incluir todos los atributos de cada pokemon
             if(pokemonDB.length===0) console.log('There is no pokemon created in DB')
             
             let apiInfo = arr[1]

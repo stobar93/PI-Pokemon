@@ -11,8 +11,8 @@ export function Pokemons({pokemonsToRender}){
     
     
     return (
-        <div className={Style.Container}>
-            <Pagination />
+        
+            
                 <div className={Style.CardContainer}>
                 { 
                 pokemonsToRender && pokemonsToRender.map(p=>{
@@ -20,7 +20,7 @@ export function Pokemons({pokemonsToRender}){
                 })
             }
                 </div>
-        </div>
+        
     )
 }
 

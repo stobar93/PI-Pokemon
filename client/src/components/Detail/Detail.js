@@ -10,7 +10,8 @@ export function Detail (props){
 
     let pokemonDetail = {}
     if(props.id){
-        pokemonDetail = props.pokemonsToRender.find(p=>{return p.id === Number(props.id)}) }
+        pokemonDetail = props.pokemonsToRender.find(p=>{
+            return p.id.toString() === props.id}) }
     else {
         pokemonDetail = props.search[0]
     }
