@@ -24,6 +24,7 @@ export function Pagination({pages, page,  type,
                         changePage(Number(page)+1)  
                 } else if(page === lastPage && type === 'All' && page < 15){
                         document.getElementById('next').disabled=true;
+                        console.log(lastPage)
                         await getPokemons((lastPage+4)*10, lastPage+1) //Hace una peticion al back por 40 pokemons mas 
                         document.getElementById('next').disabled=false;
                     }

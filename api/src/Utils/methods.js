@@ -13,16 +13,11 @@ const axios = require('axios')
     }catch(e){return e}
 }
 
- const getPokemonsInfo = async (data, limit)=>{
+ const getPokemonsInfo = async (data, limit=40, start=0)=>{
      
-     let pokemons = data.value.data.results
-     if(limit){
-        pokemons = pokemons.slice(0,limit);
-     }else {
-         pokemons = pokemons.slice(0,40);
-     }
+     let pokemons = data.value.data.results    
     
-    let promises = pokemons.map(p =>{
+    let promises = pokemons.slice(start,limit).map(p =>{
         
         return axios.get(p.url)
     

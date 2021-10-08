@@ -10,11 +10,12 @@ const {getApiInfo, getPokemonsInfo, getPokemonByName, getPokemonById, responseSh
 // - GET https://pokeapi.co/api/v2/pokemon/{name}
 // - GET https://pokeapi.co/api/v2/type
 
-    
-router.get('/', async (req,res)=>{
     let pokemon = [];
     let pokemonDB = [];
     let pokemonAPI = [];
+    
+router.get('/', async (req,res)=>{
+    
     
     let {name, limit} = req.query;
     if(limit) limit = parseInt(limit);
@@ -64,10 +65,12 @@ router.get('/', async (req,res)=>{
             
             let apiInfo = arr[1]
             
-                let newPokemons = await getPokemonsInfo(apiInfo, limit)
-                newPokemons = newPokemons.map(p=>{return responseShort(p.data, 'long')})
+            let start = pokemonAPI.length > 0 ? pokemonAPI.length : 0
+
+                let newPokemons = await getPokemonsInfo(apiInfo, limit, start)
+                pokemonAPI = [...pokemonAPI, ...newPokemons.map(p=>{return responseShort(p.data, 'long')})];
                 
-                pokemon = [...pokemonDB, ...newPokemons];
+                pokemon = [...pokemonDB, ...pokemonAPI];
                 
                 res.status(200).send(pokemon)
              }
