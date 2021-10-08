@@ -1,5 +1,5 @@
 
-import { CHANGE_FILTER, CHANGE_SORT, GET_POKEMONS, CHANGE_PAGE, GET_TYPES, SEARCH, UPDATE_POKEMONS} from "../actions";
+import { CHANGE_FILTER, CHANGE_SORT, GET_POKEMONS, CHANGE_PAGE, GET_TYPES, SEARCH, POST_POKEMON} from "../actions";
 
 const initialState = {
     pokemons: [],
@@ -50,7 +50,7 @@ export default function reducer (state=initialState, action){
         case GET_POKEMONS:
             let {newPage} = action
             if(state.sort !== 'ID'){newPage = 1}
-            console.log(action.pokemons)
+            
             return{
                 ...state,
                 pokemons: action.pokemons,
@@ -88,11 +88,17 @@ export default function reducer (state=initialState, action){
                 search: [action.payload]
             }
         
-        case UPDATE_POKEMONS:
+        case POST_POKEMON:
             return {
                 ...state,
-                pokemons: action.payload,
-                copy: action.payload,
+                pokemons: action.pokemons,
+                copy: action.pokemons,
+                pag: {
+                    pages: Array.from(Array(Math.ceil(action.pokemons.length/10)), (e,i)=>i+1),
+                    page: action.newPage
+                },
+                sort: 'ID',
+                currentPokemons: action.pokemons.slice((action.newPage-1)*10,action.newPage*10)
             }
         default:
             return state;

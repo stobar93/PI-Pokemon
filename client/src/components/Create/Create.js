@@ -3,9 +3,9 @@ import {connect} from "react-redux";
 import { capitalLetter, loadNewPokemons } from "../../Utils/Methods";
 import axios from "axios";
 import Style from "./Create.module.css"
-import { changePage, updatePokemons} from "../../actions";
+import { changePage, postPokemon} from "../../actions";
 
-export function Create({types, changePage}){
+export function Create({types, changePage, postPokemon}){
     
     const [info, setInfo] = useState({
         name: '',
@@ -45,16 +45,9 @@ export function Create({types, changePage}){
 
     const handleSubmit = async (event)=>{
         event.preventDefault()
-        
-        await axios.post('http://localhost:3001/pokemons', info)
-        
-        
-        
-        
-        // 
-        // 
-        
+        postPokemon(info)
 
+        
          setInfo({
             name: '',
             types: [],
@@ -70,7 +63,7 @@ export function Create({types, changePage}){
     }
 
     const loadImgUrl = async ()=>{
-        let id = Math.floor(Math.random()*152)
+        let id = Math.floor(Math.random()*152)+1
         
         let randomImg =  await axios.get(`http://localhost:3001/pokemons/${id}`)
     
@@ -123,8 +116,7 @@ export function Create({types, changePage}){
 const mapStateToProps = (state)=>{
     return {
         types: state.types,
-        queryPage: state.queryPage
     }
 }
 
-export default connect(mapStateToProps, {updatePokemons, changePage})(Create);
+export default connect(mapStateToProps, { changePage, postPokemon})(Create);

@@ -7,7 +7,7 @@ export const GET_POKEMONS = 'GET_POKEMONS';
 export const CHANGE_PAGE = 'CHANGE_PAGE';
 export const GET_TYPES = 'GET_TYPES';
 export const SEARCH = 'SEARCH';
-export const UPDATE_POKEMONS = 'UPDATE_POKEMONS';
+export const POST_POKEMON = 'POST_POKEMON';
 
 export const changeFilter = (filterType,filterValue, copy)=>{
     return {
@@ -27,15 +27,15 @@ export const changeSort = (sortValue, copy)=>{
 }
 
 export const getPokemons = (limit, newPage)=>{
-    return function(dispatch) {
-      return axios(`http://localhost:3001/pokemons?limit=${limit}`)
+    return async function(dispatch) {
+      return await axios(`http://localhost:3001/pokemons?limit=${limit}`)
       .then(response => dispatch({ type: GET_POKEMONS, pokemons: response.data, newPage: newPage }))
     };
 }
 
 export const getTypes = ()=>{
-    return function(dispatch) {
-        return axios('http://localhost:3001/types')
+    return async function(dispatch) {
+        return await axios('http://localhost:3001/types')
         .then(response => dispatch({ type: GET_TYPES, pokemonTypes: response.data}))
     };
 }
@@ -57,11 +57,12 @@ export const searchPokemon = (data)=>{
 }
 
 
-export const updatePokemons = (data)=>{
-    return {
-        type: UPDATE_POKEMONS,
-        payload:data
-    }
+export const postPokemon = (data)=>{
+    return async function(dispatch) {
+        return await axios.post('http://localhost:3001/pokemons', data)
+        .then(response => axios(`http://localhost:3001/pokemons`))
+        .then(response => dispatch({ type: POST_POKEMON, pokemons: response.data, newPage: 1 }))
+      };
 }
 
 
