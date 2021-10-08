@@ -1,32 +1,29 @@
 import React from "react";
 import {connect} from 'react-redux';
 import Card from "../Card/Card";
-import  Pagination  from "../Pagination/Pagination";
+import Filter from '../Pagination/Filter'
+import Sort from '../Pagination/Sort'
 import Style from "./Pokemons.module.css"
 
 
+export function Pokemons({currentPokemons}){
 
-export function Pokemons({pokemonsToRender}){
-
-    
-    
     return (
-        
-            
                 <div className={Style.CardContainer}>
+                    <Sort />
+                    <Filter />
                 { 
-                pokemonsToRender && pokemonsToRender.map(p=>{
-                    return <Card key={p.id} name={p.name} id={p.id} img={p.imgUrl} types={p.types} />
-                })
-            }
+                    currentPokemons && currentPokemons.map(p=>{
+                        return <Card key={p.id} name={p.name} id={p.id} img={p.imgUrl} types={p.types} />
+                    })
+                }
                 </div>
-        
     )
 }
 
 const mapStateToProps = (state)=>{
     return {
-        pokemonsToRender: state.pokemonsToRender
+        currentPokemons: state.currentPokemons
     }
 }
 

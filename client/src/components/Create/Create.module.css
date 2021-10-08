@@ -1,0 +1,12 @@
+.img{
+    /* background-image: url('./pokeball.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; */
+    
+    max-width: 250px;
+    max-height: 250px;
+    width: auto;
+    height: 250px;
+    
+}

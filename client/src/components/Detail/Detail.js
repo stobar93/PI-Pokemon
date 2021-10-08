@@ -5,12 +5,10 @@ import { capitalLetter } from "../../Utils/Methods";
 import {changePage} from '../../actions/index'
 
 export function Detail (props){
-    
-    
 
     let pokemonDetail = {}
     if(props.id){
-        pokemonDetail = props.pokemonsToRender.find(p=>{
+        pokemonDetail = props.currentPokemons.find(p=>{
             return p.id.toString() === props.id}) }
     else {
         pokemonDetail = props.search[0]
@@ -48,7 +46,7 @@ export function Detail (props){
 
 const mapStateToProps = (state)=>{
     return {
-        pokemonsToRender: state.pokemonsToRender,
+        currentPokemons: state.currentPokemons,
         search: state.search
     }
 }

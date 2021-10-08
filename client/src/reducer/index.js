@@ -1,85 +1,98 @@
 
-import { CHANGE_COPY, CHANGE_PAGE, GET_POKEMONS, GET_TYPES, NEW_POKEMONS, SEARCH, SET_PAGES, SET_DB, SET_TYPE, SET_PAGE, SET_SORT } from "../actions";
+import { CHANGE_FILTER, CHANGE_SORT, GET_POKEMONS, CHANGE_PAGE, GET_TYPES, SEARCH, UPDATE_POKEMONS} from "../actions";
 
 const initialState = {
     pokemons: [],
-    copy: [],
-    pokemonsToRender: [],
+    copyPokemons: [],
+    currentPokemons: [],
     types:[],
-    queryPage: 0,
     search: [],
     pag: {
-        pages:[1,2,3,4],
-        page: 1,
-        sort: 'ID',
+        pages:[],
+        page: 1},
+    sort: 'ID',
+    filters: {
         type: 'All',
-        db: 'All'
-    }
+        db: 'All'}
+    
 };
 
 export default function reducer (state=initialState, action){
     switch(action.type){
+        /////////////////////////////////////////////////
+        case CHANGE_FILTER:
+            return {
+                ...state,
+                copyPokemons: action.copy,
+                filters: {
+                    ...state.filters,
+                    [action.filterType]: action.filterValue
+                },
+                pag: {
+                    pages: Array.from(Array(Math.ceil(action.copy.length/10)), (e,i)=>i+1),
+                    page: 1
+                },
+                currentPokemons: action.copy.slice(0,10)
+            }
+
+        case CHANGE_SORT:
+            return {
+                ...state,
+                copyPokemons: action.copy,
+                pag: {
+                    pages: Array.from(Array(Math.ceil(action.copy.length/10)), (e,i)=>i+1),
+                    page: 1
+                },
+                sort: action.sortValue,
+                currentPokemons: action.copy.slice(0,10)
+            }
+            // { type: GET_POKEMONS, pokemons: response, newPage: newPage }
         case GET_POKEMONS:
-            return {
+            let {newPage} = action
+            if(state.sort !== 'ID'){newPage = 1}
+            console.log(action.pokemons)
+            return{
                 ...state,
-                pokemons: action.payload,
-                copy: action.payload,
-                queryPage: state.queryPage + 1
+                pokemons: action.pokemons,
+                copyPokemons: action.pokemons,
+                pag: {
+                    pages: Array.from(Array(Math.ceil(action.pokemons.length/10)), (e,i)=>i+1),
+                    page: newPage
+                },
+                sort: 'ID',
+                currentPokemons: action.pokemons.slice((newPage-1)*10,newPage*10)
             }
-        case CHANGE_COPY:
-            return {
-                ...state,
-                copy: action.payload
-            }
-        case CHANGE_PAGE:
-            return {
-                ...state,
-                pokemonsToRender: state.copy.filter((p, i)=>{
-                    return i >= (action.page-1)*10 && i < action.page*10
-                })
-            }
-        case GET_TYPES:
-            return {
-                ...state,
-                types: action.payload
-            }
-        case NEW_POKEMONS:
-            return {
-                ...state,
-                pokemons: action.payload,
-                queryPage: state.queryPage + 1,
-                copy: action.payload
-            }
+
+            case CHANGE_PAGE:
+                let {page} = action
+                return {
+                    ...state,
+                    currentPokemons: state.copyPokemons.slice((page-1)*10,page*10),
+                    pag: {
+                        pages: Array.from(Array(Math.ceil(state.copyPokemons.length/10)), (e,i)=>i+1),
+                        page: page
+                    }
+                }
+            case GET_TYPES:
+                return {
+                    ...state,
+                    types: action.pokemonTypes
+                }
+        
+        
+        
         case SEARCH:
             
             return {
                 ...state,
                 search: [action.payload]
             }
-        case SET_PAGES:
+        
+        case UPDATE_POKEMONS:
             return {
                 ...state,
-                pag: {...state.pag, pages:[...action.payload]}
-            }
-        case SET_DB:
-            return {
-                ...state,
-                pag: {...state.pag, db:action.payload}
-            }
-        case SET_TYPE:
-            return {
-                ...state,
-                pag: {...state.pag, type:action.payload}
-            }
-        case SET_PAGE:
-            return {
-                ...state,
-                pag: {...state.pag, page:action.payload}
-            }
-        case SET_SORT:
-            return {
-                ...state,
-                pag: {...state.pag, sort:action.payload}
+                pokemons: action.payload,
+                copy: action.payload,
             }
         default:
             return state;

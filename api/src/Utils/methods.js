@@ -13,11 +13,11 @@ const axios = require('axios')
     }catch(e){return e}
 }
 
- const getPokemonsInfo = async (data, page)=>{
+ const getPokemonsInfo = async (data, limit)=>{
      
      let pokemons = data.value.data.results
-     if(page){
-        pokemons = pokemons.slice(0,40*page);
+     if(limit){
+        pokemons = pokemons.slice(0,limit);
      }else {
          pokemons = pokemons.slice(0,40);
      }
@@ -44,9 +44,10 @@ const axios = require('axios')
 }
 
  const getPokemonById = async (id)=>{
+     
     const pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
 
-    return pokemon.data;
+    return [pokemon.data];
 }
 
  const responseShort = (pokemon, length)=>{   
