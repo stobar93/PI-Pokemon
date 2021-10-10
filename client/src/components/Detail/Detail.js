@@ -1,8 +1,14 @@
 import React from "react";
+import {Img} from "react-image";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { capitalLetter } from "../../Utils/Methods";
-import {changePage} from '../../actions/index'
+import {changePage} from '../../actions/index';
+import LoadingImg from "../Loading/LoadingImg";
+import typeButtons from '../Styles/typeButtons.module.css';
+import Container from '../Styles/Container.module.css'
+import {img} from '../Card/Card.module.css'
+import BrokenImg from "../Loading/brokenImg";
 
 export function Detail (props){
 
@@ -20,10 +26,13 @@ export function Detail (props){
         <div>
             <Link to="/pokemons"><button>X Close</button></Link>
             <h1>{pokemonDetail.name}</h1>
-            <img src={pokemonDetail.imgUrl} alt={pokemonDetail.name}/>
+            <div className={Container.imgDetail}>
+            <Img className={img} src={pokemonDetail.imgUrl} unloader={<BrokenImg/>} loader={<LoadingImg/>} alt={pokemonDetail.name}/>
+            </div>
+            
             
             {pokemonDetail.types.map(t=>{
-                    return <button key={`button${t}`}  value={t}>{t}</button> 
+                    return <button className={[typeButtons[t], typeButtons.buttonType].join(' ')} key={`button${t}`}   value={t}>{t}</button> 
                 }).slice(0,2)}
 
                 {

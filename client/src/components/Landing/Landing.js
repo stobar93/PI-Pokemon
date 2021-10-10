@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 //Redux
 import {connect} from 'react-redux';
 //Import actions
-import { getPokemons, getTypes, changePage } from "../../actions/index.js";
-
+import { getPokemons, getTypes, changePage, setLoading } from "../../actions/index.js";
+import Loading from '../Loading/Loading'
 import FireIcon from './img/fire.js'
 import WaterIcon from './img/water.js'
 import LeafIcon from './img/leaf.js'
 import Style from "./Landing.module.css"
 
-export function Landing ({getPokemons, getTypes, changePage}){
+export function Landing ({pokemons, getPokemons, getTypes, changePage, setLoading}){
 
     
 //GET "/pokemons" from DB & API after componentDidMount
@@ -26,10 +26,11 @@ useEffect(()=>{
 useEffect(()=>{
     return ()=>{
         changePage(1)
+        setLoading(false)
     }
 })
 
-    return (
+    return pokemons.length===0 ? <div className={Style.Container}><Loading/></div> : (
         <div className={Style.Container}>
             <div className={Style.Landing}>
             
@@ -47,4 +48,10 @@ useEffect(()=>{
     )
 }
 
-export default connect(null, {getPokemons, getTypes, changePage})(Landing)
+const mapStateToProps =(state)=>{
+    return {
+        pokemons: state.pokemons
+    }
+}
+
+export default connect(mapStateToProps, {getPokemons, getTypes, changePage, setLoading})(Landing)

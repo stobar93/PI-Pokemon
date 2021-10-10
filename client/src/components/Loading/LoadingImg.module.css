@@ -1,0 +1,53 @@
+
+:root {
+    --hex-parent-height: 250px;
+    --hex-parent-width: 250px;
+  }
+
+.Pokeball{
+    height: 80%;
+    width: 80%;
+    border-radius: 50%;
+    border: calc(0.052 * var(--hex-parent-height)) solid black;
+    background-image:  linear-gradient(
+        red 50%,
+        white 50%
+    );
+    position: relative;
+    top: 0%;
+    left: 0%;
+    animation: load 2s infinite;
+    
+}
+
+@keyframes load {
+    70%{
+        transform:scale(0.7)
+    }
+}
+
+.Pokeball:before{
+    position: absolute;
+    content: "";
+    height: 10%;
+    width: 100%;
+    background-color: black;
+    top: 45%;
+    left:0px
+}
+.Pokeball:after{
+    position: absolute;
+    content: "";
+    height: 36%;
+    width: 36%;
+    background-image: radial-gradient(
+        #ffffff 0px,#ffffff 11.1%,
+        black 11.1%, black 16.7%,
+        #ffffff 16.7%, #ffffff 40%,
+        black 32%
+    );
+    border-radius: 50%;
+    top: 32%;
+    left: 32%;
+
+}

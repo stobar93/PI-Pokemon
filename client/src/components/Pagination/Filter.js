@@ -1,21 +1,24 @@
 import React from "react";
 import { capitalLetter, sortOptions } from "../../Utils/Methods";
 import {connect} from 'react-redux';
-import { changeFilter } from "../../actions";
-
-
-export function Filter ({pokemons, sort, filters, changeFilter, types}){
+import { changeFilter, resetFilters } from "../../actions";
+import Button from "../Styles/typeButtons.module.css"
+import Container from "../Styles/Container.module.css"
+export function Filter ({pokemons, sort, filters, changeFilter, types, resetFilters}){
 
     const handleDbChange = (event)=>{
         let value = event.target.value;
         let copy = [...pokemons].sort(sortOptions[sort]).filter(p=>{
-            return true
-            // if(value === 'All') {return true}
-            // else {return p.createdBy === value }
+            if(value === 'All') {return true}
+            else {return p.createdBy === value}
              //&& p.createdBy === db FALTA APLICAR EL FILTRO PARA CREATED BY
+        }).filter(q=>{
+            if(filters.type === 'All') {return true}
+            else {return q.types.includes(filters.type)}
         })
         
-        changeFilter('db', value, copy)
+        if(copy.length === 0 ) { alert("Can't find any match") }
+        else( changeFilter('db', value, copy) )
     };
 
     const handleTypeChange = (event)=>{
@@ -24,31 +27,62 @@ export function Filter ({pokemons, sort, filters, changeFilter, types}){
             if(value === 'All') {return true}
             else {return p.types.includes(value) }
              //&& p.createdBy === db FALTA APLICAR EL FILTRO PARA CREATED BY
+        }).filter(q=>{
+            if(filters.db === 'All') {return true}
+            else {return q.createdBy === filters.db}
         })
         
-        changeFilter('type', value, copy)
+        if(copy.length === 0 ) {
+            alert("Can't find any match")
+            
+        }
+        else(changeFilter('type', value, copy))
+        
         
     };
 
-    return (
-        <div>
-            <label htmlFor="filterType">Filter by: </label>
-            <select value={filters.type} id="filterType" onChange={(e)=>handleTypeChange(e)}>
-                <option value="All">All</option>
-                {
-                    types && types.map(t=>{
-                        let name = capitalLetter(t.name)
-                        return <option key={`option${name}`} value={name}>{name}</option>
-                    })
-                }
-            </select>
+    const handleQuitFilters = (filter)=>{
+        
+        let copy = [...pokemons].sort(sortOptions[sort]).filter(p=>{
+            if(filter === 'type' || filters.type === 'All') {return true}
+            else {return p.types.includes(filters.type) }
+             //&& p.createdBy === db FALTA APLICAR EL FILTRO PARA CREATED BY
+        }).filter(q=>{
+            if(filter === 'db' || filters.db === 'All') {return true}
+            else {return q.createdBy === filters.db}
+        })
+        
+        
+        
+        resetFilters(filter, copy)
+    }
 
-            <label htmlFor="filterDb" id="filterDbInput">Created by: </label>
-            <select value={filters.db} id="filterDb" onChange={(e)=>handleDbChange(e)}>
-                <option value="All">All</option>
-                <option value="user">User</option>
-                <option value="api">API</option>
-            </select>
+    return (
+        <div className={Container.Bar}>
+            
+                <label htmlFor="filterType">Filter by:</label>
+                <select value={filters.type} id="filterType" onChange={(e)=>handleTypeChange(e)}>
+                    <option value="All">All</option>
+                    {
+                        types && types.sort(sortOptions['AZ']).map(t=>{
+                            let name = capitalLetter(t.name)
+                            return <option key={`option${name}`} value={name}>{name}</option>
+                        })
+                    }
+                </select>
+                {filters.type !== 'All' ?  <div className={[Button[filters.type], Button.Div].join(" ")}><span>{`${filters.type} `}</span><button className={[Button.closeButton, Button[filters.type]].join(" ")} onClick={()=>handleQuitFilters('type')}>X</button></div> : null}
+            
+           
+                <label htmlFor="filterDb" id="filterDbInput">Created by: </label>
+                <select value={filters.db} id="filterDb" onChange={(e)=>handleDbChange(e)}>
+                    <option value="All">All</option>
+                    <option value="user">User</option>
+                    <option value="API">API</option>
+                </select>
+                
+                { filters.db !== 'All' ? <div><span>{`${filters.db} `}</span><button onClick={()=>handleQuitFilters('db')}>X</button></div> : null}
+            
+            
         </div>
     )
 }
@@ -62,4 +96,4 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(mapStateToProps, {changeFilter})(Filter)
+export default connect(mapStateToProps, {changeFilter, resetFilters})(Filter)

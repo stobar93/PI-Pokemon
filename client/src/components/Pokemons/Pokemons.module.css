@@ -1,37 +1,8 @@
-.Container{
-    display: flex;
-    flex-direction: column;
-    background-color: black;
-    /* background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg'); */
-    
-    
-    background-repeat: no-repeat;
-    background-position: bottom right;
-    height: 100vh;
-}
 
-.Bar{
-    display: flex;
-    flex-direction: row;
-    place-content: center;
-}
 
-.CardContainer{
-    max-width: 90%;
-    margin: auto;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    place-content: center;
-    justify-content: space-evenly;
-    
-}
 
-.Pagination{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    place-content: center;
-    
-    max-width: 80%;
-}
+
+
+
+
+

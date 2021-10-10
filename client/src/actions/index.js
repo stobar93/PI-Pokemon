@@ -8,6 +8,8 @@ export const CHANGE_PAGE = 'CHANGE_PAGE';
 export const GET_TYPES = 'GET_TYPES';
 export const SEARCH = 'SEARCH';
 export const POST_POKEMON = 'POST_POKEMON';
+export const LOADING = 'LOADING';
+export const RESET_FILTER = 'RESET_FILTER';
 
 export const changeFilter = (filterType,filterValue, copy)=>{
     return {
@@ -65,4 +67,18 @@ export const postPokemon = (data)=>{
       };
 }
 
+export const setLoading =(loading)=>{
+    return {
+        type: LOADING,
+        loading: loading
+    }
+}
+
+export const resetFilters = (filterType, copy)=>{
+    return{
+        type: RESET_FILTER,
+        filterType: filterType,
+        copy: copy
+    }
+}
 

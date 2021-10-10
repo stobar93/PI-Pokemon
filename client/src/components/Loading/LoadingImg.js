@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Style from './Loading.module.css';
+import Style from './LoadingImg.module.css';
 
-export default function Loading (){
+export default function LoadingImg (){
 
 
     return (
-        <div className={Style.Container}>
+        
             <div className={Style.Pokeball}>
 
             </div>
-        </div>
+        
     )
         
     

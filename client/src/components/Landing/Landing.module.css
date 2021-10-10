@@ -1,9 +1,9 @@
 .Landing{
     background-color: white;
-    border: solid 30px black;
+    border: solid 15px black;
     border-radius: 50%;
-    width: 30vw;
-    height: 30vw;
+    width: 25vw;
+    height: 25vw;
     margin: auto;
     position: relative;
     display: flex;

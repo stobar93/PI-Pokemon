@@ -1,5 +1,5 @@
 
-import { CHANGE_FILTER, CHANGE_SORT, GET_POKEMONS, CHANGE_PAGE, GET_TYPES, SEARCH, POST_POKEMON} from "../actions";
+import { CHANGE_FILTER, CHANGE_SORT, GET_POKEMONS, CHANGE_PAGE, GET_TYPES, SEARCH, POST_POKEMON, LOADING, RESET_FILTER} from "../actions";
 
 const initialState = {
     pokemons: [],
@@ -13,14 +13,15 @@ const initialState = {
     sort: 'ID',
     filters: {
         type: 'All',
-        db: 'All'}
-    
+        db: 'All'},
+    loading: true
 };
 
 export default function reducer (state=initialState, action){
     switch(action.type){
         /////////////////////////////////////////////////
         case CHANGE_FILTER:
+        
             return {
                 ...state,
                 copyPokemons: action.copy,
@@ -92,13 +93,32 @@ export default function reducer (state=initialState, action){
             return {
                 ...state,
                 pokemons: action.pokemons,
-                copy: action.pokemons,
+                copyPokemons: action.pokemons,
                 pag: {
                     pages: Array.from(Array(Math.ceil(action.pokemons.length/10)), (e,i)=>i+1),
                     page: action.newPage
                 },
                 sort: 'ID',
                 currentPokemons: action.pokemons.slice((action.newPage-1)*10,action.newPage*10)
+            }
+        case LOADING:
+            return {
+                ...state,
+                loading: action.loading
+            }
+        case RESET_FILTER:
+            return{
+                ...state,
+                copyPokemons: action.copy,
+                filters: {
+                    ...state.filters,
+                    [action.filterType]: 'All'
+                },
+                pag: {
+                    pages: Array.from(Array(Math.ceil(action.copy.length/10)), (e,i)=>i+1),
+                    page: 1
+                },
+                currentPokemons: action.copy.slice(0,10)
             }
         default:
             return state;

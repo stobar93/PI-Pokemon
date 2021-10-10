@@ -7,7 +7,7 @@ import Detail from './components/Detail/Detail';
 import Landing from './components/Landing/Landing';
 import Create from './components/Create/Create';
 import Pagination from './components/Pagination/Pagination';
-
+import Loading from './components/Loading/Loading';
 
 function App() {
   return (
@@ -18,7 +18,8 @@ function App() {
       
       
       <Route exact path="/pokemons" component={Pokemons} />
-      <Route exact path="/pokemons" component={Pagination} />
+      <Route exact path="/loading" component={Loading} />
+      {/* <Route exact path="/pokemons" component={Pagination} /> */}
       <Route exact path="/pokemons/:id" render={({match,history})=>{
         if(match.params.id === 'create') return <Create />
         else {return <Detail id={match.params.id} match={match} history={history} /> }  

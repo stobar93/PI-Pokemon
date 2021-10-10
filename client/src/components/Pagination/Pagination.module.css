@@ -1,7 +1,51 @@
-.activePage{
-    background-color:red
+
+.Button{
+    background-color:transparent;
+    border: none;
+    font-size: 1rem;
 }
 
-.pageButton{
-    background-color:white
+.Button:hover{
+    cursor: pointer;
+    border: solid 1px gray;
+    border-radius: 25%;
+}
+
+.activePage{
+    background-color:transparent;
+    color: red;
+    border: none;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.hiddenButton{
+    display: none;
+}
+
+.Start{
+    grid-column: 1;
+}
+.Prev{
+    grid-column: 2;
+}
+.Pages{
+    grid-column: 3;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+}
+.Next{
+    grid-column: 4;
+}
+.End{
+    grid-column: 5;
+}
+
+.Pag{
+    display: inline-grid;
+    grid-template-columns: 25px auto 120px auto 25px ;
+    grid-template-rows: 30px;
+    grid-gap: 10px;
 }

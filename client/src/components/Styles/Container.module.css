@@ -1,0 +1,87 @@
+.Card{
+    --width: 250px
+}
+
+.Bar{
+    
+    height: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin: 5px 0px 5px 0px;
+}
+
+.Cards{
+    max-width: 95%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    place-content: center;
+    justify-content: space-evenly;
+}
+
+.Card{
+    width: var(--width);
+    display: flex;
+    flex-direction: column;
+    
+    border-radius: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-inline: 5px;
+    margin: 15px 5px 0px 5px;
+    box-shadow:2px 2px 10px 0px black;
+    overflow: hidden;
+}
+
+.imgContainer{
+    
+    max-width: 100%;
+    max-height: 100%;
+    width: 150px;
+    height: 150px;
+    margin: auto;
+
+}
+
+.imgDetail{
+    
+    width: 350px;
+    height: 350px;
+    margin: auto;
+    
+}
+
+@media screen and (min-width: 320px) {
+    .Card{
+        --width: 320px;
+    }
+}
+
+@media screen and (min-width: 485px) {
+    .Card{
+        --width: 210px;
+    }
+}
+
+@media screen and (min-width: 850px) {
+    .Card {
+        --width: 200px;
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    .Card {
+        --width: 250px;
+    }
+}
+
+
+
+/* 320px — 480px: Mobile devices
+481px — 768px: iPads, Tablets
+769px — 1024px: Small screens, laptops
+1025px — 1200px: Desktops, large screens
+1201px and more —  Extra large screens, TV */
