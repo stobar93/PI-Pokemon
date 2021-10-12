@@ -2,14 +2,14 @@ import React, { useState, useEffect, Component } from "react";
 import {connect} from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { capitalLetter, loadNewPokemons } from "../../Utils/Methods";
+import { capitalLetter } from "../../Utils/Methods";
 import axios from "axios";
 import Style from "./Create.module.css"
 import Button from "../Styles/typeButtons.module.css"
-import { changePage, postPokemon} from "../../actions";
+import { postPokemon, setLoading} from "../../actions";
 import LoadingImg from "../Loading/LoadingImg.js";
-import notAvailable from "../img/notAvailable.png"
-export function Create({types, changePage, postPokemon}){
+
+export function Create({types, postPokemon, setLoading}){
     
     let history = useHistory();
     const [info, setInfo] = useState({
@@ -46,7 +46,12 @@ export function Create({types, changePage, postPokemon}){
              
         } else{
             if(id === 'name'){
-                value = value.match(/[a-z]/ig) ? value.match(/[a-z]/ig).join('') : ""
+                
+                value = value.match(/[a-z]/ig) ? capitalLetter(value.match(/[a-z]/ig).join('')) : ""
+                if(value && value.length > 20){
+                    alert('Max 20 characters')
+                    value = info.name
+                }
             } else if(id !== 'imgUrl'){
                 value = value.match(/[0-9]/g) ? value.match(/[0-9]/g).join('') : ""
             }
@@ -60,6 +65,7 @@ export function Create({types, changePage, postPokemon}){
 
     const handleSubmit = async (event)=>{
         event.preventDefault()
+        setLoading(true)
         postPokemon(info)
 
         //Pendiente validar que todos los campos esten completos
@@ -83,7 +89,7 @@ export function Create({types, changePage, postPokemon}){
     const loadImgUrl = async ()=>{
         let id = Math.floor(Math.random()*152)+1
         
-        let randomImg =  await axios.get(`http://localhost:3001/pokemons/${id}`)
+        let randomImg =  await axios.get(`http://192.168.1.5:3001/pokemons/${id}`)
     
         setInfo({
             ...info,
@@ -103,6 +109,13 @@ export function Create({types, changePage, postPokemon}){
         return url.protocol === "http:" || url.protocol === "https:";
       }
     
+    const quitType = (type)=>{
+        setInfo({
+            ...info,
+            types: info.types.filter(t=>t!== type.toLowerCase())
+        })
+    }
+
     return (
         <div>
             <h1>Create Pokemon</h1>
@@ -124,7 +137,8 @@ export function Create({types, changePage, postPokemon}){
                 </select>
                 {
                     info.types.map(t=>{
-                        return <div className={[Button[capitalLetter(t)], Button.Div].join(" ")}><span>{capitalLetter(t)}</span><button className={Button.closeButton}>X</button></div>
+                        t = capitalLetter(t)
+                        return <div className={[Button[t], Button.Div].join(" ")}><span>{t}</span><button onClick={()=>quitType(t)} className={Button.closeButton}>X</button></div>
                     })
                 }
                 <label htmlFor="imgUrl">Img URL: </label>
@@ -154,4 +168,4 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(mapStateToProps, { changePage, postPokemon})(Create);
+export default connect(mapStateToProps, { setLoading, postPokemon})(Create);

@@ -3,41 +3,37 @@ const router = Router();
 const { Pokemon } = require('../db');
 const {Type} = require('../db')
 
-const {getApiInfo, getPokemonsInfo, getPokemonByName, getPokemonById, responseShort, capitalLetter} = require('../Utils/methods')
+const {getApiInfo, getPokemonsInfo, getPokemonByNameAPI, getPokemonByNameDB, getPokemonByIdAPI, getPokemonByIdDB, responseShort, capitalLetter} = require('../Utils/methods')
 
 // - GET https://pokeapi.co/api/v2/pokemon
 // - GET https://pokeapi.co/api/v2/pokemon/{id}
 // - GET https://pokeapi.co/api/v2/pokemon/{name}
 // - GET https://pokeapi.co/api/v2/type
 
+
+
+    
+router.get('/', async (req,res)=>{
     let pokemon = [];
     let pokemonDB = [];
     let pokemonAPI = [];
-    
-router.get('/', async (req,res)=>{
-    
-    
+
     let {name, limit} = req.query;
     if(limit) limit = parseInt(limit);
 
     try{
         if(name){
+            console.log('name', name)
             try{
-                 let searchPokemonAPI = await getPokemonByName(name) 
-                 let singlePokemon = []
- 
-                 if(searchPokemonAPI!==null){
-                     searchPokemonAPI = responseShort(searchPokemonAPI, 'long')
-                     singlePokemon = [...pokemonDB.filter(p=>p.name === name), searchPokemonAPI ]
-                 } else {
-                     singlePokemon = pokemonDB.filter(p=>p.name === name)
-                 }
-                                 
-                 if(singlePokemon.length===0){
+                 const searchPokemon = await Promise.all([getPokemonByNameAPI(name), getPokemonByNameDB(name, Pokemon, Type)])
+                 console.log('searchPokemon', searchPokemon)    
+                 if(searchPokemon.length===0){
                      res.status(404).send(`${name} not found. Does not exist`)}
-                  else {res.status(200).send(...singlePokemon)}
+                  else {
+                      
+                    res.status(200).send(searchPokemon.flat())}
             }catch(e){
-                 console.log(e)
+                res.status(404)
             }
                
          } else {
@@ -58,19 +54,25 @@ router.get('/', async (req,res)=>{
                     height,
                     weight,
                     types: types.map(t=>capitalLetter(t.name)),
-                    imgUrl
+                    imgUrl,
+                    createdBy: 'user'
             }}) 
 
             if(pokemonDB.length===0) console.log('There is no pokemon created in DB')
             
             let apiInfo = arr[1]
             
-            let start = pokemonAPI.length > 0 ? pokemonAPI.length : 0
+            let start = limit - 40
 
                 let newPokemons = await getPokemonsInfo(apiInfo, limit, start)
-                pokemonAPI = [...pokemonAPI, ...newPokemons.map(p=>{return responseShort(p.data, 'long')})];
+                pokemonAPI = [...newPokemons.map(p=>{return responseShort(p.data, 'long')})];
                 
-                pokemon = [...pokemonDB, ...pokemonAPI];
+                if(!limit || limit === 40){
+                    pokemon = [...pokemonDB, ...pokemonAPI];
+                } else {
+                    pokemon = [...pokemonAPI]
+                }
+                
                 
                 res.status(200).send(pokemon)
              }
@@ -90,11 +92,14 @@ router.get('/:id', async (req,res)=>{
     let {id} = req.params;
         try{
             // if(Number.isInteger(id-1)){
-                let pokemonAPI = await getPokemonById(id)
-                pokemonAPI = pokemonAPI.map(p=>{
-                    return responseShort(p, 'long')
-                })
-                res.status(200).json(pokemonAPI)
+                
+                let pokemonAPI = await getPokemonByIdAPI(id)
+                
+                let pokemonDB = await getPokemonByIdDB(id, Pokemon, Type)
+                
+                let pokemon = pokemonDB.length>0 ? pokemonDB : pokemonAPI
+                console.log(pokemon)
+                res.status(200).json(pokemon)
             // } else {res.status(400).send('ID must be a number')}
            
         } catch(e){
@@ -108,7 +113,7 @@ router.post('/', async (req, res)=>{
     // res.send({recibido: true, ...req.body});
     const [pokemon, created] = await Pokemon.findOrCreate({
         where: {
-          name,hp, attack, defense, speed, height, weight, imgUrl
+          name: capitalLetter(name),hp, attack, defense, speed, height, weight, imgUrl
         },
         
       });

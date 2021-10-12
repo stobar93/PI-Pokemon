@@ -27,5 +27,5 @@ conn.sync({ force: true }).then(() => {
     console.log('%s listening at 3001'); // eslint-disable-line no-console
   });
   //Get Types on server start
-  axios.get('http://localhost:3001/types')
+  axios.get('http://192.168.1.5:3001/types')
 });

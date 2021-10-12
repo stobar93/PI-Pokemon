@@ -21,8 +21,8 @@ export const SearchBar = ({searchPokemon})=>{
         
         try{
             if(name !== ''){
-                let pokemon = await axios.get(`http://localhost:3001/pokemons?name=${name}`)
-                searchPokemon(pokemon.data)
+                
+                await searchPokemon(name)
                 history.push(`/pokemons/search/${name}`)
             } else {
                 alert('Please type a valid name')
@@ -36,10 +36,11 @@ export const SearchBar = ({searchPokemon})=>{
     }
 
     return (
-        <form autoComplete="off">
+            <form autoComplete="off">
                 <input  onChange={(e)=>handleChange(e)} value={name} type="search" id="searchInput" placeholder="Pokemon name..."/>
                 
                 <button type="submit" onClick={(e)=>{handleSubmit(e)}} id="searchSubmit">Search</button>
+                
             </form>
     )  
 }

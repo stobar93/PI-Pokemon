@@ -1,5 +1,7 @@
 
-import { CHANGE_FILTER, CHANGE_SORT, GET_POKEMONS, CHANGE_PAGE, GET_TYPES, SEARCH, POST_POKEMON, LOADING, RESET_FILTER} from "../actions";
+import { CHANGE_FILTER, CHANGE_SORT, GET_POKEMONS, CHANGE_PAGE, 
+        GET_TYPES, SEARCH, POST_POKEMON, 
+        LOADING, RESET_FILTER} from "../actions";
 
 const initialState = {
     pokemons: [],
@@ -54,14 +56,14 @@ export default function reducer (state=initialState, action){
             
             return{
                 ...state,
-                pokemons: action.pokemons,
-                copyPokemons: action.pokemons,
+                pokemons: [...state.pokemons, ...action.pokemons] ,
+                copyPokemons: [...state.pokemons, ...action.pokemons],
                 pag: {
-                    pages: Array.from(Array(Math.ceil(action.pokemons.length/10)), (e,i)=>i+1),
+                    pages: Array.from(Array(Math.ceil([...state.pokemons, ...action.pokemons].length/10)), (e,i)=>i+1),
                     page: newPage
                 },
                 sort: 'ID',
-                currentPokemons: action.pokemons.slice((newPage-1)*10,newPage*10)
+                currentPokemons: [...state.pokemons, ...action.pokemons].slice((newPage-1)*10,newPage*10)
             }
 
             case CHANGE_PAGE:
@@ -83,11 +85,19 @@ export default function reducer (state=initialState, action){
         
         
         case SEARCH:
-            
-            return {
-                ...state,
-                search: [action.payload]
+            if(action.payload.length === 0){
+                return {
+                    ...state,
+                    search: []   
+                }
+            }else{
+                return {
+                    ...state,
+                    search: [...state.search, ...action.payload]
+                    
+                }
             }
+            
         
         case POST_POKEMON:
             return {
@@ -99,7 +109,8 @@ export default function reducer (state=initialState, action){
                     page: action.newPage
                 },
                 sort: 'ID',
-                currentPokemons: action.pokemons.slice((action.newPage-1)*10,action.newPage*10)
+                currentPokemons: action.pokemons.slice((action.newPage-1)*10,action.newPage*10),
+                loading:false
             }
         case LOADING:
             return {
@@ -120,6 +131,7 @@ export default function reducer (state=initialState, action){
                 },
                 currentPokemons: action.copy.slice(0,10)
             }
+        
         default:
             return state;
     }

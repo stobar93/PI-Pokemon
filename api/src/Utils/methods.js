@@ -28,26 +28,77 @@ const axios = require('axios')
     return values
 }
 
- const getPokemonByName = async (name)=>{
+const getPokemonByNameDB = async (name, pokemon, type)=>{
+    
     try{
-        const pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
-        return pokemon.data;
+        const pokemonDB = await pokemon.findOne({ where: { name: name.slice(0,1).toUpperCase() + name.slice(1).toLowerCase() } , include: type})
+        let {id, hp,attack, defense, speed, height, weight, imgUrl, types} = pokemonDB.dataValues
+        
+        return [{
+            name: capitalLetter(name), id, height, weight, imgUrl,
+            stats: {Hp:hp, Attack: attack, Defense:defense, Speed:speed},
+            types: types.map(t=>capitalLetter(t.pokemon_type.dataValues.typeName)),
+            createdBy: 'user'
+        }]
+    } catch(e){
+        return []
+    }
+        
+
+}
+
+ const getPokemonByNameAPI = async (name)=>{
+    
+    try{
+        
+        const pokemonAPI = await axios(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        
+        let response = [responseShort(pokemonAPI.data, 'long')]
+        console.log('response', response)
+        return response;
     }catch(e){
-        return null
+        return []
     }
     
 }
 
- const getPokemonById = async (id)=>{
-     
-    const pokemon = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+const getPokemonByIdDB = async (idDb, pokemon, type)=>{
+    
+    
+    try{
+        
+        const pokemonDB = await pokemon.findOne({ where: { id: idDb } , include: type})
+        console.log(pokemonDB)
+        let {id, name, hp, attack, defense, speed, height, weight, imgUrl, types} = pokemonDB.dataValues
+        
+        return [{
+            name: capitalLetter(name), id, height, weight, imgUrl,
+            stats: {Hp:hp, Attack: attack, Defense:defense, Speed:speed},
+            types: types.map(t=>capitalLetter(t.pokemon_type.dataValues.typeName)),
+            createdBy: 'user'
+        }]
+    } catch(e){
+        return []
+    }
+}
 
-    return [pokemon.data];
+ const getPokemonByIdAPI = async (id)=>{
+    let pokemonAPI =[];
+    try{
+        pokemonAPI = await axios(`https://pokeapi.co/api/v2/pokemon/${id}`);
+        pokemonAPI = responseShort(pokemonAPI.data, 'long')
+        return [pokemonAPI];
+    }catch(e){
+        return []
+    }
+    
+    
 }
 
  const responseShort = (pokemon, length)=>{   
-    let {name, id, height, weight, stats, types} = pokemon;
-    let imgUrl = pokemon.sprites.other.dream_world.front_default;  
+    let {name, id, height, weight, stats, types, imgUrl} = pokemon;
+    
+    imgUrl = imgUrl || pokemon.sprites.other.dream_world.front_default;  
     
     stats = stats.map(s=>{
         return {
@@ -71,10 +122,10 @@ const axios = require('axios')
 
     switch(length){
         case 'short':
-            return {name, id, imgUrl, types};
+            return {name, id, imgUrl, types, createdBy: 'api'};
         case 'long':
             
-            return {name, id, imgUrl, height, weight, stats, types};
+            return {name, id, imgUrl, height, weight, stats, types, createdBy: 'API'};
         default:
             return pokemon;
     }
@@ -96,8 +147,10 @@ const capitalLetter = (str)=>{
 module.exports = {
     getApiInfo,
     getPokemonsInfo,
-    getPokemonByName,
-    getPokemonById,
+    getPokemonByNameDB,
+    getPokemonByNameAPI,
+    getPokemonByIdAPI,
+    getPokemonByIdDB,
     responseShort,
     getTypesFromApi,
     capitalLetter

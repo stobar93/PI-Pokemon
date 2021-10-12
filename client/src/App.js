@@ -7,24 +7,28 @@ import Detail from './components/Detail/Detail';
 import Landing from './components/Landing/Landing';
 import Create from './components/Create/Create';
 import Pagination from './components/Pagination/Pagination';
-import Loading from './components/Loading/Loading';
+import Filter from './components/Pagination/Filter'
+import Sort from './components/Pagination/Sort'
 
 function App() {
   return (
 
     <div className="App">
       <Route exact path="/" component={Landing} />
+
       <Route path="/pokemons" component={NavBar} />
-      
-      
+      <Route exact path="/pokemons" component={Sort} />
+      <Route exact path="/pokemons" component={Filter} />
       <Route exact path="/pokemons" component={Pokemons} />
-      <Route exact path="/loading" component={Loading} />
-      {/* <Route exact path="/pokemons" component={Pagination} /> */}
+      <Route exact path="/pokemons" component={Pagination} />
+
+      <Route path="/pokemons/search" render={()=><Pokemons isSearch={true}/>} />
+      
       <Route exact path="/pokemons/:id" render={({match,history})=>{
         if(match.params.id === 'create') return <Create />
         else {return <Detail id={match.params.id} match={match} history={history} /> }  
       }} />
-      <Route exact path="/pokemons/search/:name" component={Detail} />
+      {/* <Route exact path="/pokemons/search/:name" component={Detail} /> */}
       
     </div>
   );

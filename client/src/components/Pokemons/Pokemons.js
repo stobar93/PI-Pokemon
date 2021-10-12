@@ -3,14 +3,13 @@ import { useHistory } from "react-router-dom";
 import {connect} from 'react-redux';
 import Card from "../Card/Card";
 import Loading from "../Loading/Loading";
-import Filter from '../Pagination/Filter'
-import Sort from '../Pagination/Sort'
+
 import Style from "./Pokemons.module.css"
 import Container from "../Styles/Container.module.css"
-import { setLoading } from "../../actions";
-import Pagination from "../Pagination/Pagination";
+import { setLoading, searchPokemon } from "../../actions";
 
-export function Pokemons({currentPokemons, loading, setLoading}){
+
+export function Pokemons({currentPokemons, loading, setLoading, isSearch, currentSearch, searchPokemon}){
 
     let history = useHistory();
     
@@ -18,31 +17,42 @@ export function Pokemons({currentPokemons, loading, setLoading}){
         if(currentPokemons.length === 0) history.push("/")
     }, [])
 
-    return loading ? <Loading/> : (
-                <>
-                    <div className={Container.Bar}>
-                    <Sort />
-                    <Filter />
-                    </div>
+    const clearSearch = ()=>{
+        searchPokemon()
+        history.push("/pokemons")
+    }
+
+    return isSearch ? (
+    
+    <div className={Container.Cards}>
+        {  
+            currentSearch && currentSearch.map(p=>{
+                return <Card key={p.id} name={p.name} id={p.id} img={p.imgUrl} types={p.types} />
+            })  
+        }
+        <button onClick={()=>clearSearch()}>Clear search</button>
+    </div>) : loading ? <Loading/> : (
+                
+                    
                     <div className={Container.Cards}>
                 {  
                     currentPokemons && currentPokemons.map(p=>{
                         return <Card key={p.id} name={p.name} id={p.id} img={p.imgUrl} types={p.types} />
                     })
                 }
-                </div>
-                <Pagination/>
-                </>
                 
+                </div>
+                           
     )
 }
 
 const mapStateToProps = (state)=>{
     return {
         currentPokemons: state.currentPokemons,
-        loading: state.loading
+        loading: state.loading,
+        currentSearch: state.search
     }
 }
 
-export default connect(mapStateToProps, {setLoading})(Pokemons);
+export default connect(mapStateToProps, {setLoading, searchPokemon})(Pokemons);
 

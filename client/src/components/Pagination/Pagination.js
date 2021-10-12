@@ -6,7 +6,7 @@ import { changePage, getPokemons, changeSort, setLoading } from "../../actions";
 import {Button, activePage, Start, End, hiddenButton, Prev, Next, Pages, Pag} from "./Pagination.module.css"
 
 export function Pagination({pages, page,  type,  
-                            changePage, getPokemons, setLoading}){
+                            changePage, getPokemons, setLoading, pokemons}){
     
     const handleClick = async (event)=>{
         let value = event.target.value
@@ -25,8 +25,9 @@ export function Pagination({pages, page,  type,
                 } else if(page === lastPage && type === 'All'){
                         document.getElementById('next').disabled=true;
                         setLoading(true)
-                        console.log(lastPage)
-                        await getPokemons((lastPage+4)*10, lastPage+1) //Hace una peticion al back por 40 pokemons mas 
+                        console.log(pokemons.filter(p=>p.createdBy === 'API').length)
+                        
+                        await getPokemons(40+ pokemons.filter(p=>p.createdBy === 'API').length, lastPage+1) //Hace una peticion al back por 40 pokemons mas 
                         setLoading(false)
                         document.getElementById('next').disabled=false;
                     }
@@ -37,7 +38,7 @@ export function Pagination({pages, page,  type,
     };
 
     
-    return(
+    return (
         <div className={Pag}>
             <button key={`buttonStart`} className={[page===1 ? activePage : Start, Button].join(' ')} onClick={(e)=>handleClick(e)} value="1">1</button>
             <button key="prev" id="prev" className={[Prev, Button].join(' ')} onClick={(e)=>handleClick(e)} value='<Prev'>{`<<`}</button>
@@ -53,14 +54,15 @@ export function Pagination({pages, page,  type,
             <button key={`buttonEnd`} className={[page===pages[pages.length-1] ? activePage : End, Button].join(' ')} onClick={(e)=>handleClick(e)} value={pages[pages.length-1]}>{pages[pages.length-1]}</button>
         </div>
            
-    )
+    ) 
         }
 
 const mapStateToProps = (state)=>{
     return {
         pages: state.pag.pages,
         page: state.pag.page,
-        type: state.filters.type
+        type: state.filters.type,
+        pokemons: state.pokemons
     }
 }
         
