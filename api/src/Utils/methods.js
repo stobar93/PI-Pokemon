@@ -2,36 +2,31 @@ const axios = require('axios')
 
  const getApiInfo = async ()=>{
     let url = "https://pokeapi.co/api/v2/pokemon";
-    
-    
     url = `${url}?limit=1118` 
-
-
     try{
         const info = await axios.get(url);
         return info;
     }catch(e){return e}
 }
 
- const getPokemonsInfo = async (data, limit=40, start=0)=>{
-     
-     let pokemons = data.value.data.results    
-    
+ const getPokemonsInfo = async (apiInfo, limit=40, start=0)=>{
+     //apiInfo, response from APi --> .value.data.results = [{name, url}]
+    let pokemons = apiInfo.value.data.results    
+    //Only request 40 new pokemons to save time
     let promises = pokemons.slice(start,limit).map(p =>{
-        
-        return axios.get(p.url)
-    
+        return axios(p.url)
     })
     
-    const values = await Promise.all(promises)
-    //Nos interesa la propiedad data de cada obj contenido en values
+    let values = await Promise.all(promises)
+    values = values.map(p=>{return responseShort(p.data, 'long')})
+    
     return values
 }
 
 const getPokemonByNameDB = async (name, pokemon, type)=>{
     
     try{
-        const pokemonDB = await pokemon.findOne({ where: { name: name.slice(0,1).toUpperCase() + name.slice(1).toLowerCase() } , include: type})
+        const pokemonDB = await pokemon.findOne({ where: { name: capitalLetter(name) } , include: type})
         let {id, hp,attack, defense, speed, height, weight, imgUrl, types} = pokemonDB.dataValues
         
         return [{
@@ -43,8 +38,6 @@ const getPokemonByNameDB = async (name, pokemon, type)=>{
     } catch(e){
         return []
     }
-        
-
 }
 
  const getPokemonByNameAPI = async (name)=>{
@@ -54,7 +47,6 @@ const getPokemonByNameDB = async (name, pokemon, type)=>{
         const pokemonAPI = await axios(`https://pokeapi.co/api/v2/pokemon/${name}`);
         
         let response = [responseShort(pokemonAPI.data, 'long')]
-        console.log('response', response)
         return response;
     }catch(e){
         return []
@@ -63,7 +55,6 @@ const getPokemonByNameDB = async (name, pokemon, type)=>{
 }
 
 const getPokemonByIdDB = async (idDb, pokemon, type)=>{
-    
     
     try{
         
@@ -90,15 +81,13 @@ const getPokemonByIdDB = async (idDb, pokemon, type)=>{
         return [pokemonAPI];
     }catch(e){
         return []
-    }
-    
-    
+    }  
 }
 
  const responseShort = (pokemon, length)=>{   
     let {name, id, height, weight, stats, types, imgUrl} = pokemon;
     
-    imgUrl = imgUrl || pokemon.sprites.other.dream_world.front_default;  
+    imgUrl = imgUrl || pokemon.sprites.other["official-artwork"].front_default|| pokemon.sprites.other.dream_world.front_default;
     
     stats = stats.map(s=>{
         return {

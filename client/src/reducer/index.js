@@ -22,8 +22,29 @@ const initialState = {
 export default function reducer (state=initialState, action){
     switch(action.type){
         /////////////////////////////////////////////////
-        case CHANGE_FILTER:
+        case GET_POKEMONS:
+            let {newPage} = action
+            if(state.sort !== 'ID'){newPage = 1}
+            
+            return{
+                ...state,
+                pokemons: [...state.pokemons, ...action.pokemons] ,
+                copyPokemons: [...state.pokemons, ...action.pokemons],
+                pag: {
+                    pages: Array.from(Array(Math.ceil([...state.pokemons, ...action.pokemons].length/10)), (e,i)=>i+1),
+                    page: newPage
+                },
+                sort: 'ID',
+                currentPokemons: [...state.pokemons, ...action.pokemons].slice((newPage-1)*10,newPage*10)
+            }
         
+        case GET_TYPES:
+            return {
+                ...state,
+                types: action.pokemonTypes
+            } 
+
+        case CHANGE_FILTER:
             return {
                 ...state,
                 copyPokemons: action.copy,
@@ -49,41 +70,18 @@ export default function reducer (state=initialState, action){
                 sort: action.sortValue,
                 currentPokemons: action.copy.slice(0,10)
             }
-            // { type: GET_POKEMONS, pokemons: response, newPage: newPage }
-        case GET_POKEMONS:
-            let {newPage} = action
-            if(state.sort !== 'ID'){newPage = 1}
             
-            return{
+        case CHANGE_PAGE:
+            let {page} = action
+            return {
                 ...state,
-                pokemons: [...state.pokemons, ...action.pokemons] ,
-                copyPokemons: [...state.pokemons, ...action.pokemons],
+                currentPokemons: state.copyPokemons.slice((page-1)*10,page*10),
                 pag: {
-                    pages: Array.from(Array(Math.ceil([...state.pokemons, ...action.pokemons].length/10)), (e,i)=>i+1),
-                    page: newPage
-                },
-                sort: 'ID',
-                currentPokemons: [...state.pokemons, ...action.pokemons].slice((newPage-1)*10,newPage*10)
+                    pages: Array.from(Array(Math.ceil(state.copyPokemons.length/10)), (e,i)=>i+1),
+                    page: page
+                }
             }
 
-            case CHANGE_PAGE:
-                let {page} = action
-                return {
-                    ...state,
-                    currentPokemons: state.copyPokemons.slice((page-1)*10,page*10),
-                    pag: {
-                        pages: Array.from(Array(Math.ceil(state.copyPokemons.length/10)), (e,i)=>i+1),
-                        page: page
-                    }
-                }
-            case GET_TYPES:
-                return {
-                    ...state,
-                    types: action.pokemonTypes
-                }
-        
-        
-        
         case SEARCH:
             if(action.payload !=='clear'){
                 let arr = action.payload.filter(p=>{
@@ -105,9 +103,6 @@ export default function reducer (state=initialState, action){
                 }
             }
             
-            
-                
-        
         case POST_POKEMON:
             return {
                 ...state,
@@ -121,11 +116,13 @@ export default function reducer (state=initialState, action){
                 currentPokemons: action.pokemons.slice((action.newPage-1)*10,action.newPage*10),
                 loading:false
             }
+
         case LOADING:
             return {
                 ...state,
                 loading: action.loading
             }
+
         case RESET_FILTER:
             return{
                 ...state,

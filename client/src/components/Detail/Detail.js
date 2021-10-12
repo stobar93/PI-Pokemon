@@ -11,6 +11,7 @@ import BrokenImg from "../Loading/brokenImg";
 //Stylesheets
 import typeButtons from '../Styles/typeButtons.module.css';
 import Container from '../Styles/Container.module.css'
+import Style from './Detail.module.css'
 import {img} from '../Card/Card.module.css'
 
 //Methods
@@ -43,12 +44,12 @@ export default function Detail ({id}){
       //If detail has information, render component
       //else render <Loading/>.
     return Object.keys(detail).length>0 ? (
-        <div>
-            <button onClick={()=>handleClick()}>X Close</button>
+        <div className={[Container.Detail, Style.Container].join(' ')}>
+            <button className={Style.Close} onClick={()=>handleClick()}>X</button>
                 {/* Tried to return to prev page with link, but there are two options to go to:
                     /pokemons or /pokemons/search 
                 <Link to="/pokemons"><button onClick={()=>handleClick()}>X Close</button></Link> */}
-            <h1>{detail.name}</h1>
+            <h1 className={Style.Title}>{detail.name}</h1>
             <div className={Container.imgDetail}>
                 {/* Img component from react-image library to load fallback images */}
                 <Img className={img} src={detail.imgUrl} unloader={<BrokenImg/>} loader={<LoadingImg/>} alt={detail.name}/>
@@ -58,7 +59,7 @@ export default function Detail ({id}){
                 /* Render pokemon type buttons from React state
                     Dinamyc CSS with CSS modules based on each type */
                 detail.types && detail.types.map(t=>{
-                return <button className={[typeButtons[t], typeButtons.buttonType].join(' ')} key={`button${t}`}   value={t}>{t}</button> 
+                return <button className={[typeButtons[t], typeButtons.TypeDetail, Style.SelectedTypes].join(' ')} key={`button${t}`}   value={t}>{t}</button> 
                 }).slice(0,2)
             }
 
@@ -67,14 +68,14 @@ export default function Detail ({id}){
                 Array.from(Object.keys(detail)).filter(i=>{
                 return i !== 'name' && i !== 'imgUrl' && i !== 'stats' && i !== 'types'
                 }).map(s=>{
-                    return <p key={s}>{capitalLetter(s)}: {detail[s]}</p>
+                    return <p className={Style[s]} key={s}>{capitalLetter(s)}: {detail[s]}</p>
                 }) 
             }
 
             {   /*Builds an array from detail.stats keys
                     then filter to exclude Special stats*/
                 Array.from(Object.keys(detail.stats)).filter(p=>{return p!=='Special-attack' && p!=='Special-defense'}).map(s=>{
-                return <p key={s}>{capitalLetter(s)}: {detail.stats[s]}</p>
+                return <p className={Style[s.toLowerCase()]} key={s}>{capitalLetter(s)}: {detail.stats[s]}</p>
                 }) 
             }  
         </div>

@@ -89,6 +89,16 @@
     margin-right: 2px;
     
 }
+.TypeDetail{
+    border-radius: 10px;
+    font-size: 1.5rem;
+    width: 120px;
+    height: auto;
+    border: none;
+    margin-left: 2px;
+    margin-right: 2px;
+    justify-content: center;
+}
 
 .simple{
     font-size: 1rem;

@@ -3,7 +3,9 @@ const router = Router();
 const { Pokemon } = require('../db');
 const {Type} = require('../db')
 
-const {getApiInfo, getPokemonsInfo, getPokemonByNameAPI, getPokemonByNameDB, getPokemonByIdAPI, getPokemonByIdDB, responseShort, capitalLetter} = require('../Utils/methods')
+const {getApiInfo, getPokemonsInfo, getPokemonByNameAPI, 
+        getPokemonByNameDB, getPokemonByIdAPI, getPokemonByIdDB, 
+            responseShort, capitalLetter} = require('../Utils/methods')
 
 // - GET https://pokeapi.co/api/v2/pokemon
 // - GET https://pokeapi.co/api/v2/pokemon/{id}
@@ -18,81 +20,83 @@ router.get('/', async (req,res)=>{
     let pokemonDB = [];
     let pokemonAPI = [];
 
+    //This route attends 2 types of search
+    //1. By Name
+    //2. By limit
     let {name, limit} = req.query;
-    if(limit) limit = parseInt(limit);
+    if(limit) {limit = parseInt(limit)};
 
     try{
-        if(name){
-            console.log('name', name)
-            try{
-                 const searchPokemon = await Promise.all([getPokemonByNameAPI(name), getPokemonByNameDB(name, Pokemon, Type)])
-                 console.log('searchPokemon', searchPokemon)    
-                 if(searchPokemon.length===0){
-                     res.status(404).send(`${name} not found. Does not exist`)}
-                  else {
-                      
-                    res.status(200).send(searchPokemon.flat())}
-            }catch(e){
-                res.status(404)
-            }
+        if(name){//Search by name: if name is defined in req.query -> Invoke from "../Utils/methods.js":
+            //getPokemonByNameAPI: Request the API, if the pokemon doesn't exist, returns [] 
+            //getPokemonByNameDB: Request the DB, if the pokemon doesn't exist, returns []
+            //Else, both methods return [{}] with the pokemon info.
+            const searchPokemon = await Promise.all([getPokemonByNameAPI(name), getPokemonByNameDB(name, Pokemon, Type)])
                
-         } else {
+            if(searchPokemon.length===0){
+                //If searchPokemon is empty, response 404 Not found
+                res.status(404).send(`${name} not found. Does not exist`)}
+            else { 
+                //Else, send [pokemon from API, pokemon from DB]
+                res.status(200).send(searchPokemon.flat()) }     
+         
+        } else {//Search by limit (Pagination)
+            //First of all: gets all the pokemons from DB and API (First URL)
             let arr = await Promise.allSettled([Pokemon.findAll({
                 attributes: ['name', 'id', 'hp', 'attack', 'defense', 'speed', 'height', 'weight', 'imgUrl'],
                 include: Type
             }),
-                getApiInfo()//Trae la informacion inicial de todos los pokemon de la api
+                getApiInfo()//It only brings the url of each pokemon's info
             ])
-    
-            pokemonDB = arr[0].value.map(p=>{
-                let {name, id, hp, attack, defense, speed, height, weight, types, imgUrl} = p.dataValues
-
-                return {
-                    name,
-                    id,
-                    stats: {hp,attack, defense, speed},
-                    height,
-                    weight,
-                    types: types.map(t=>capitalLetter(t.name)),
-                    imgUrl,
-                    createdBy: 'user'
-            }}) 
-
-            if(pokemonDB.length===0) console.log('There is no pokemon created in DB')
             
+            //arr = array with two elements. Containing the result of previous promises
+            //arr[0] = DB info --> Map pokemonDB to get just the required information
+            pokemonDB = arr[0]
+            if(pokemonDB.length===0) console.log('There is no pokemon created in DB')
+            else{
+                pokemonDB = pokemonDB.value.map(p=>{
+                    let {name, id, hp, attack, defense, speed, height, weight, types, imgUrl} = p.dataValues
+                    return {
+                        name, id, 
+                        stats: {hp, attack, defense, speed},
+                        height, weight, 
+                        types: types.map(t=>capitalLetter(t.name)),
+                        imgUrl, createdBy: 'user'}
+                })
+            }   
+
+            //arr[1] = API info from Promise.allSettled
             let apiInfo = arr[1]
             
-            let start = limit - 40
-
+            //Calculate the start point to slice apiInfo (start, limit)
+                let start = limit - 40
+            //Invoke getPokemonsInfo from "../Utils/methods.js":
+                //Returns an array with the info of 40 new pokemons
                 let newPokemons = await getPokemonsInfo(apiInfo, limit, start)
-                pokemonAPI = [...newPokemons.map(p=>{return responseShort(p.data, 'long')})];
-                
+                 
+                //If it's the first request (limit=nul || limit=40)
+                //Send DB and API pokemons
                 if(!limit || limit === 40){
-                    pokemon = [...pokemonDB, ...pokemonAPI];
+                    pokemon = [...pokemonDB, ...newPokemons];
                 } else {
-                    pokemon = [...pokemonAPI]
+                    //If limit > 40 send only newPokemons from API
+                    pokemon = [...newPokemons]
                 }
-                
                 
                 res.status(200).send(pokemon)
              }
              
          }catch(e){
-        console.log(e)
         res.status(500).send(e)
     }
-
-//////////////////////////////////////////////////////////////////////
-   
-        
     
 })
 
+
+
 router.get('/:id', async (req,res)=>{
     let {id} = req.params;
-        try{
-            // if(Number.isInteger(id-1)){
-                
+        try{                
                 let pokemonAPI = await getPokemonByIdAPI(id)
                 
                 let pokemonDB = await getPokemonByIdDB(id, Pokemon, Type)

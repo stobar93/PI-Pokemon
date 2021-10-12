@@ -26,15 +26,30 @@ export function Create({types, postPokemon, setLoading}){
 
     //ComponentDidMount - Request random pokemon info to extract imgUrl
     useEffect(()=>{
-        (async ()=>{
-            let id = Math.floor(Math.random()*152)+1
-            let randomImg =  await axios.get(`http://localhost:3001/pokemons/${id}`)
-
-            setInfo((i)=>{return{
+        const imgLoad = new Promise((resolve, reject)=>{
+            let id = Math.floor(Math.random()*152)+1;
+            try{resolve(axios.get(`http://localhost:3001/pokemons/${id}`))}
+            catch(e){reject(e)}
+        })
+        
+        imgLoad.then(response => response.data)
+        .then(data=>data[0].imgUrl)
+        .then(imgUrl=>setInfo((i)=>{
+            return {
                 ...i,
-                imgUrl: randomImg.data[0].imgUrl
-            }})
-        })()
+                imgUrl: imgUrl
+            }
+        })).catch(e=>alert(e))
+        
+        // (async ()=>{
+        //     let id = Math.floor(Math.random()*152)+1
+        //     let randomImg =  await axios.get(`http://localhost:3001/pokemons/${id}`)
+
+        //     setInfo((i)=>{return{
+        //         ...i,
+        //         imgUrl: randomImg.data[0].imgUrl
+        //     }})
+        // })()
          }, [])
 
     const loadImgUrl = async ()=>{
@@ -140,7 +155,7 @@ export function Create({types, postPokemon, setLoading}){
             </div>
 
             <div class={[Style.types, Style.Dropdown].join(' ')}>
-                <p>Select types </p>
+                <p>Select types &darr;</p>
                         
 
                     <div className={Style.DropdownContent}>
