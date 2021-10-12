@@ -31,14 +31,14 @@ export const changeSort = (sortValue, copy)=>{
 
 export const getPokemons = (limit, newPage)=>{
     return async function(dispatch) {
-      return await axios(`http://192.168.1.5:3001/pokemons?limit=${limit}`)
+      return await axios(`http://localhost:3001/pokemons?limit=${limit}`)
       .then(response => dispatch({ type: GET_POKEMONS, pokemons: response.data, newPage: newPage }))
     };
 }
 
 export const getTypes = ()=>{
     return async function(dispatch) {
-        return await axios('http://192.168.1.5:3001/types')
+        return await axios('http://localhost:3001/types')
         .then(response => dispatch({ type: GET_TYPES, pokemonTypes: response.data}))
     };
 }
@@ -53,15 +53,15 @@ export const getTypes = ()=>{
 
 
 export const searchPokemon = (name)=>{
-    if(name){
-        console.log('hola')
+    if(name!=='clear'){
+        
         return async function (dispatch) {
-            return await axios(`http://192.168.1.5:3001/pokemons?name=${name.toLowerCase()}`)
+            return await axios(`http://localhost:3001/pokemons?name=${name.toLowerCase()}`)
             .then(response=>response.data)
             .then(data=>dispatch({type: SEARCH, payload: data})) 
         }
     }else{
-        return {type: SEARCH, payload: []}
+        return {type: SEARCH, payload: 'clear'}
     }
         
     
@@ -71,8 +71,8 @@ export const searchPokemon = (name)=>{
 
 export const postPokemon = (data)=>{
     return async function(dispatch) {
-        return await axios.post('http://192.168.1.5:3001/pokemons', data)
-        .then(response => axios(`http://192.168.1.5:3001/pokemons`))
+        return await axios.post('http://localhost:3001/pokemons', data)
+        .then(response => axios(`http://localhost:3001/pokemons`))
         .then(response => dispatch({ type: POST_POKEMON, pokemons: response.data, newPage: 1 }))
       };
 }

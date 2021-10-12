@@ -25,11 +25,22 @@ export function Create({types, postPokemon, setLoading}){
     })
 
     //ComponentDidMount - Request random pokemon info to extract imgUrl
-    useEffect(()=>{ loadImgUrl() }, [])
+    useEffect(()=>{
+        (async ()=>{
+            let id = Math.floor(Math.random()*152)+1
+            let randomImg =  await axios.get(`http://localhost:3001/pokemons/${id}`)
+
+            setInfo((i)=>{return{
+                ...i,
+                imgUrl: randomImg.data[0].imgUrl
+            }})
+        })()
+         }, [])
+
     const loadImgUrl = async ()=>{
         let id = Math.floor(Math.random()*152)+1
         
-        let randomImg =  await axios.get(`http://192.168.1.5:3001/pokemons/${id}`)
+        let randomImg =  await axios.get(`http://localhost:3001/pokemons/${id}`)
     
         setInfo({
             ...info,
@@ -65,6 +76,29 @@ export function Create({types, postPokemon, setLoading}){
                 [id]: value
             })
         }
+        
+    }
+
+    const handleClick = (event)=>{
+        
+        let value = event.target.value;
+        
+        
+        //Types input. Adds selected types, max. 2 types.
+            if(!info.types.includes(value.toLowerCase()) && info.types.length <2){
+                setInfo({
+                    ...info,
+                    types: [...info.types, value.toLowerCase()]
+                })
+            }else if(info.types.includes(value.toLowerCase())){
+                let filter = info.types.filter(t=>t!==value.toLowerCase())
+                setInfo({
+                    ...info,
+                    types: [...filter]
+                })
+            } 
+            else if(info.types.length === 2){alert("Plase select up to 2 types")}
+         
         
     }
 
@@ -104,25 +138,40 @@ export function Create({types, postPokemon, setLoading}){
                 <label htmlFor="name">Name: </label>
                 <input onChange={(e)=>{handleChange(e)}} type="text" id="name" value={info.name}/>
             </div>
-                
-            <div className={Style.types}>
-                <label htmlFor="types">Types: </label>
-                <select  onChange={(e)=>{handleChange(e)}} id="types" value={info.types}>
-                    <option key={`optionDefault`} value="" ></option>   
+
+            <div class={[Style.types, Style.Dropdown].join(' ')}>
+                <p>Select types </p>
+                        
+
+                    <div className={Style.DropdownContent}>
+                        
+                        {/* <select  onChange={(e)=>{handleChange(e)}} id="types" value={info.types}>
+                            <option key={`optionDefault`} value="" ></option>   
+                            {
+                                types && types.map(t=>{
+                                    return <option key={`option${t.name}`} value={capitalLetter(t.name)}>{capitalLetter(t.name)}</option>
+                                })
+                            }
+                        </select> */}
+                        
                     {
                         types && types.map(t=>{
-                            return <option key={`option${t.name}`} value={capitalLetter(t.name)}>{capitalLetter(t.name)}</option>
+                            return <option onClick={(e)=>{handleClick(e)}} className={[Button[capitalLetter(t.name)], Button.simple].join(' ')} key={`option${t.name}`} value={capitalLetter(t.name)}>{capitalLetter(t.name)}</option>
                         })
                     }
-                </select>
-
-                {
+                        
+                </div> 
+            </div> 
+            <div className={Style.SelectedTypes}>
+            {
                     info.types.map(t=>{
                         t = capitalLetter(t)
-                        return <div className={[Button[t], Button.Div, Style.TypeTag].join(" ")}><span>{t}</span><button onClick={()=>quitType(t)} className={Button.closeButton}>X</button></div>
+                        return <div key={`tag${t}`} className={[Button[t], Button.Div, Style.TypeTag].join(" ")}><span>{t}</span><button onClick={()=>quitType(t)} className={Button.closeButton}>X</button></div>
                     })
                 }
             </div>
+                
+            
             <div className={Style.url}>    
                 <label htmlFor="imgUrl">Img URL: </label>
                 <input  onChange={(e)=>{handleChange(e)}} type="url" id="imgUrl" value={info.imgUrl}/>

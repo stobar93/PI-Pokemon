@@ -16,16 +16,17 @@ function App() {
     <div className="App">
       <Route exact path="/" component={Landing} />
 
-      <Route path="/pokemons" component={NavBar} />
+      <Route path={["/pokemons","/search"]} component={NavBar} />
       <Route exact path="/pokemons" component={Sort} />
       <Route exact path="/pokemons" component={Filter} />
       <Route exact path="/pokemons" component={Pokemons} />
       <Route exact path="/pokemons" component={Pagination} />
 
-      <Route path="/pokemons/search" render={()=><Pokemons isSearch={true}/>} />
+      <Route exact path="/search" render={()=><Pokemons isSearch={true}/>} />
       
       <Route exact path="/pokemons/:id" render={({match,history})=>{
         if(match.params.id === 'create') return <Create />
+
         else {return <Detail id={match.params.id} /> }  
       }} />
       

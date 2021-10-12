@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import Card from "../Card/Card";
 import Loading from "../Loading/Loading";
 
-import Style from "./Pokemons.module.css"
+// import Style from "./Pokemons.module.css"
 import Container from "../Styles/Container.module.css"
 import { setLoading, searchPokemon } from "../../actions";
 
@@ -18,7 +18,7 @@ export function Pokemons({currentPokemons, loading, setLoading, isSearch, curren
     }, [])
 
     const clearSearch = ()=>{
-        searchPokemon()
+        searchPokemon('clear')
         history.push("/pokemons")
     }
 

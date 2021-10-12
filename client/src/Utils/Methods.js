@@ -4,8 +4,31 @@ export const capitalLetter = (str)=>{
 
 export const sortOptions = {
     'ID': (a, b)=>{
-        return a.id-b.id
-    },
+        let A = a.id.toString().slice(-3)
+        let B = b.id.toString().slice(-3)
+        
+        if(A==='-DB' && B==='-DB' ){
+          return a.id.toString().slice(0,-3)-b.id.toString().slice(0,-3)
+        }
+        else if(A==='-DB' && B!=='-DB' ){ return -1 }
+        else if(A!=='-DB' && B==='-DB' ){ return 1 }
+        else{ return a.id-b.id }
+          
+      },
+      'IDd': (a, b)=>{
+        let A = a.id.toString().slice(-3)
+        let B = b.id.toString().slice(-3)
+        
+        if(A==='-DB' && B==='-DB' ){
+          return b.id.toString().slice(0,-3)-a.id.toString().slice(0,-3)
+        } else if(A==='-DB' && B!=='-DB' ){
+          return -1
+        } else if(A!=='-DB' && B==='-DB' ){
+          return 1
+        }else{
+          return b.id-a.id
+        }
+      },
     'AZ': (a, b)=>{
         return a.name.localeCompare(b.name)
     },

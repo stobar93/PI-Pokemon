@@ -85,19 +85,28 @@ export default function reducer (state=initialState, action){
         
         
         case SEARCH:
-            if(action.payload.length === 0){
-                return {
+            if(action.payload !=='clear'){
+                let arr = action.payload.filter(p=>{
+                    return state.search.findIndex(s=>{
+                        return p.id === s.id
+                     }) === -1
+                 })
+
+                 return {
                     ...state,
-                    search: []   
+                    search: [...state.search, ...arr]
+                    
                 }
-            }else{
+            } else {
                 return {
                     ...state,
-                    search: [...state.search, ...action.payload]
+                    search: []
                     
                 }
             }
             
+            
+                
         
         case POST_POKEMON:
             return {

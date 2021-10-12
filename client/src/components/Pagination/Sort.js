@@ -19,7 +19,8 @@ export function Sort ({sort, type, pokemons, changeSort}){
         <>
             <label htmlFor="sortOptions" id="sortInput">Sort by: </label>
             <select value={sort} id="sortOptions" onChange={(e)=>handleSortChange(e)}>
-                <option key="ID" value="ID">ID (Default)</option>
+                <option key="ID" value="ID">ID (Asc.)</option>
+                <option key="IDd" value="IDd">ID (Desc.)</option>
                 <option key="AZ" value="AZ">A - Z</option>
                 <option key="ZA" value="ZA">Z - A</option>
                 <option key="AA" value="AA">Attack (Low to high)</option>

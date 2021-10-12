@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {Img} from "react-image";
-import { connect } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from 'axios';
 
 //Loading fallback components
@@ -30,7 +29,7 @@ export default function Detail ({id}){
 
     //Method to search pokemon details by Id
     const loadDetail = async (id)=>{
-        let pokemonDetail =  await axios(`http://192.168.1.5:3001/pokemons/${id}`)
+        let pokemonDetail =  await axios(`http://localhost:3001/pokemons/${id}`)
         .then(response => response.data[0])
         
         setDetail(pokemonDetail)

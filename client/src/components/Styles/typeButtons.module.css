@@ -74,6 +74,10 @@
     background-color: rgb(54, 27, 71);
    color: whitesmoke;
 }
+.Unknown{
+    background-color: white;
+   color: black;
+}
 
 .buttonType{
     border-radius: 10px;
@@ -84,6 +88,15 @@
     margin-left: 2px;
     margin-right: 2px;
     
+}
+
+.simple{
+    font-size: 1rem;
+}
+
+.simple:hover{
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .Div{
@@ -124,13 +137,18 @@
     box-shadow:2px 2px 5px 0px black;
     background-color: whitesmoke;
     color: rgb(20, 79, 173);
-    margin-inline: auto;
+    
 }
 
 .Submit:hover{
     background-color: rgb(20, 79, 173);
     color: whitesmoke;
     cursor: pointer;
+}
+
+.Submit:active{
+    background-color: rgb(126, 159, 212);
+    color: whitesmoke;
 }
 
 .Important{
@@ -148,4 +166,9 @@
     background-color: rgb(20, 79, 173);
     color: whitesmoke;
     cursor: pointer;
+}
+
+.Important:active{
+    background-color: rgb(126, 159, 212);
+    color: whitesmoke;
 }

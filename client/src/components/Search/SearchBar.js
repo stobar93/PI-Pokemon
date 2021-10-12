@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {connect} from 'react-redux';
-import axios from "axios";
 import {searchPokemon} from '../../actions/index';
 import { useHistory } from "react-router-dom";
 
@@ -23,7 +22,7 @@ export const SearchBar = ({searchPokemon})=>{
             if(name !== ''){
                 
                 await searchPokemon(name)
-                history.push(`/pokemons/search/${name}`)
+                history.push(`/search`)
             } else {
                 alert('Please type a valid name')
             }  
