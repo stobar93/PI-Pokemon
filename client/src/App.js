@@ -26,9 +26,9 @@ function App() {
       
       <Route exact path="/pokemons/:id" render={({match,history})=>{
         if(match.params.id === 'create') return <Create />
-        else {return <Detail id={match.params.id} match={match} history={history} /> }  
+        else {return <Detail id={match.params.id} /> }  
       }} />
-      {/* <Route exact path="/pokemons/search/:name" component={Detail} /> */}
+      
       
     </div>
   );

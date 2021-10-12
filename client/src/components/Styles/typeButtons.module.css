@@ -70,6 +70,10 @@
    background-color: black;
    color: whitesmoke;
 }
+.Shadow{
+    background-color: rgb(54, 27, 71);
+   color: whitesmoke;
+}
 
 .buttonType{
     border-radius: 10px;
@@ -83,29 +87,65 @@
 }
 
 .Div{
-    width: 70px;
+    width: min-content;
     display: flex;
     flex-direction: row;
     height: 80%;
-    border-radius: 10%;
+    border-radius: 20px;
     padding-left: 5px;
     padding-right: 5px;
     margin-left: 10px;
     margin-right: 10px;
     justify-content: space-between;
+    font-size: 1rem;
     
 }
 
 .closeButton{
     border: none;
-    background-color: transparent;
+    background-color: rgba(251, 251, 251, 0.281);
     cursor: pointer;
     border-radius: 50%;
     margin: 2px;
+    color: red
     
 }
 
 .closeButton:hover{
     background-color: rgb(196, 25, 25);
     color: whitesmoke
+}
+
+.Submit{
+    width: 150px;
+    font-size: 1.8rem;
+    border-radius: 20px;
+    border:none;
+    box-shadow:2px 2px 5px 0px black;
+    background-color: whitesmoke;
+    color: rgb(20, 79, 173);
+    margin-inline: auto;
+}
+
+.Submit:hover{
+    background-color: rgb(20, 79, 173);
+    color: whitesmoke;
+    cursor: pointer;
+}
+
+.Important{
+    width: 80px;
+    font-size: 1rem;
+    border-radius: 20px;
+    border:none;
+    box-shadow:2px 2px 5px 0px black;
+    background-color: whitesmoke;
+    color: rgb(20, 79, 173);
+    margin-inline: 10px;
+}
+
+.Important:hover{
+    background-color: rgb(20, 79, 173);
+    color: whitesmoke;
+    cursor: pointer;
 }

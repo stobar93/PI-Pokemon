@@ -1,24 +1,3 @@
-import axios from "axios";
-
-export async function loadNewPokemons (callback, page) {
-    let pokemons
-    if(page){
-        pokemons = await axios.get(`http://localhost:3001/pokemons?page=${page}`);
-    } else{
-        pokemons = await axios.get(`http://localhost:3001/pokemons`);
-    }
-    
-    await callback(pokemons.data)
-    //Callback is used to dispatch data to Redux store
-}
-
-export async function loadTypes (callback) {
-    let types
-        types = await axios.get('http://localhost:3001/types')
-    callback(types.data)
-    //Callback is used to dispatch data to Redux store
-}
-
 export const capitalLetter = (str)=>{
     return str.slice(0,1).toUpperCase() + str.slice(1).toLowerCase()
 }
@@ -40,3 +19,15 @@ export const sortOptions = {
         return b.stats.Attack-a.stats.Attack
     }
 };   
+
+export const isValidHttpUrl = (string)=>{
+    let url;
+    
+    try {
+      url = new URL(string);
+    } catch (_) {
+      return false;  
+    }
+  
+    return url.protocol === "http:" || url.protocol === "https:";
+  }

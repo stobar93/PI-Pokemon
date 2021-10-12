@@ -1,42 +1,48 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect} from "react";
 import {connect} from "react-redux";
 import { useHistory } from "react-router-dom";
-
-import { capitalLetter } from "../../Utils/Methods";
 import axios from "axios";
-import Style from "./Create.module.css"
-import Button from "../Styles/typeButtons.module.css"
+
+//Redux actions
 import { postPokemon, setLoading} from "../../actions";
+import { capitalLetter, isValidHttpUrl } from "../../Utils/Methods";
+
+//Stylesheets
+import Style from "./Create.module.css";
+import Button from "../Styles/typeButtons.module.css";
+import Container from "../Styles/Container.module.css";
+import {img} from '../Card/Card.module.css'
+//Loading fallback components
 import LoadingImg from "../Loading/LoadingImg.js";
 
 export function Create({types, postPokemon, setLoading}){
     
     let history = useHistory();
     const [info, setInfo] = useState({
-        name: '',
-        types: [],
-        imgUrl: '',
-        height: '',
-        weight: '',
-        hp: '',
-        attack: '',
-        defense: '',
-        speed: ''
+        name: '', types: [], imgUrl: '',
+        height: '', weight: '', hp: '',
+        attack: '', defense: '', speed: ''
     })
 
-    useEffect(()=>{
-        loadImgUrl()
-    }, [])
+    //ComponentDidMount - Request random pokemon info to extract imgUrl
+    useEffect(()=>{ loadImgUrl() }, [])
+    const loadImgUrl = async ()=>{
+        let id = Math.floor(Math.random()*152)+1
+        
+        let randomImg =  await axios.get(`http://192.168.1.5:3001/pokemons/${id}`)
+    
+        setInfo({
+            ...info,
+            imgUrl: randomImg.data[0].imgUrl
+        })
+    }
 
-    
-    
     const handleChange = (event)=>{
-        //Validar que solo se ingresen letras
-        //Form controlado
+        
         let value = event.target.value;
         let id = event.target.id
         
-        if(id === 'types' ){
+        if(id === 'types' ){ //Types input. Adds selected types, max. 2 types.
             if(!info.types.includes(value.toLowerCase()) && info.types.length <2){
                 setInfo({
                     ...info,
@@ -45,15 +51,14 @@ export function Create({types, postPokemon, setLoading}){
             } else if(info.types.length === 2){alert("Plase select up to 2 types")}
              
         } else{
-            if(id === 'name'){
-                
+            if(id === 'name'){ //User can only type letters a-z case insensitive
                 value = value.match(/[a-z]/ig) ? capitalLetter(value.match(/[a-z]/ig).join('')) : ""
                 if(value && value.length > 20){
                     alert('Max 20 characters')
                     value = info.name
                 }
-            } else if(id !== 'imgUrl'){
-                value = value.match(/[0-9]/g) ? value.match(/[0-9]/g).join('') : ""
+            } else if(id !== 'imgUrl'){ 
+                value = value.match(/\d/g) ? value.match(/\d/g).join('') : ""
             }
             setInfo({
                 ...info,
@@ -73,43 +78,14 @@ export function Create({types, postPokemon, setLoading}){
         //Pendiente cambiar tipos en el boton close
         
          setInfo({
-            name: '',
-            types: [],
-            imgUrl: '',
-            height: '',
-            weight: '',
-            hp: '',
-            attack: '',
-            defense: '',
+            name: '',   types: [],  imgUrl: '', height: '',
+            weight: '', hp: '',     attack: '', defense: '',
             speed: ''
         })
-        history.push("/pokemons")
+        history.push("/pokemons") //After creating the new pokemon, returns to /pokemons
     }
 
-    const loadImgUrl = async ()=>{
-        let id = Math.floor(Math.random()*152)+1
-        
-        let randomImg =  await axios.get(`http://192.168.1.5:3001/pokemons/${id}`)
-    
-        setInfo({
-            ...info,
-            imgUrl: randomImg.data[0].imgUrl
-        })
-    }
-
-    const isValidHttpUrl = (string)=>{
-        let url;
-        
-        try {
-          url = new URL(string);
-        } catch (_) {
-          return false;  
-        }
-      
-        return url.protocol === "http:" || url.protocol === "https:";
-      }
-    
-    const quitType = (type)=>{
+    const quitType = (type)=>{ //Allows the user to change selected types
         setInfo({
             ...info,
             types: info.types.filter(t=>t!== type.toLowerCase())
@@ -117,46 +93,67 @@ export function Create({types, postPokemon, setLoading}){
     }
 
     return (
-        <div>
-            <h1>Create Pokemon</h1>
-            {/* {info.imgUrl.length !== 0 ? <img id="createImg" className={Style.img} src={info.imgUrl} alt="imgUrl"/> : <Loading/>} */}
-            <div className={Style.imgDiv}>
-            {isValidHttpUrl(info.imgUrl) ? <img id="createImg" className={Style.img} src={info.imgUrl} alt="imgUrl"/> : <LoadingImg/>} 
+        <div className={Container.Detail}>
+            <h1 className={Style.Title}>Create Pokemon</h1>
+            
+            <div className={Container.imgDetail}>
+                {isValidHttpUrl(info.imgUrl) ? <img id="createImg" className={img} src={info.imgUrl} alt="imgUrl"/> : <LoadingImg/>} 
             </div>
             
+            <div className={Style.name}>
                 <label htmlFor="name">Name: </label>
                 <input onChange={(e)=>{handleChange(e)}} type="text" id="name" value={info.name}/>
+            </div>
+                
+            <div className={Style.types}>
                 <label htmlFor="types">Types: </label>
-                <select onChange={(e)=>{handleChange(e)}} id="types" value={info.types}>
-                <option key={`optionDefault`} value="" ></option>   
-                {
-                    types && types.map(t=>{
-                        return <option key={`option${t.name}`} value={capitalLetter(t.name)}>{capitalLetter(t.name)}</option>
-                    })
-                }
+                <select  onChange={(e)=>{handleChange(e)}} id="types" value={info.types}>
+                    <option key={`optionDefault`} value="" ></option>   
+                    {
+                        types && types.map(t=>{
+                            return <option key={`option${t.name}`} value={capitalLetter(t.name)}>{capitalLetter(t.name)}</option>
+                        })
+                    }
                 </select>
+
                 {
                     info.types.map(t=>{
                         t = capitalLetter(t)
-                        return <div className={[Button[t], Button.Div].join(" ")}><span>{t}</span><button onClick={()=>quitType(t)} className={Button.closeButton}>X</button></div>
+                        return <div className={[Button[t], Button.Div, Style.TypeTag].join(" ")}><span>{t}</span><button onClick={()=>quitType(t)} className={Button.closeButton}>X</button></div>
                     })
                 }
+            </div>
+            <div className={Style.url}>    
                 <label htmlFor="imgUrl">Img URL: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="url" id="imgUrl" value={info.imgUrl}/>
-                <button form="null" onClick={(e)=>{loadImgUrl(e)}} id="refreshImg">Refresh</button>
+                <input  onChange={(e)=>{handleChange(e)}} type="url" id="imgUrl" value={info.imgUrl}/>
+                <button form="null" className={Button.Important} onClick={(e)=>{loadImgUrl(e)}} id="refreshImg">Refresh</button>
+            </div>
+            <div className={Style.height}>
                 <label htmlFor="height">Height: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="number" id="height" value={info.height}/>
+                <input onChange={(e)=>{handleChange(e)}} type="text" id="height" value={info.height}/>
+            </div>
+            <div className={Style.weight}>
                 <label htmlFor="weight">Weight: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="number" id="weight" value={info.weight}/>
+                <input onChange={(e)=>{handleChange(e)}} type="text" id="weight" value={info.weight}/>
+            </div>
+            <div className={Style.hp}>
                 <label htmlFor="hp">HP: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="number" id="hp" value={info.hp}/>
+                <input onChange={(e)=>{handleChange(e)}} type="text" id="hp" value={info.hp}/>
+            </div>
+            <div className={Style.attack}>
                 <label htmlFor="attack">Attack: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="number" id="attack" value={info.attack}/>
+                <input onChange={(e)=>{handleChange(e)}} type="text" id="attack" value={info.attack}/>
+            </div>
+            <div className={Style.defense}>
                 <label htmlFor="defense">Defense: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="number" id="defense" value={info.defense}/>
+                <input onChange={(e)=>{handleChange(e)}} type="text" id="defense" value={info.defense}/>
+            </div>
+            <div className={Style.speed}>
                 <label htmlFor="speed">Speed: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="number" id="speed" value={info.speed}/>
-                <button form="null" onClick={(e)=>{handleSubmit(e)}} id="submit">Submit</button>
+                <input onChange={(e)=>{handleChange(e)}} type="text" id="speed" value={info.speed}/>
+            </div>
+            
+                <button className={[Style.submitButton, Button.Submit].join(' ')} form="null" onClick={(e)=>{handleSubmit(e)}} id="submit">Submit</button>  
             
         </div>
     )
