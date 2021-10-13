@@ -163,19 +163,19 @@
     border:none;
     box-shadow:2px 2px 5px 0px black;
     background-color: whitesmoke;
-    color: rgb(20, 79, 173);
+    color: #FF1C1C;
     
 }
 
 .Submit:hover{
-    background-color: rgb(20, 79, 173);
-    color: whitesmoke;
+    background-color: #FF1C1C;
+    color: black;
     cursor: pointer;
 }
 
 .Submit:active{
-    background-color: rgb(126, 159, 212);
-    color: whitesmoke;
+    background-color: black;
+    color: #FF1C1C;
 }
 
 .Important{
@@ -185,17 +185,17 @@
     border:none;
     box-shadow:2px 2px 5px 0px black;
     background-color: whitesmoke;
-    color: rgb(20, 79, 173);
+    color: #FF1C1C;
     margin-inline: 10px;
 }
 
 .Important:hover{
-    background-color: rgb(20, 79, 173);
-    color: whitesmoke;
+    background-color: #FF1C1C;
+    color: black;
     cursor: pointer;
 }
 
 .Important:active{
-    background-color: rgb(126, 159, 212);
-    color: whitesmoke;
+    background-color: black;
+    color: #FF1C1C;
 }

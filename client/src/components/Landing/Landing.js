@@ -35,8 +35,9 @@ useEffect(()=>{
     return pokemons.length===0 ? <div className={Style.Container}><Loading/></div> : (
         <div className={Style.Container}>
             <div className={Style.Landing}>
-                <h1>Pokemon App</h1>
-                <p>Select your type</p>
+            <p>Welcome to</p>
+                <h1 className={Style.H1}>Pokemon App</h1>
+                
                 <div className={Style.buttons}>
                     <FireIcon />
                     <WaterIcon />

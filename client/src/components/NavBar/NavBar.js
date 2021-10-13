@@ -7,7 +7,7 @@ export function NavBar(){
     
     return (
         <div className={Style.NavBar}>
-            <h1>Pokemon App</h1>
+            <Link to="/pokemons"><h1>Pokemon App</h1></Link>
             <Link to="/pokemons">Pokemons</Link>
             <Link to="/pokemons/create">Create</Link>
             <SearchBar/>
