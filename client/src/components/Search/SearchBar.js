@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {connect} from 'react-redux';
 import {searchPokemon} from '../../actions/index';
 import { useHistory } from "react-router-dom";
-
+import Style from './SearchBar.module.css';
 export const SearchBar = ({searchPokemon})=>{
     
     const [name, setName] = useState('');
@@ -38,10 +38,10 @@ export const SearchBar = ({searchPokemon})=>{
     }
 
     return (
-            <form autoComplete="off">
-                <input  onChange={(e)=>handleChange(e)} value={name} type="search" id="searchInput" placeholder="Pokemon name..."/>
+            <form className={Style.form} autoComplete="off">
+                <input className={Style.inputSearch} onChange={(e)=>handleChange(e)} value={name} type="search" id="searchInput" placeholder="Pokemon name..."/>
                 
-                <button type="submit" onClick={(e)=>{handleSubmit(e)}} id="searchSubmit">Search</button>
+                <button className={Style.btn} type="submit" onClick={(e)=>{handleSubmit(e)}} id="searchSubmit">Search</button>
                 
             </form>
     )  

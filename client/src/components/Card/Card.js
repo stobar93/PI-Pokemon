@@ -5,7 +5,7 @@ import { Img } from "react-image";
 //Loading fallback components
 import LoadingImg from "../Loading/LoadingImg";
 import BrokenImg from "../Loading/brokenImg";
-import fallbackPng from "./pokeball.gif"
+// import fallbackPng from "./pokeball.gif"
 
 //Stylesheets
 import Button from "../Styles/typeButtons.module.css";

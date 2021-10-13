@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { sortOptions } from "../../Utils/Methods";
 import { changeSort } from "../../actions";
+import Container from '../Styles/Container.module.css'
 
 export function Sort ({sort, type, pokemons, changeSort}){
  
@@ -16,7 +17,7 @@ export function Sort ({sort, type, pokemons, changeSort}){
     };
 
     return (
-        <>
+        <div className={Container.Dropdown}>
             <label htmlFor="sortOptions" id="sortInput">Sort by: </label>
             <select value={sort} id="sortOptions" onChange={(e)=>handleSortChange(e)}>
                 <option key="ID" value="ID">ID (Asc.)</option>
@@ -26,7 +27,7 @@ export function Sort ({sort, type, pokemons, changeSort}){
                 <option key="AA" value="AA">Attack (Low to high)</option>
                 <option key="AD" value="AD">Attack (High to low)</option>
             </select>
-        </>
+        </div>
     )
 }
 

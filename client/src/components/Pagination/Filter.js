@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import { changeFilter, resetFilters } from "../../actions";
 import Button from "../Styles/typeButtons.module.css"
 import Container from "../Styles/Container.module.css"
+import Sort from './Sort'
+
 export function Filter ({pokemons, sort, filters, changeFilter, types, resetFilters}){
 
     const handleDbChange = (event)=>{
@@ -59,8 +61,8 @@ export function Filter ({pokemons, sort, filters, changeFilter, types, resetFilt
 
     return (
         <div className={Container.Bar}>
-            
-                <label htmlFor="filterType">Filter by:</label>
+            <div className={Container.Dropdown}>
+                <label htmlFor="filterType">Filter by: </label>
                 <select value={filters.type} id="filterType" onChange={(e)=>handleTypeChange(e)}>
                     <option value="All">All</option>
                     {
@@ -71,16 +73,20 @@ export function Filter ({pokemons, sort, filters, changeFilter, types, resetFilt
                     }
                 </select>
                 {filters.type !== 'All' ?  <div className={[Button[filters.type], Button.Div].join(" ")}><span>{`${filters.type} `}</span><button className={[Button.closeButton, Button[filters.type]].join(" ")} onClick={()=>handleQuitFilters('type')}>X</button></div> : null}
-            
-           
-                <label htmlFor="filterDb" id="filterDbInput">Created by: </label>
+                
+            </div>
+            <Sort/>
+           <div className={Container.Dropdown}>
+           <label htmlFor="filterDb" id="filterDbInput">Created by: </label>
                 <select value={filters.db} id="filterDb" onChange={(e)=>handleDbChange(e)}>
                     <option value="All">All</option>
                     <option value="user">User</option>
                     <option value="API">API</option>
                 </select>
                 
-                { filters.db !== 'All' ? <div><span>{`${filters.db} `}</span><button onClick={()=>handleQuitFilters('db')}>X</button></div> : null}
+                { filters.db !== 'All' ? <div className={`${Button.Div} ${Button.CloseDiv}`}><span>{`${filters.db} `}</span><button className={Button.closeButton} onClick={()=>handleQuitFilters('db')}>X</button></div> : null}
+           </div>
+                
             
             
         </div>

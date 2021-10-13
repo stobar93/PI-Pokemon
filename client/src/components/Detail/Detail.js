@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
-import {Img} from "react-image";
+// import {Img} from "react-image";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 
 //Loading fallback components
 import Loading from "../Loading/Loading";
-import LoadingImg from "../Loading/LoadingImg";
-import BrokenImg from "../Loading/brokenImg";
+// import LoadingImg from "../Loading/LoadingImg";
+// import BrokenImg from "../Loading/brokenImg";
 import fallbackGif from "../Card/pokeball.gif"
 
 //Stylesheets
@@ -27,15 +27,23 @@ export default function Detail ({id}){
     let history = useHistory();
 
     //ComponentDidMount - Request pokemon info by Id
-    useEffect(()=>{ loadDetail(id) }, [] ); 
+    useEffect(()=>{ 
+        // loadDetail(id)
+        axios(`http://localhost:3001/pokemons/${id}`)
+        .then(response => response.data[0])
+        .then(data=>setDetail(data))
+        
+         
+    
+    }, [id] ); 
 
     //Method to search pokemon details by Id
-    const loadDetail = async (id)=>{
-        let pokemonDetail =  await axios(`http://localhost:3001/pokemons/${id}`)
-        .then(response => response.data[0])
+    // const loadDetail = async (id)=>{
+    //     let pokemonDetail =  await axios(`http://localhost:3001/pokemons/${id}`)
+    //     .then(response => response.data[0])
         
-        setDetail(pokemonDetail)
-    }
+    //     setDetail(pokemonDetail)
+    // }
     
     //Handle 'close' button. Return to previous page
     const handleClick =()=>{

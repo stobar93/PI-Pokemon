@@ -124,6 +124,23 @@
     
 }
 
+.CloseDiv{
+    width: min-content;
+    display: flex;
+    flex-direction: row;
+    height: 80%;
+    background-color: rgba(251, 251, 251);
+    border: solid 1px lightgray;
+    border-radius: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    justify-content: space-between;
+    font-size: 1rem;
+    color: black;
+    
+}
 .closeButton{
     border: none;
     background-color: rgba(251, 251, 251, 0.281);

@@ -15,7 +15,7 @@ export function Pokemons({currentPokemons, loading, setLoading, isSearch, curren
     
     useEffect(()=>{
         if(currentPokemons.length === 0) history.push("/")
-    }, [])
+    }, [currentPokemons, history])//Warning ([])
 
     const clearSearch = ()=>{
         searchPokemon('clear')

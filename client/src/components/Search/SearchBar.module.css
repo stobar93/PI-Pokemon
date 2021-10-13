@@ -1,0 +1,28 @@
+.btn{
+    background-color: black;
+    color: white;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    border: 0px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    height: 70%;
+    font-size: 1rem;
+}
+
+.btn:hover{
+    cursor: pointer;
+    border: none;
+    color: black;
+    background-color: #FF1C1C;
+}
+
+
+.inputSearch{
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: none;
+    height: 70%;
+    font-size: 1rem;
+    padding-left: 5px;
+}

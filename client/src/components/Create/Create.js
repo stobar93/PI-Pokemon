@@ -14,8 +14,9 @@ import Container from "../Styles/Container.module.css";
 import {img} from '../Card/Card.module.css'
 //Loading fallback components
 import LoadingImg from "../Loading/LoadingImg.js";
+import Loading from "../Loading/Loading";
 
-export function Create({types, postPokemon, setLoading}){
+export function Create({types, postPokemon, setLoading, isLoading}){
     
     let history = useHistory();
     const [info, setInfo] = useState({
@@ -149,6 +150,7 @@ export function Create({types, postPokemon, setLoading}){
                     weight: '', hp: '',     attack: '', defense: '',
                     speed: ''
                 })
+                setLoading(false)
                 history.push("/pokemons") //After creating the new pokemon, returns to /pokemons
             }
             
@@ -190,7 +192,7 @@ export function Create({types, postPokemon, setLoading}){
         })
     }
 
-    return (
+    return !isLoading ? (
         
         <div className={Container.Detail}>
             
@@ -209,7 +211,7 @@ export function Create({types, postPokemon, setLoading}){
                 <label className={Style.alertLabel} htmlFor="name" id="alertname"></label>
             </div>
 
-            <div class={[Style.types, Style.Dropdown].join(' ')}>
+            <div className={[Style.types, Style.Dropdown].join(' ')}>
                 <p tabIndex="2">Select types &darr;</p>
                         
 
@@ -299,12 +301,13 @@ export function Create({types, postPokemon, setLoading}){
                 <button tabIndex="11" className={[Style.submitButton, Button.Submit].join(' ')} form="null" onClick={(e)=>{handleSubmit(e)}} id="submit">Submit</button>  
            
         </div>
-    )
+    ) : <Loading/>
 }
 
 const mapStateToProps = (state)=>{
     return {
         types: state.types,
+        isLoading: state.loading
     }
 }
 

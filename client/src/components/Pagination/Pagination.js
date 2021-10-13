@@ -4,6 +4,7 @@ import React from "react";
 import {connect} from 'react-redux';
 import { changePage, getPokemons, changeSort, setLoading } from "../../actions";
 import {Button, activePage, Start, End, hiddenButton, Prev, Next, Pages, Pag} from "./Pagination.module.css"
+import {PagContainer} from '../Styles/Container.module.css'; 
 
 export function Pagination({pages, page,  type,  
                             changePage, getPokemons, setLoading, pokemons}){
@@ -39,6 +40,7 @@ export function Pagination({pages, page,  type,
 
     
     return (
+        <div className={PagContainer}>
         <div className={Pag}>
             <button key={`buttonStart`} className={[page===1 ? activePage : Start, Button].join(' ')} onClick={(e)=>handleClick(e)} value="1">1</button>
             <button key="prev" id="prev" className={[Prev, Button].join(' ')} onClick={(e)=>handleClick(e)} value='<Prev'>{`<<`}</button>
@@ -53,7 +55,7 @@ export function Pagination({pages, page,  type,
             <button key="next" id="next" className={[Next,Button].join(' ')} onClick={(e)=>handleClick(e)} value='Next>'>{`>>`}</button>
             <button key={`buttonEnd`} className={[page===pages[pages.length-1] ? activePage : End, Button].join(' ')} onClick={(e)=>handleClick(e)} value={pages[pages.length-1]}>{pages[pages.length-1]}</button>
         </div>
-           
+         </div>  
     ) 
         }
 

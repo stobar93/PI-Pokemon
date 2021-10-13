@@ -10,6 +10,7 @@ import FireIcon from './img/fire.js'
 import WaterIcon from './img/water.js'
 import LeafIcon from './img/leaf.js'
 import Style from "./Landing.module.css"
+import Button from '../Styles/typeButtons.module.css'
 
 export function Landing ({pokemons, getPokemons, getTypes, changePage, setLoading}){
 
@@ -20,15 +21,16 @@ useEffect(()=>{
        //Get Types on app start
     getTypes()
 
-},[]);
+},[getPokemons, getTypes]);
 
 //ComponentWillUnmount
 useEffect(()=>{
     return ()=>{
-        changePage(1)
         setLoading(false)
+        changePage(1)
+        
     }
-})
+}, [])
 
     return pokemons.length===0 ? <div className={Style.Container}><Loading/></div> : (
         <div className={Style.Container}>
@@ -40,7 +42,7 @@ useEffect(()=>{
                     <WaterIcon />
                     <LeafIcon />            
                 </div>
-                <Link to="/pokemons"><button>Start!</button></Link>
+                <Link to="/pokemons"><button className={Button.Submit}>Start!</button></Link>
             </div>
         </div>
     )
