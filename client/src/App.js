@@ -8,7 +8,7 @@ import Landing from './components/Landing/Landing';
 import Create from './components/Create/Create';
 import Pagination from './components/Pagination/Pagination';
 import Filter from './components/Pagination/Filter'
-import Sort from './components/Pagination/Sort'
+
 
 function App() {
   return (

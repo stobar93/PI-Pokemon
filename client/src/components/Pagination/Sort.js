@@ -26,6 +26,7 @@ export function Sort ({sort, type, pokemons, changeSort}){
                 <option key="ZA" value="ZA">Z - A</option>
                 <option key="AA" value="AA">Attack (Low to high)</option>
                 <option key="AD" value="AD">Attack (High to low)</option>
+                <option key="length" value="length">Length</option>
             </select>
         </div>
     )

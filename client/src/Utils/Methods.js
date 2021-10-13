@@ -40,6 +40,11 @@ export const sortOptions = {
     },
     'AD':(a, b)=>{
         return b.stats.Attack-a.stats.Attack
+    },
+    'length': (a,b)=>{
+      let A = a.name.length
+      let B = b.name.length
+      return -A+B
     }
 };   
 
