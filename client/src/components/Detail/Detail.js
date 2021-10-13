@@ -7,6 +7,7 @@ import axios from 'axios';
 import Loading from "../Loading/Loading";
 import LoadingImg from "../Loading/LoadingImg";
 import BrokenImg from "../Loading/brokenImg";
+import fallbackGif from "../Card/pokeball.gif"
 
 //Stylesheets
 import typeButtons from '../Styles/typeButtons.module.css';
@@ -52,7 +53,8 @@ export default function Detail ({id}){
             <h1 className={Style.Title}>{detail.name}</h1>
             <div className={Container.imgDetail}>
                 {/* Img component from react-image library to load fallback images */}
-                <Img className={img} src={detail.imgUrl} unloader={<BrokenImg/>} loader={<LoadingImg/>} alt={detail.name}/>
+                {/* <Img className={img} src={detail.imgUrl} unloader={<BrokenImg/>} loader={<LoadingImg/>} alt={detail.name}/> */}
+                <img className={img} src={detail.imgUrl || fallbackGif }  alt={detail.name}/>
             </div>
                
             {

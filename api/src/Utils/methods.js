@@ -59,7 +59,7 @@ const getPokemonByIdDB = async (idDb, pokemon, type)=>{
     try{
         
         const pokemonDB = await pokemon.findOne({ where: { id: idDb } , include: type})
-        console.log(pokemonDB)
+        
         let {id, name, hp, attack, defense, speed, height, weight, imgUrl, types} = pokemonDB.dataValues
         
         return [{
@@ -87,7 +87,7 @@ const getPokemonByIdDB = async (idDb, pokemon, type)=>{
  const responseShort = (pokemon, length)=>{   
     let {name, id, height, weight, stats, types, imgUrl} = pokemon;
     
-    imgUrl = imgUrl || pokemon.sprites.other["official-artwork"].front_default|| pokemon.sprites.other.dream_world.front_default;
+    imgUrl = imgUrl || pokemon.sprites.other.dream_world.front_default || pokemon.sprites.other["official-artwork"].front_default;
     
     stats = stats.map(s=>{
         return {

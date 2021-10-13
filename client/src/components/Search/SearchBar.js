@@ -21,7 +21,10 @@ export const SearchBar = ({searchPokemon})=>{
         try{
             if(name !== ''){
                 
-                await searchPokemon(name)
+                let searchResult = await searchPokemon(name)
+                if(searchResult.length === 0){
+                    alert(`${name} not found`)
+                } console.log(searchResult)
                 history.push(`/search`)
             } else {
                 alert('Please type a valid name')

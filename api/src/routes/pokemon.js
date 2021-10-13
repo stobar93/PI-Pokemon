@@ -12,13 +12,10 @@ const {getApiInfo, getPokemonsInfo, getPokemonByNameAPI,
 // - GET https://pokeapi.co/api/v2/pokemon/{name}
 // - GET https://pokeapi.co/api/v2/type
 
-
-
     
 router.get('/', async (req,res)=>{
     let pokemon = [];
     let pokemonDB = [];
-    let pokemonAPI = [];
 
     //This route attends 2 types of search
     //1. By Name
@@ -102,7 +99,7 @@ router.get('/:id', async (req,res)=>{
                 let pokemonDB = await getPokemonByIdDB(id, Pokemon, Type)
                 
                 let pokemon = pokemonDB.length>0 ? pokemonDB : pokemonAPI
-                console.log(pokemon)
+                
                 res.status(200).json(pokemon)
             // } else {res.status(400).send('ID must be a number')}
            
@@ -115,7 +112,8 @@ router.post('/', async (req, res)=>{
     const {name, hp, attack, defense, speed, height, weight, types, imgUrl} = req.body;
     
     // res.send({recibido: true, ...req.body});
-    const [pokemon, created] = await Pokemon.findOrCreate({
+    try{
+        const [pokemon, created] = await Pokemon.findOrCreate({
         where: {
           name: capitalLetter(name),hp, attack, defense, speed, height, weight, imgUrl
         },
@@ -124,7 +122,11 @@ router.post('/', async (req, res)=>{
     
       await pokemon.addType(types)
 
-      res.status(200).send(pokemon);
+      res.status(200).send(pokemon)
+    }catch(e){
+        res.status(400).send('failed')
+    }
+
 })
 
 

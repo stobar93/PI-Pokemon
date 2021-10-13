@@ -119,19 +119,68 @@ export function Create({types, postPokemon, setLoading}){
 
     const handleSubmit = async (event)=>{
         event.preventDefault()
-        setLoading(true)
-        postPokemon(info)
+
+        // let {name, types,  imgUrl, height, weight, hp, attack, defense,
+        //     speed } = info;
+        let emptyFields = []
+        for(let field in info){
+            if(info[field] === '' || info[field].length === 0){
+                emptyFields.push(field)
+            }
+        }
+
+        if(emptyFields.length>0){
+            let message = '';
+            for(let i=0; i<emptyFields.length; i++){
+                message = message + emptyFields[i] + ', '
+            };
+            message = `All fields required. Missing values: ${message}`;
+            
+            alert(message);
+        } else{
+            setLoading(true)
+            let createdPokemon = await postPokemon(info)
+            
+            if(createdPokemon === 'failed'){
+                alert("Pokemon already exists. Please change your pokemon's name")
+            } else{
+                setInfo({
+                    name: '',   types: [],  imgUrl: '', height: '',
+                    weight: '', hp: '',     attack: '', defense: '',
+                    speed: ''
+                })
+                history.push("/pokemons") //After creating the new pokemon, returns to /pokemons
+            }
+            
+        }
+            
+        
+
+
+        
 
         //Pendiente validar que todos los campos esten completos
         //Poner la primera en mayuscula al nombre
         //Pendiente cambiar tipos en el boton close
         
-         setInfo({
-            name: '',   types: [],  imgUrl: '', height: '',
-            weight: '', hp: '',     attack: '', defense: '',
-            speed: ''
-        })
-        history.push("/pokemons") //After creating the new pokemon, returns to /pokemons
+         
+    }
+
+    const handleOnBlur = async (event)=>{
+        
+        let id = event.target.id;
+
+        if(info[id] === ''){
+            document.getElementById(id).className = Style.invalidInput
+            document.getElementById(`alert${id}`).innerHTML = 'Required field'
+        } else if( info[id] === '0'){
+            document.getElementById(id).className = Style.invalidInput
+            document.getElementById(`alert${id}`).innerHTML = 'Please type a number greater than 0'
+        }
+         else {
+            document.getElementById(id).className = Style.validInput
+            document.getElementById(`alert${id}`).innerHTML = ''
+        }
     }
 
     const quitType = (type)=>{ //Allows the user to change selected types
@@ -142,7 +191,9 @@ export function Create({types, postPokemon, setLoading}){
     }
 
     return (
+        
         <div className={Container.Detail}>
+            
             <h1 className={Style.Title}>Create Pokemon</h1>
             
             <div className={Container.imgDetail}>
@@ -150,12 +201,16 @@ export function Create({types, postPokemon, setLoading}){
             </div>
             
             <div className={Style.name}>
+                <div>
                 <label htmlFor="name">Name: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="text" id="name" value={info.name}/>
+                <input tabIndex="1" autoComplete="off" onChange={(e)=>{handleChange(e)}} onBlur={(e)=>handleOnBlur(e) } type="text" id="name" value={info.name}/>
+                </div>
+                
+                <label className={Style.alertLabel} htmlFor="name" id="alertname"></label>
             </div>
 
             <div class={[Style.types, Style.Dropdown].join(' ')}>
-                <p>Select types &darr;</p>
+                <p tabIndex="2">Select types &darr;</p>
                         
 
                     <div className={Style.DropdownContent}>
@@ -189,36 +244,60 @@ export function Create({types, postPokemon, setLoading}){
             
             <div className={Style.url}>    
                 <label htmlFor="imgUrl">Img URL: </label>
-                <input  onChange={(e)=>{handleChange(e)}} type="url" id="imgUrl" value={info.imgUrl}/>
-                <button form="null" className={Button.Important} onClick={(e)=>{loadImgUrl(e)}} id="refreshImg">Refresh</button>
+                <input tabIndex="9" autoComplete="off"  onChange={(e)=>{handleChange(e)}} type="url" id="imgUrl" value={info.imgUrl}/>
+                <button tabIndex="10" form="null" className={Button.Important} onClick={(e)=>{loadImgUrl(e)}} id="refreshImg">Refresh</button>
             </div>
             <div className={Style.height}>
-                <label htmlFor="height">Height: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="text" id="height" value={info.height}/>
+                <div>
+                    <label htmlFor="height">Height: </label>
+                    <input tabIndex="3" autoComplete="off" onChange={(e)=>{handleChange(e)}} onBlur={(e)=>handleOnBlur(e)} type="text" id="height" value={info.height}/>
+                </div>
+                
+                <label className={Style.alertLabel} htmlFor="name" id="alertheight"></label>
             </div>
             <div className={Style.weight}>
-                <label htmlFor="weight">Weight: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="text" id="weight" value={info.weight}/>
+                <div>
+                    <label htmlFor="weight">Weight: </label>
+                    <input tabIndex="4" autoComplete="off" onChange={(e)=>{handleChange(e)}} onBlur={(e)=>handleOnBlur(e)} type="text" id="weight" value={info.weight}/>
+                </div>
+                
+                <label className={Style.alertLabel} htmlFor="name" id="alertweight"></label>
             </div>
             <div className={Style.hp}>
-                <label htmlFor="hp">HP: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="text" id="hp" value={info.hp}/>
+                <div>
+                    <label htmlFor="hp">HP: </label>
+                    <input tabIndex="5" autoComplete="off" onChange={(e)=>{handleChange(e)}} onBlur={(e)=>handleOnBlur(e)} type="text" id="hp" value={info.hp}/>
+                </div>
+                
+                <label className={Style.alertLabel} htmlFor="name" id="alerthp"></label>
             </div>
             <div className={Style.attack}>
-                <label htmlFor="attack">Attack: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="text" id="attack" value={info.attack}/>
+                <div>
+                    <label htmlFor="attack">Attack: </label>
+                    <input tabIndex="6" autoComplete="off" onChange={(e)=>{handleChange(e)}} onBlur={(e)=>handleOnBlur(e)} type="text" id="attack" value={info.attack}/>
+                </div>
+                
+                <label className={Style.alertLabel} htmlFor="name" id="alertattack"></label>
             </div>
             <div className={Style.defense}>
-                <label htmlFor="defense">Defense: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="text" id="defense" value={info.defense}/>
+                <div>
+                    <label htmlFor="defense">Defense: </label>
+                    <input tabIndex="7" autoComplete="off" onChange={(e)=>{handleChange(e)}} onBlur={(e)=>handleOnBlur(e)} type="text" id="defense" value={info.defense}/>
+                </div>
+                
+                <label className={Style.alertLabel} htmlFor="name" id="alertdefense"></label>
             </div>
             <div className={Style.speed}>
-                <label htmlFor="speed">Speed: </label>
-                <input onChange={(e)=>{handleChange(e)}} type="text" id="speed" value={info.speed}/>
+                <div>
+                    <label htmlFor="speed">Speed: </label>
+                    <input tabIndex="8" autoComplete="off" onChange={(e)=>{handleChange(e)}} onBlur={(e)=>handleOnBlur(e)} type="text" id="speed" value={info.speed}/>
+                </div>
+                
+                <label className={Style.alertLabel} htmlFor="name" id="alertspeed"></label>
             </div>
             
-                <button className={[Style.submitButton, Button.Submit].join(' ')} form="null" onClick={(e)=>{handleSubmit(e)}} id="submit">Submit</button>  
-            
+                <button tabIndex="11" className={[Style.submitButton, Button.Submit].join(' ')} form="null" onClick={(e)=>{handleSubmit(e)}} id="submit">Submit</button>  
+           
         </div>
     )
 }

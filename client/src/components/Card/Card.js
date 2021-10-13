@@ -5,6 +5,7 @@ import { Img } from "react-image";
 //Loading fallback components
 import LoadingImg from "../Loading/LoadingImg";
 import BrokenImg from "../Loading/brokenImg";
+import fallbackPng from "./pokeball.gif"
 
 //Stylesheets
 import Button from "../Styles/typeButtons.module.css";
@@ -23,6 +24,9 @@ export default function Card({name, id, img, types}){
                         <Img id={`pokemonsImg${id}`} className={Style.img} 
                             src={img} loader={<LoadingImg/>} unloader={<BrokenImg/>}
                             alt={name} />
+                        {/* <img id={`pokemonsImg${id}`} className={Style.img} 
+                            src={img || fallbackPng} 
+                            alt={name} /> */}
                     </div>
             </Link>
             <h3>{name}</h3>

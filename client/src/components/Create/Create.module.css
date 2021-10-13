@@ -27,7 +27,8 @@ p{
 }
 
 .name{
-    
+    display:flex;
+    flex-direction: column;
     grid-column: 2/5;
     grid-row: 2/3; 
 }
@@ -40,26 +41,38 @@ p{
 }
 
 .height{
+    display:flex;
+    flex-direction: column;
     grid-column: 2/5;
     grid-row: 4/5;
 }
 .weight{
+    display:flex;
+    flex-direction: column;
     grid-column: 2/5;
     grid-row: 5/6;
 }
 .hp{
+    display:flex;
+    flex-direction: column;
     grid-column: 2/5;
     grid-row: 6/7;
 }
 .attack{
+    display:flex;
+    flex-direction: column;
     grid-column: 5/8;
     grid-row: 4/5;
 }
 .defense{
+    display:flex;
+    flex-direction: column;
     grid-column: 5/8;
     grid-row: 5/6;
 }
 .speed{
+    display:flex;
+    flex-direction: column;
     grid-column: 5/8;
     grid-row: 6/7;
 }
@@ -110,9 +123,24 @@ input{
         gap: 2px;
         }
 
-    .Dropdown:active .DropdownContent {
+    /* .Dropdown:checked .DropdownContent {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 2px;
             
-            }
+            } */
+    
+.invalidInput{
+    border: solid 2px red;
+}
+
+.validInput{
+    border: solid 2px green;
+}
+
+.alertLabel{
+    
+    font-size: 0.7rem;
+    color: red;
+
+}

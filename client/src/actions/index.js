@@ -58,7 +58,11 @@ export const searchPokemon = (name)=>{
         return async function (dispatch) {
             return await axios(`http://localhost:3001/pokemons?name=${name.toLowerCase()}`)
             .then(response=>response.data)
-            .then(data=>dispatch({type: SEARCH, payload: data})) 
+            .then(data=>{
+                    dispatch({type: SEARCH, payload: data})
+                    return data
+                }
+            ) 
         }
     }else{
         return {type: SEARCH, payload: 'clear'}
@@ -69,12 +73,25 @@ export const searchPokemon = (name)=>{
 }
 
 
+// export const postPokemon = (data)=>{
+//     return async function(dispatch) {
+//         return await axios.post('http://localhost:3001/pokemons', data)
+//         .then(response => axios(`http://localhost:3001/pokemons`))
+//         .then(response => dispatch({ type: POST_POKEMON, pokemons: response.data, newPage: 1 }))
+//       };
+// }
 export const postPokemon = (data)=>{
-    return async function(dispatch) {
-        return await axios.post('http://localhost:3001/pokemons', data)
-        .then(response => axios(`http://localhost:3001/pokemons`))
-        .then(response => dispatch({ type: POST_POKEMON, pokemons: response.data, newPage: 1 }))
-      };
+return async function(dispatch) {
+    return await axios.post('http://localhost:3001/pokemons', data)
+    .then(response => {
+        if(response.status === 400){throw Error}
+        else{return axios(`http://localhost:3001/pokemons`)}
+        
+    }).then(response => {
+        dispatch({ type: POST_POKEMON, pokemons: response.data, newPage: 1 })
+    })
+    .catch(e=>{return 'failed'})
+  };
 }
 
 export const setLoading =(loading)=>{
