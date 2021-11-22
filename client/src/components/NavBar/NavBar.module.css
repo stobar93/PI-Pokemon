@@ -6,6 +6,14 @@
     
     height: 50px;
     background-color: #FF1C1C;
+    
+}
+
+.StickyBar{
+    position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .NavBar a h1{
@@ -28,4 +36,16 @@
 
 .NavBar a h1:hover{
     color: black;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .HideNavBar {
+        display: none;
+    }
+
+    .NavBar{
+        justify-content: space-between;
+    }
 }

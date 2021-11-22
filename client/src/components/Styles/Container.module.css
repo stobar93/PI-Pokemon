@@ -2,13 +2,18 @@
     --card-width: 250px
 }
 
+
+
 .PagContainer{
     border-top: lightgrey solid 1px;
     border-bottom: lightgrey solid 1px;
     margin-top: 10px;
     padding-top: 2px;
     padding-bottom: 2px;
-    
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
 }
 
 .Bar{
@@ -23,6 +28,8 @@
     padding-top: 5px;
     padding-bottom: 5px;
     background-color: black;
+    position: relative;
+    
 }
 
 .Cards{
@@ -106,6 +113,15 @@
 @media screen and (min-width: 485px) {
     .Card{
         --card-width: 210px;
+    }
+    
+}
+
+@media screen and (max-width: 485px) {
+    .Bar{
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        padding: 5px 10px;
     }
 }
 

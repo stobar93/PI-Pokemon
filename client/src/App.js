@@ -7,7 +7,7 @@ import Detail from './components/Detail/Detail';
 import Landing from './components/Landing/Landing';
 import Create from './components/Create/Create';
 import Pagination from './components/Pagination/Pagination';
-import Filter from './components/Pagination/Filter'
+
 
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
     <div className="App">
       <Route exact path="/" component={Landing} />
       <Route path={["/pokemons","/search"]} component={NavBar} />
-      <Route exact path="/pokemons" component={Filter} />
+      {/* <Route exact path="/pokemons" component={Filter} /> */}
       <Route exact path="/pokemons" component={Pokemons} />
       <Route exact path="/pokemons" component={Pagination} />
 
