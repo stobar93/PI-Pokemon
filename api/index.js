@@ -17,15 +17,17 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const { default: axios } = require('axios');
-const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
+const { default: axios } = require("axios");
+const server = require("./src/app.js");
+const { conn } = require("./src/db.js");
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
-  server.listen(3001, () => {
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
+  server.listen(process.env.PORT || 3001, () => {
+    console.log(
+      `%s listening at ${process.env.PORT ? process.env.PORT : 3001} `
+    ); // eslint-disable-line no-console
   });
   //Get Types on server start
-  axios.get('http://localhost:3001/types')
+  axios.get("http://localhost:3001/types");
 });
