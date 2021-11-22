@@ -21,6 +21,10 @@ const { default: axios } = require("axios");
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
 
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "production"
+    ? "https://poke-app-stobar93.herokuapp.com"
+    : "http://localhost:3001";
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
   server.listen(process.env.PORT || 3001, () => {
