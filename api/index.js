@@ -33,5 +33,5 @@ conn.sync({ force: true }).then(() => {
     ); // eslint-disable-line no-console
   });
   //Get Types on server start
-  axios.get("http://localhost:3001/types");
+  axios.get("/types");
 });
