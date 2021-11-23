@@ -218,6 +218,23 @@
 
 .Link{
   text-decoration: none;
+  margin: 0px;
+}
+
+
+@media screen and (max-width: 350px) {
+  
+  .PagHide{
+    display: none;
+  }
+  .Card{
+    width: 95%;
+    margin-inline: 0px;
+    
+}
+.Cards{
+  justify-content: center;
+}
   
 }
 
@@ -226,6 +243,7 @@
     .Card{
         --card-width: 320px;
     }
+    
 }
 
 @media screen and (min-width: 485px) {

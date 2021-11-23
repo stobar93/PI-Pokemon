@@ -53,3 +53,11 @@
     
     
 }
+
+@media screen and (max-width: 350px) {
+  
+    .Pag{
+      display: inline-flex;
+      justify-content: center;
+    }
+  }

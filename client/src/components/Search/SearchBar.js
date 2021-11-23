@@ -41,7 +41,7 @@ export const SearchBar = ({searchPokemon})=>{
     }
 
     return (
-            <form className={Style.form} autoComplete="off">
+            <form className={Style.Form} autoComplete="off">
                 <input className={Style.inputSearch} onChange={(e)=>handleChange(e)} value={name} type="search" id="searchInput" placeholder="Pokemon name..."/>
                 
                 <button className={Style.btn} type="submit" onClick={(e)=>{handleSubmit(e)}} id="searchSubmit">Search</button>
