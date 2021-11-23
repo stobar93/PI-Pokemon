@@ -1,3 +1,9 @@
+:root{
+    --select-border: #777;
+  --select-focus: blue;
+  --select-arrow: var(--select-border);
+}
+
 .Ground{
     background-color: #AD7B49;
     color: white ;
@@ -199,3 +205,33 @@
     background-color: black;
     color: #FF1C1C;
 }
+
+.SimpleLabel{
+    margin: 0px 3px;
+    font-size: 1rem;
+    line-height: 1.6;
+    display:inline-flex;
+    color: rgb(90, 90, 90);
+}
+
+.Select{
+    
+    color: rgb(90, 90, 90);
+    width: min-content;
+  min-width: 5ch;
+  max-width: 20ch;
+  border: 1px solid var(--select-border);
+  border-radius: 0.25em;
+  padding: 0.25em 0.2em;
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1.1;
+  background-color: rgba(0, 0, 0, 0); 
+   background-image: linear-gradient(to top, #222222, rgb(0, 0, 0) 33%); 
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+}
+
+
+

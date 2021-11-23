@@ -91,8 +91,9 @@ export function Filter({
       <Sort />
 
       <div className={Container.Dropdown}>
-        <label htmlFor="filterType">{`Type: `}</label>
+        <label className={Button.SimpleLabel} htmlFor="filterType">{`Type: `}</label>
         <select
+          className={Button.Select}
           value={filters.type}
           id="filterType"
           onChange={(e) => handleTypeChange(e)}
@@ -122,10 +123,11 @@ export function Filter({
       </div>
       
       <div className={Container.Dropdown}>
-        <label htmlFor="filterDb" id="filterDbInput">
+        <label className={Button.SimpleLabel} htmlFor="filterDb" id="filterDbInput">
           Created by:{" "}
         </label>
         <select
+        className={Button.Select}
           value={filters.db}
           id="filterDb"
           onChange={(e) => handleDbChange(e)}

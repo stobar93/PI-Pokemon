@@ -10,7 +10,7 @@ export function NavBar() {
     <div className={Style.StickyBar}>
     <div className={Style.NavBar}>
       <Link to="/pokemons">
-        <h1>Pokemon App</h1>
+        <h1>Poke App</h1>
       </Link>
       
       

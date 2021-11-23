@@ -14,6 +14,7 @@
     position: sticky;
     bottom: 0;
     z-index: 1;
+    background-color: lightgrey;
 }
 
 .Bar{
@@ -21,6 +22,7 @@
     height: max-content;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-evenly;
    
     /* border-top: lightgrey solid 1px;
@@ -97,12 +99,17 @@
 
 .Dropdown{
     justify-content: center; 
-    display: flex;
+    display: inline-flex;
     flex-direction: row;  
     padding: 0px;
     height: 100%;
     color: white;
+    margin: 2px 5px;
+    
+  
 }
+
+
 
 @media screen and (min-width: 320px) {
     .Card{
@@ -119,10 +126,13 @@
 
 @media screen and (max-width: 485px) {
     .Bar{
-        flex-wrap: wrap;
+        
         justify-content: flex-end;
         padding: 5px 10px;
     }
+    
+    
+    
 }
 
 @media screen and (min-width: 850px) {
