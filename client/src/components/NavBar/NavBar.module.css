@@ -1,3 +1,24 @@
+@-webkit-keyframes slide-down {
+    0% {
+      -webkit-transform: translateY(-100px);
+              transform: translateY(-100px);
+    }
+    100% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+    }
+  }
+  @keyframes slide-down  {
+    0% {
+      -webkit-transform: translateY(-100px);
+              transform: translateY(-100px);
+    }
+    100% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+    }
+  }
+
 .NavBar{
     display: flex;
     flex-direction: row;
@@ -7,7 +28,10 @@
     height: 50px;
     background-color: #FF1C1C;
     padding-inline: 10px;
+    -webkit-animation: slide-down 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-down 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
+
 
 .StickyBar{
     position: -webkit-sticky; /* Safari */

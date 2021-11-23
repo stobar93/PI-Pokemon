@@ -1,27 +1,56 @@
+:root{
+  --input-border: rgb(255, 255, 255);
+--input-focus: rgb(0, 0, 0);
+--input-arrow: var(--input-border);
+}
+
 .btn {
-  background-color: black;
-  color: white;
+  background-color: transparent;
+  color: var(--input-border);
   margin-top: 10px;
   margin-bottom: 8px;
-  border: 0px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border: 1px solid var(--input-border);
+  border-top-right-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
   height: 70%;
   font-size: 1rem;
 }
 
 .btn:hover {
   cursor: pointer;
-  border: none;
-  color: black;
-  background-color: #ff1c1c;
+  border: 1px solid var(--input-border);
+  color: var(--input-border);
+  background-color: var(--input-focus);
 }
 
 .inputSearch {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border: none;
+  border-top-left-radius: 0.5em;
+  border-bottom-left-radius: 0.5em;
+  border: 1px solid var(--input-border);
   height: 70%;
   font-size: 1rem;
   padding-left: 5px;
+  background: transparent;
+  color: var(--input-border)
+
+
+  /* color: rgb(90, 90, 90);
+    width: min-content;
+  min-width: 5ch;
+  max-width: 20ch;
+  border: 1px solid var(--select-border);
+  border-radius: 0.25em;
+  padding: 0.25em 0.2em;
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1.1;
+  background-color: rgba(0, 0, 0, 0); 
+   background-image: linear-gradient(to top, #222222, rgb(0, 0, 0) 33%); 
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap; */
+}
+
+.inputSearch::placeholder{
+  color: var(--input-border)
 }

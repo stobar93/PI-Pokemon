@@ -15,11 +15,12 @@ import Container from "../Styles/Container.module.css"
 export default function Card({name, id, img, types}){
     
     return (
+        <Link className={Container.Link} to={`/pokemons/${id}`}>
         <div className={Container.Card}>
             <span className={Style.span}>{id}</span>
 
             {/*Link to Detail component. id <-- params*/}
-            <Link to={`/pokemons/${id}`}>
+            
                     <div className={Container.imgContainer}>
                         <Img id={`pokemonsImg${id}`} className={Style.img} 
                             src={img} loader={<LoadingImg/>} unloader={<BrokenImg/>}
@@ -28,7 +29,7 @@ export default function Card({name, id, img, types}){
                             src={img || fallbackPng} 
                             alt={name} /> */}
                     </div>
-            </Link>
+           
             <h3>{name}</h3>
             
             <div>
@@ -39,6 +40,7 @@ export default function Card({name, id, img, types}){
                 }).slice(0,2)}
             </div> 
         </div>
+        </Link>
     )
 }
 
