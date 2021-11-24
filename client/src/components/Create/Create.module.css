@@ -21,9 +21,10 @@ p{
     padding: 0px;
 }
 .Title{
-    grid-column: 2/6;
+    grid-column: 2/8;
     grid-row: 1/2;
     height: min-content;
+    justify-self: center;
 }
 
 .name{
@@ -31,13 +32,17 @@ p{
     flex-direction: column;
     grid-column: 2/5;
     grid-row: 2/3; 
+    justify-self: center;
 }
 .types{
     display: flex;
     flex-direction: row;
-    grid-column: 2/5;
-    grid-row: 3/4;
+    grid-column: 5/8;
+    grid-row: 2/3;
+    /* grid-column: 2/5;
+    grid-row: 3/4; */
     justify-self: center;
+    align-self: center;
 }
 
 .height{
@@ -45,46 +50,54 @@ p{
     flex-direction: column;
     grid-column: 2/5;
     grid-row: 4/5;
+    justify-self: center;
 }
 .weight{
     display:flex;
     flex-direction: column;
     grid-column: 2/5;
     grid-row: 5/6;
+    justify-self: center;
 }
 .hp{
     display:flex;
     flex-direction: column;
     grid-column: 2/5;
     grid-row: 6/7;
+    justify-self: center;
 }
 .attack{
     display:flex;
     flex-direction: column;
     grid-column: 5/8;
     grid-row: 4/5;
+    justify-self: center;
 }
 .defense{
     display:flex;
     flex-direction: column;
     grid-column: 5/8;
     grid-row: 5/6;
+    justify-self: center;
 }
 .speed{
     display:flex;
     flex-direction: column;
     grid-column: 5/8;
     grid-row: 6/7;
+    justify-self: center;
 }
 .url{
-    grid-column: 2/8;
+    grid-column: 2/5;
     grid-row: 7/8;
+    justify-self: center;
+    display: inline-flex;
     justify-self: center;
 }
 .submitButton{
-    grid-column: 2/8;
+    grid-column: 5/8;
     justify-self: center;
-    grid-row: 8/9;
+    grid-row: 7/8;
 
 }
 .SelectedTypes{
@@ -96,9 +109,25 @@ p{
     align-self: center;
 }
 
-input{
-    max-width: 80%;
+.Input{
+    /* max-width: 80%; */
     
+    color: rgb(36, 35, 35);
+    width: min-content;
+  min-width: 5ch;
+  max-width: 15ch;
+  border: 1px solid var(--select-border);
+  border-radius: 0.25em;
+  padding: 0.5em 0.2em 0.3em 0.2em;
+  font-size: 1.2rem;
+  cursor: pointer;
+  /* line-height: 1.1; */
+  background-color: transparent; 
+   /* background-image: linear-gradient(to top, #222222, rgb(0, 0, 0) 33%);  */
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  
 }
 
 .Dropdown {
@@ -110,11 +139,14 @@ input{
 .DropdownContent {
     display: none;
     position: absolute;
+    right:0px;
+    top:10px;
     width: 250%;
     overflow: auto;
     height: 200px;
     box-shadow: 0px 8px 16px 0px rgb(0, 0, 0);
     background-color: white;
+    z-index: 3;
     }
 
     .Dropdown:hover .DropdownContent {
@@ -142,5 +174,127 @@ input{
     
     font-size: 0.7rem;
     color: red;
-
+    
 }
+
+.BorderLabel{
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    top:10px;
+    /* left: -65px; */
+    left: 10px;
+    font-size: 1rem;
+    height: min-content;
+    width: min-content;
+    color: rgb(90, 90, 90);
+    padding-inline: 0.2rem;
+}
+
+.InputDiv{
+    height: 100%;
+    display: inline-block;
+    margin-inline: 10px;
+    text-align: left;
+}
+
+@media screen and (max-width: 830px) {
+    .Detail {
+      /* width: 350px; */
+      grid-template-columns: auto repeat(3, 1fr);
+      grid-template-rows: auto auto repeat(6, auto);
+    }
+    .Title{
+        grid-column: 1/5;
+        grid-row: 1/2;
+        height: min-content;
+        justify-self: center;
+    }
+    
+    .name{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 2/3; 
+        justify-self: center;
+    }
+    .types{
+        display: flex;
+        flex-direction: row;
+        grid-column: 2/5;
+        grid-row: 3/4;
+        /* grid-column: 2/5;
+        grid-row: 3/4; */
+        justify-self: center;
+        align-self: center;
+    }
+    
+    .height{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 4/5;
+        justify-self: center;
+    }
+    .weight{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 5/6;
+        justify-self: center;
+    }
+    .hp{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 6/7;
+        justify-self: center;
+    }
+    .attack{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 7/8;
+        justify-self: center;
+    }
+    
+    .defense{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 8/9;
+        justify-self: center;
+    }
+    .speed{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 9/10;
+        justify-self: center;
+    }
+    .url{
+        grid-column: 1/2;
+        grid-row: 8/9;
+        justify-self: center;
+        display: inline-flex;
+        justify-self: center;
+    }
+    .submitButton{
+        grid-column: 1/2;
+        justify-self: center;
+        grid-row: 9/10;
+    
+    }
+    .SelectedTypes{
+        display: flex;
+        flex-direction: column;
+        grid-column: 1/5;
+        grid-row: 1/2;
+        justify-self: right;
+        align-self: center;
+        
+    }
+    .DropdownContent {
+        right:0px;
+        top:0px;
+        }
+  }

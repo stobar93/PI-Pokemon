@@ -57,7 +57,7 @@ export default function Detail({ id }) {
                     /pokemons or /pokemons/search 
                 <Link to="/pokemons"><button onClick={()=>handleClick()}>X Close</button></Link> */}
       <h1 className={Style.Title}>{detail.name}</h1>
-      <div className={Container.imgDetail}>
+      <div className={[Container.imgDetail, Style.Img].join(" ")}>
         {/* Img component from react-image library to load fallback images */}
         {/* <Img className={img} src={detail.imgUrl} unloader={<BrokenImg/>} loader={<LoadingImg/>} alt={detail.name}/> */}
         <img

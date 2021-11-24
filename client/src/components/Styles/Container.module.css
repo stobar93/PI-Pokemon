@@ -169,10 +169,13 @@
 .Detail{
     display:grid;
     grid-template-columns: 350px repeat(6, 1fr);
-    grid-template-rows: repeat(7, auto);
-    grid-gap:5px;
+    grid-template-rows: repeat(8, auto);
+    /* grid-gap:5px; */
+    grid-column-gap: 10px;
     justify-items: right;
-    width: 70%;
+    width: max-content;
+    min-width: 40%;
+    max-width: 90%;
     margin: auto;
     margin-top: 20px;
     font-size: 1.2rem;
@@ -270,13 +273,27 @@
     }
 }
 
+/* @media screen and (min-width: 970px) {
+  .Detail {
+    grid-template-columns: 350px repeat(6, 1fr);
+    grid-template-rows: auto repeat(7, 30px);
+  }
+} */
+
 @media screen and (min-width: 1500px) {
     .Card {
         --card-width: 250px;
     }
 }
 
-
+@media screen and (max-width: 830px) {
+  .Detail {
+    /* width: 350px; */
+    grid-template-columns: auto repeat(3, 1fr);
+    grid-template-rows: auto auto repeat(8, auto);
+    
+  }
+}
 
 /* 320px — 480px: Mobile devices
 481px — 768px: iPads, Tablets

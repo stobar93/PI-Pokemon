@@ -170,6 +170,8 @@
     box-shadow:2px 2px 5px 0px black;
     background-color: whitesmoke;
     color: #FF1C1C;
+    height: min-content;
+    margin: auto;
     
 }
 
@@ -193,6 +195,8 @@
     background-color: whitesmoke;
     color: #FF1C1C;
     margin-inline: 10px;
+    height: min-content;
+    
 }
 
 .Important:hover{

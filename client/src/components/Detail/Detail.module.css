@@ -81,3 +81,89 @@
     grid-column: 4/6;
     grid-row: 7/8;
 }
+
+@media screen and (max-width: 830px) {
+    
+    .Title{
+        grid-column: 1/5;
+        grid-row: 1/2;
+        height: min-content;
+        justify-self: center;
+    }
+
+    .Img{
+        grid-column: 1/2;
+        grid-row: 3/12;
+    }
+    .SelectedTypes{
+        display: flex;
+        flex-direction: row;
+        grid-column: 1/5;
+        grid-row: 2/3;
+        justify-self: center;
+        
+    }
+    
+    
+    .height{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 3/4;
+        justify-self: right;
+    }
+    .weight{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 4/5;
+        justify-self: right;
+    }
+    .hp{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 5/6;
+        justify-self: right;
+    }
+    .attack{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 6/7;
+        justify-self: right;
+    }
+    
+    .defense{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 7/8;
+        justify-self: right;
+    }
+    .speed{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/5;
+        grid-row: 8/9;
+        justify-self: right;
+    }
+    
+    .id{
+        grid-column: 2/5;
+        grid-row: 9/10;
+        justify-self: right;
+    }
+    
+    .createdBy{
+        grid-column: 2/5;
+        grid-row: 10/11;
+        justify-self: right;
+    }
+    .Close{
+        grid-column: 4/5;
+        grid-row: 1/2;
+        
+    }
+    
+  }

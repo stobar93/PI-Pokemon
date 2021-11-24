@@ -44,26 +44,17 @@ export function Create({ types, postPokemon, setLoading, isLoading }) {
     imgLoad
       .then((response) => response.data)
       .then((data) => data[0].imgUrl)
-      .then((imgUrl) =>
+      .then((imgUrl) =>{
         setInfo((i) => {
           return {
             ...i,
             imgUrl: imgUrl,
           };
         })
+        setLoading(false)}
       )
       .catch((e) => alert(e));
-
-    // (async ()=>{
-    //     let id = Math.floor(Math.random()*152)+1
-    //     let randomImg =  await axios.get(`/pokemons/${id}`)
-
-    //     setInfo((i)=>{return{
-    //         ...i,
-    //         imgUrl: randomImg.data[0].imgUrl
-    //     }})
-    // })()
-  }, []);
+  }, [setLoading]);
 
   const loadImgUrl = async () => {
     let id = Math.floor(Math.random() * 152) + 1;
@@ -182,15 +173,17 @@ export function Create({ types, postPokemon, setLoading, isLoading }) {
     let id = event.target.id;
 
     if (info[id] === "") {
-      document.getElementById(id).className = Style.invalidInput;
-      document.getElementById(`alert${id}`).innerHTML = "Required field";
+
+      document.getElementById(id).className = document.getElementById(id).className.split(" ")[0].concat(` ${Style.invalidInput}`);
+      document.getElementById(id).placeholder = "Required field";
     } else if (info[id] === "0") {
-      document.getElementById(id).className = Style.invalidInput;
-      document.getElementById(`alert${id}`).innerHTML =
+      document.getElementById(id).className = document.getElementById(id).className.split(" ")[0].concat(` ${Style.invalidInput}`);
+      document.getElementById(id).placeholder =
         "Please type a number greater than 0";
     } else {
-      document.getElementById(id).className = Style.validInput;
-      document.getElementById(`alert${id}`).innerHTML = "";
+      
+      document.getElementById(id).className = document.getElementById(id).className.split(" ")[0].concat(` ${Style.validInput}`);
+      document.getElementById(id).placeholder = "";
     }
   };
 
@@ -215,9 +208,11 @@ export function Create({ types, postPokemon, setLoading, isLoading }) {
       </div>
 
       <div className={Style.name}>
-        <div>
-          <label htmlFor="name">Name: </label>
+        <div className={Style.InputDiv}>
+          <label className={Style.BorderLabel} htmlFor="name">Name</label>
           <input
+          
+          className={Style.Input}
             tabIndex="1"
             autoComplete="off"
             onChange={(e) => {
@@ -291,8 +286,10 @@ export function Create({ types, postPokemon, setLoading, isLoading }) {
       </div>
 
       <div className={Style.url}>
-        <label htmlFor="imgUrl">Img URL: </label>
+        <div className={Style.InputDiv}>
+        <label className={Style.BorderLabel} htmlFor="imgUrl">Img URL</label>
         <input
+        className={Style.Input}
           tabIndex="9"
           autoComplete="off"
           onChange={(e) => {
@@ -311,13 +308,17 @@ export function Create({ types, postPokemon, setLoading, isLoading }) {
           }}
           id="refreshImg"
         >
-          Refresh
+          New img
         </button>
+        </div>
+        
+        
       </div>
       <div className={Style.height}>
-        <div>
-          <label htmlFor="height">Height: </label>
+        <div className={Style.InputDiv}>
+          <label className={Style.BorderLabel} htmlFor="height">Height </label>
           <input
+          className={Style.Input}
             tabIndex="3"
             autoComplete="off"
             onChange={(e) => {
@@ -337,9 +338,10 @@ export function Create({ types, postPokemon, setLoading, isLoading }) {
         ></label>
       </div>
       <div className={Style.weight}>
-        <div>
-          <label htmlFor="weight">Weight: </label>
+        <div className={Style.InputDiv}>
+          <label className={Style.BorderLabel} htmlFor="weight">Weight </label>
           <input
+          className={Style.Input}
             tabIndex="4"
             autoComplete="off"
             onChange={(e) => {
@@ -359,9 +361,10 @@ export function Create({ types, postPokemon, setLoading, isLoading }) {
         ></label>
       </div>
       <div className={Style.hp}>
-        <div>
-          <label htmlFor="hp">HP: </label>
+        <div className={Style.InputDiv}>
+          <label className={Style.BorderLabel} htmlFor="hp">HP </label>
           <input
+          className={Style.Input}
             tabIndex="5"
             autoComplete="off"
             onChange={(e) => {
@@ -377,9 +380,10 @@ export function Create({ types, postPokemon, setLoading, isLoading }) {
         <label className={Style.alertLabel} htmlFor="name" id="alerthp"></label>
       </div>
       <div className={Style.attack}>
-        <div>
-          <label htmlFor="attack">Attack: </label>
+        <div className={Style.InputDiv}>
+          <label className={Style.BorderLabel} htmlFor="attack">Attack </label>
           <input
+          className={Style.Input}
             tabIndex="6"
             autoComplete="off"
             onChange={(e) => {
@@ -399,9 +403,10 @@ export function Create({ types, postPokemon, setLoading, isLoading }) {
         ></label>
       </div>
       <div className={Style.defense}>
-        <div>
-          <label htmlFor="defense">Defense: </label>
+        <div className={Style.InputDiv}>
+          <label className={Style.BorderLabel} htmlFor="defense">Defense </label>
           <input
+          className={Style.Input}
             tabIndex="7"
             autoComplete="off"
             onChange={(e) => {
@@ -421,9 +426,10 @@ export function Create({ types, postPokemon, setLoading, isLoading }) {
         ></label>
       </div>
       <div className={Style.speed}>
-        <div>
-          <label htmlFor="speed">Speed: </label>
+        <div className={Style.InputDiv}>
+          <label className={Style.BorderLabel} htmlFor="speed">Speed </label>
           <input
+          className={Style.Input}
             tabIndex="8"
             autoComplete="off"
             onChange={(e) => {

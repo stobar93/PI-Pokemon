@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Style from "./SideBar.module.css";
 import { Link } from "react-router-dom";
 import SearchBar from "../Search/SearchBar";
@@ -6,6 +6,19 @@ import SearchBar from "../Search/SearchBar";
 export default function SideBar (){
     const [open, setOpen] = useState(false)
 
+    useEffect(()=>{
+        if(open) {
+            document.body.style.overflow = "hidden"
+            document.body.style.height = "100vh"
+            document.body.style.position = "fixed"
+        
+        } 
+        else{
+            document.body.style.overflow = "auto"
+            document.body.style.position = ""
+            
+        }
+    },[open])
 
     return (
         <>
