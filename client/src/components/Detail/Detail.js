@@ -13,7 +13,7 @@ import fallbackGif from "../Card/pokeball.gif";
 import typeButtons from "../Styles/typeButtons.module.css";
 import Container from "../Styles/Container.module.css";
 import Style from "./Detail.module.css";
-import { img } from "../Card/Card.module.css";
+
 
 //Methods
 import { capitalLetter } from "../../Utils/Methods";

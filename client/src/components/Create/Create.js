@@ -11,7 +11,6 @@ import { capitalLetter, isValidHttpUrl } from "../../Utils/Methods";
 import Style from "./Create.module.css";
 import Button from "../Styles/typeButtons.module.css";
 import Container from "../Styles/Container.module.css";
-import { img } from "../Card/Card.module.css";
 //Loading fallback components
 import LoadingImg from "../Loading/LoadingImg.js";
 import Loading from "../Loading/Loading";
