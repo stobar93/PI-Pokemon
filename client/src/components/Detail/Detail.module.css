@@ -109,6 +109,9 @@
   justify-content: right;
   
 }
+.Tag:hover{
+    cursor: default;
+}
 
 .BorderLabel{
     background-color: rgb(255, 255, 255);

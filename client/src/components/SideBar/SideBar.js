@@ -12,6 +12,7 @@ export default function SideBar (){
             document.body.style.height = "100vh"
             document.body.style.width = "100vw"
             document.body.style.position = "fixed"
+
         
         } 
         else{

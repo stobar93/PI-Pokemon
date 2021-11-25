@@ -17,7 +17,32 @@
       -webkit-transform: translateX(0);
               transform: translateX(0);
     }
+    
   }
+
+  @-webkit-keyframes slide-right {
+    100% {
+      -webkit-transform: translateX(200px);
+              transform: translateX(200px);
+    }
+    0% {
+      -webkit-transform: translateX(0);
+              transform: translateX(0);
+    }
+  }
+  @keyframes slide-right  {
+    100% {
+      -webkit-transform: translateX(200px);
+              transform: translateX(200px);
+    }
+    0% {
+      -webkit-transform: translateX(0);
+              transform: translateX(0);
+    }
+    
+  }
+
+  
 
 .SideBar{
     position: absolute;
@@ -28,9 +53,13 @@
     background-color: rgb(153, 16, 16, 0.85);
     padding-inline: 10px;
     -webkit-animation: slide-left 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-	        animation: slide-left 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-    
+	        animation: slide-left 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;  
+            
 }
+
+
+
+
 
 .ModalBackground{
     position: absolute;
