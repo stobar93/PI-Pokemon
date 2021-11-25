@@ -199,9 +199,9 @@ export function Create({ types, postPokemon, setLoading, isLoading }) {
     <div className={Container.Detail}>
       <h1 className={Style.Title}>Create Pokemon</h1>
 
-      <div className={Container.imgDetail}>
+      <div className={[Container.imgDetail, Style.imgDiv].join(" ")}>
         {isValidHttpUrl(info.imgUrl) ? (
-          <img id="createImg" className={img} src={info.imgUrl} alt="imgUrl" />
+          <img id="createImg" className={Style.Img} src={info.imgUrl} alt="imgUrl" />
         ) : (
           <LoadingImg />
         )}

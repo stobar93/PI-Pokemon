@@ -57,16 +57,16 @@ export default function Detail({ id }) {
                     /pokemons or /pokemons/search 
                 <Link to="/pokemons"><button onClick={()=>handleClick()}>X Close</button></Link> */}
       <h1 className={Style.Title}>{detail.name}</h1>
-      <div className={[Container.imgDetail, Style.Img].join(" ")}>
+      <div className={[Style.imgDetail, Style.Img].join(" ")}>
         {/* Img component from react-image library to load fallback images */}
         {/* <Img className={img} src={detail.imgUrl} unloader={<BrokenImg/>} loader={<LoadingImg/>} alt={detail.name}/> */}
         <img
-          className={img}
+          className={Style.RenderImg}
           src={detail.imgUrl || fallbackGif}
           alt={detail.name}
         />
       </div>
-
+      <div className={Style.SelectedTypes}>
       {
         /* Render pokemon type buttons from React state
                     Dinamyc CSS with CSS modules based on each type */
@@ -89,7 +89,7 @@ export default function Detail({ id }) {
             })
             .slice(0, 2)
       }
-
+  </div>
       {
         /*Builds an array from detail keys
                     then filter and map to get only id, height, weight and createdBy properties*/
@@ -101,9 +101,12 @@ export default function Detail({ id }) {
           })
           .map((s) => {
             return (
-              <p className={Style[s]} key={s}>
-                {capitalLetter(s)}: {detail[s]}
-              </p>
+              <div className={Style[s]}>
+              <p className={Style.BorderLabel} key={`${s}-label`}>{capitalLetter(s)}</p>
+              <div className={Style.Tag} key={s}>
+                {detail[s]}
+              </div>
+              </div>
             );
           })
       }
@@ -117,9 +120,16 @@ export default function Detail({ id }) {
           })
           .map((s) => {
             return (
-              <p className={Style[s.toLowerCase()]} key={s}>
-                {capitalLetter(s)}: {detail.stats[s]}
-              </p>
+              
+              
+              <div className={Style[s.toLowerCase()]}>
+              <p className={Style.BorderLabel} key={`${s}-label`}>{capitalLetter(s)}</p>
+              <div className={Style.Tag} key={s}>
+                {detail.stats[s]}
+              </div>
+              </div>
+              
+              
             );
           })
       }

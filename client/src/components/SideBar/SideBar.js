@@ -8,14 +8,16 @@ export default function SideBar (){
 
     useEffect(()=>{
         if(open) {
-            document.body.style.overflow = "hidden"
+            // document.body.style.overflow = "hidden"
             document.body.style.height = "100vh"
+            document.body.style.width = "100vw"
             document.body.style.position = "fixed"
         
         } 
         else{
-            document.body.style.overflow = "auto"
+            document.body.style.overflow = ""
             document.body.style.position = ""
+            document.body.style.height = ""
             
         }
     },[open])

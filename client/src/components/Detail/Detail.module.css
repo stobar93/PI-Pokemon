@@ -1,29 +1,33 @@
 .Container{
     font-size: 1.5rem;
+    
+    max-width: 70%;
 }
 .Title{
-    grid-column: 2/7;
+    grid-column: 1/8;
     grid-row: 1/2;
     height: min-content;
     justify-self: center;
 }
 
-
-.types{
-    display: flex;
-    flex-direction: row;
-    grid-column: 2/4;
-    grid-row: 3/4;
-    justify-self: right;
-    align-self: center;
+.RenderImg{  
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%; 
 }
+
+
+
 
 .SelectedTypes{
     display: flex;
     flex-direction: row;
-    grid-column: 4/8;
+    flex-wrap: wrap;
+    grid-column: 1/8;
     grid-row: 3/4;
-    justify-self: left;
+    justify-content: center;
+    justify-self: center;
     
 }
 
@@ -75,15 +79,65 @@
 .id{
     grid-column: 3/4;
     grid-row: 7/8;
+    justify-self: left;
 }
 
 .createdBy{
-    grid-column: 4/6;
+    grid-column: 5/7;
     grid-row: 7/8;
+    justify-self: left;
 }
 
-@media screen and (max-width: 830px) {
+.Tag{
+    /* max-width: 80%; */
     
+    color: rgb(36, 35, 35);
+    
+  min-width: 5ch;
+  /* max-width: 15ch; */
+  width: 80%;
+  border: 1px solid var(--select-border);
+  border-radius: 0.25em;
+  padding: 0.2em 0.2em 0.3em 0.2em;
+  margin: 5px 10px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  background-color: transparent; 
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  justify-content: right;
+  
+}
+
+.BorderLabel{
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    top:15px;
+    /* left: -65px; */
+    left: 20px;
+    font-size: 1rem;
+    height: min-content;
+    width: min-content;
+    color: rgb(90, 90, 90);
+    padding-inline: 0.2rem;
+}
+
+.imgDetail{
+    
+    width: 350px;
+    height: 350px;
+    margin: auto;
+    grid-column: 1/2;
+    grid-row: 4/9;
+    
+}
+
+@media screen and (max-width: 890px) {
+    
+    .Container{
+        max-width: 90%;
+    }
     .Title{
         grid-column: 1/5;
         grid-row: 1/2;
@@ -108,56 +162,57 @@
     .height{
         display:flex;
         flex-direction: column;
-        grid-column: 2/5;
+        grid-column: 2/3;
         grid-row: 3/4;
         justify-self: right;
     }
     .weight{
         display:flex;
         flex-direction: column;
-        grid-column: 2/5;
-        grid-row: 4/5;
+        grid-column: 3/4;
+        grid-row: 3/4;
         justify-self: right;
     }
     .hp{
         display:flex;
         flex-direction: column;
-        grid-column: 2/5;
-        grid-row: 5/6;
+        grid-column: 4/5;
+        grid-row: 3/4;
         justify-self: right;
     }
     .attack{
         display:flex;
         flex-direction: column;
-        grid-column: 2/5;
-        grid-row: 6/7;
+        grid-column: 2/3;
+        grid-row: 4/5;
         justify-self: right;
     }
     
     .defense{
         display:flex;
         flex-direction: column;
-        grid-column: 2/5;
-        grid-row: 7/8;
+        grid-column: 3/4;
+        grid-row: 4/5;
         justify-self: right;
     }
     .speed{
         display:flex;
         flex-direction: column;
-        grid-column: 2/5;
-        grid-row: 8/9;
+        grid-column: 4/5;
+        grid-row: 4/5;
         justify-self: right;
     }
     
     .id{
         grid-column: 2/5;
-        grid-row: 9/10;
-        justify-self: right;
+        grid-row: 5/6;
+        justify-self: left;
+        
     }
     
     .createdBy{
         grid-column: 2/5;
-        grid-row: 10/11;
+        grid-row: 5/6;
         justify-self: right;
     }
     .Close{
@@ -166,4 +221,374 @@
         
     }
     
+  }
+
+  @media screen and (max-width: 770px) {
+    
+    .Container{
+        max-width: 90%;
+    }
+    .Title{
+        grid-column: 1/5;
+        grid-row: 1/2;
+        height: min-content;
+        justify-self: center;
+    }
+
+    .SelectedTypes{
+        grid-column: 1/5;
+    }
+
+    .Img{
+        grid-column: 1/2;
+        grid-row: 3/12;
+    }
+    
+    .height{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/3;
+        grid-row: 3/4;
+        justify-self: right;
+    }
+    .weight{
+        display:flex;
+        flex-direction: column;
+        grid-column: 3/4;
+        grid-row: 3/4;
+        justify-self: right;
+    }
+    .hp{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/3;
+        grid-row: 5/6;
+        justify-self: right;
+    }
+    .attack{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/3;
+        grid-row: 4/5;
+        justify-self: right;
+    }
+    
+    .defense{
+        display:flex;
+        flex-direction: column;
+        grid-column: 3/4;
+        grid-row: 4/5;
+        justify-self: right;
+    }
+    .speed{
+        display:flex;
+        flex-direction: column;
+        grid-column: 3/4;
+        grid-row: 5/6;
+        justify-self: right;
+    }
+    
+    .id{
+        grid-column: 2/3;
+        grid-row: 6/7;
+        justify-self: left;
+        
+    }
+    
+    .createdBy{
+        grid-column: 3/4;
+        grid-row: 6/7;
+        justify-self: right;
+    }
+    .Close{
+        grid-column: 4/5;
+        grid-row: 1/2;
+        
+    }
+    
+  }
+
+  @media screen and (max-width: 640px) {
+    
+    .Container{
+        max-width: 90%;
+    }
+    .Title{
+        grid-column: 1/5;
+        grid-row: 1/2;
+        height: min-content;
+        justify-self: center;
+    }
+
+    .Img{
+        grid-column: 1/5;
+        grid-row: 3/4;
+    }
+    
+    .height{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 4/5;
+        justify-self: right;
+    }
+    .weight{
+        display:flex;
+        flex-direction: column;
+        grid-column: 3/4;
+        grid-row: 4/5;
+        justify-self: right;
+    }
+    .hp{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/3;
+        grid-row: 4/5;
+        justify-self: right;
+    }
+    .attack{
+        display:flex;
+        flex-direction: column;
+        grid-column: 4/5;
+        grid-row: 4/5;
+        justify-self: right;
+    }
+    
+    .defense{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 5/6;
+        justify-self: right;
+    }
+    .speed{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/3;
+        grid-row: 5/6;
+        justify-self: right;
+    }
+    
+    .id{
+        grid-column: 3/4;
+        grid-row: 5/6;
+        justify-self: left;
+        
+    }
+    
+    .createdBy{
+        grid-column: 4/5;
+        grid-row: 5/6;
+        justify-self: right;
+    }
+    .Close{
+        grid-column: 4/5;
+        grid-row: 1/2;
+        
+    }
+    
+  }
+
+@media screen and (max-width: 550px) {
+    
+    .Container{
+        max-width: 90%;
+    }
+    .Title{
+        grid-column: 1/5;
+        grid-row: 1/2;
+        height: min-content;
+        justify-self: center;
+    }
+
+    .Img{
+        grid-column: 1/5;
+        grid-row: 3/4;
+    }
+    
+    .height{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 4/5;
+        justify-self: right;
+    }
+    .weight{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/3;
+        grid-row: 4/5;
+        justify-self: right;
+    }
+    .hp{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/3;
+        grid-row: 6/7;
+        justify-self: right;
+    }
+    .attack{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 5/6;
+        justify-self: right;
+    }
+    
+    .defense{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/3;
+        grid-row: 5/6;
+        justify-self: right;
+    }
+    .speed{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 6/7;
+        justify-self: right;
+    }
+    
+    .id{
+        grid-column: 1/2;
+        grid-row: 7/8;
+        justify-self: right;
+        
+    }
+    
+    .createdBy{
+        grid-column: 2/3;
+        grid-row: 7/8;
+        justify-self: right;
+    }
+    .Close{
+        grid-column: 2/3;
+        grid-row: 1/2;
+        
+    }
+    
+  }
+
+  @media screen and (max-width: 430px) {
+    
+    .Container{
+        max-width: 80%;
+    }
+    .Title{
+        grid-column: 1/2;
+        grid-row: 1/2;
+        height: min-content;
+        justify-self: center;
+    }
+
+    .Img{
+        grid-column: 1/2;
+        grid-row: 3/4;
+    }
+
+    .imgDetail{
+    
+    min-width: 120px;
+    min-height: 200px;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    grid-column: 1/2;
+    grid-row: 3/4;
+    
+}
+    
+    .Tag{
+        /* margin: auto; */
+        justify-content: center;
+          
+    }
+
+    .BorderLabel{
+        top: 10px;
+        left: 60px;
+    }
+    .height{
+        display:table-cell;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 4/5;
+        max-width: 100%;
+        min-width: 80%;
+        justify-self: center;
+    }
+    .weight{
+        display:inline;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 5/6;
+        max-width: 100%;
+        min-width: 80%;
+        justify-self: center;
+    }
+    .hp{
+        display:table-cell;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 6/7;
+        max-width: 100%;
+        min-width: 80%;
+        justify-self: center;
+    }
+    .attack{
+        display:table-cell;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 7/8;
+        max-width: 100%;
+        min-width: 80%;
+        justify-self: center;
+    }
+    
+    .defense{
+        display:table-cell;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 8/9;
+        max-width: 100%;
+        min-width: 80%;
+        justify-self: center;
+    }
+    .speed{
+        display:table-cell;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 9/10;
+        max-width: 100%;
+        min-width: 80%;
+        justify-self: center;
+    }
+    .id{
+        display:table-cell;
+        grid-column: 1/2;
+        grid-row: 10/11;
+        max-width: 100%;
+        min-width: 80%;
+        justify-self: center;
+        
+    }
+    
+    .createdBy{
+        display:table-cell;
+        grid-column: 1/2;
+        grid-row: 11/12;
+        max-width: 100%;
+        min-width: 80%;
+        justify-self: center;
+    }
+    .Close{
+        grid-column: 1/2;
+        grid-row: 1/2;
+        
+    }
+    
+    .SelectedTypes{
+        grid-column: 1/2;
+    }
   }

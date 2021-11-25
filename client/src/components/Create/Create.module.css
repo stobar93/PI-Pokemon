@@ -1,25 +1,21 @@
-.img{
-    /* background-image: url('./pokeball.gif');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center; */
-    
-    max-width: 250px;
-    max-height: 250px;
-    width: auto;
-    height: 250px;
-    
+
+
+.Img{  
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%; 
 }
 
 p{
     margin: 0;
 }
 
-.imgDiv{
+/* .imgDiv{
     width: 250px;
     height: 250px;
     padding: 0px;
-}
+} */
 .Title{
     grid-column: 2/8;
     grid-row: 1/2;
@@ -113,7 +109,7 @@ p{
     /* max-width: 80%; */
     
     color: rgb(36, 35, 35);
-    width: min-content;
+    width: 100%;
   min-width: 5ch;
   max-width: 15ch;
   border: 1px solid var(--select-border);
@@ -192,12 +188,13 @@ p{
 
 .InputDiv{
     height: 100%;
+    width: 100%;
     display: inline-block;
     margin-inline: 10px;
     text-align: left;
 }
 
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 890px) {
     .Detail {
       /* width: 350px; */
       grid-template-columns: auto repeat(3, 1fr);
@@ -226,6 +223,8 @@ p{
         grid-row: 3/4; */
         justify-self: center;
         align-self: center;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
     }
     
     .height{
@@ -295,6 +294,247 @@ p{
     }
     .DropdownContent {
         right:0px;
-        top:0px;
+        top:30px;
+        }
+  }
+
+  @media screen and (max-width: 610px) {
+    
+    .Title{
+        grid-column: 1/3;
+        grid-row: 1/2;
+        height: min-content;
+        justify-self: center;
+    }
+
+    .imgDiv{
+        grid-column: 1/3;
+        grid-row: 7/8;
+        margin-block: 20px;
+    }
+    
+    .name{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 2/3; 
+        justify-self: center;
+    }
+    .types{
+        display: flex;
+        flex-direction: row;
+        grid-column: 2/3;
+        grid-row: 6/7;
+        /* grid-column: 2/5;
+        grid-row: 3/4; */
+        justify-self: center;
+        align-self: center;
+        padding-bottom: 5px;
+        margin: auto;
+        
+    }
+    
+    .height{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/3;
+        grid-row: 2/3;
+        justify-self: center;
+    }
+    .weight{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 3/4;
+        justify-self: center;
+    }
+    .hp{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/3;
+        grid-row: 3/4;
+        justify-self: center;
+    }
+    .attack{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 4/5;
+        justify-self: center;
+    }
+    
+    .defense{
+        display:flex;
+        flex-direction: column;
+        grid-column: 2/3;
+        grid-row: 4/5;
+        justify-self: center;
+    }
+    .speed{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 5/6;
+        justify-self: center;
+    }
+    .url{
+        grid-column: 1/2;
+        grid-row: 6/7;
+        justify-self: center;
+        display: inline-flex;
+        justify-self: center;
+    }
+    .submitButton{
+        grid-column: 1/3;
+        justify-self: center;
+        grid-row: 8/9;
+    
+    }
+    .SelectedTypes{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        grid-column: 2/3;
+        grid-row: 5/6;
+        justify-content: center;
+        align-self:baseline;
+        width: 100%;
+        
+    }
+    .DropdownContent {
+        right:0px;
+        top:30px;
+        }
+  }
+
+  @media screen and (max-width: 430px) {
+    
+    .Title{
+        grid-column: 1/2;
+        grid-row: 1/2;
+        font-size: 2rem;
+        
+    }
+
+    
+
+    .imgDiv{
+        grid-column: 1/2;
+        grid-row: 12/13;
+        margin-block: 20px;
+
+    }
+    
+    .name{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 2/3; 
+        justify-self: center;
+    }
+    .types{
+        display: flex;
+        flex-direction: row;
+        grid-column: 1/2;
+        grid-row: 10/11;
+        /* grid-column: 2/5;
+        grid-row: 3/4; */
+        justify-self: center;
+        align-self: center;
+        padding-bottom: 5px;
+        margin: 15px auto;
+        
+    }
+    
+    .height{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 3/4;
+        justify-self: center;
+    }
+    .weight{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 4/5;
+        justify-self: center;
+    }
+    .hp{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 5/6;
+        justify-self: center;
+    }
+    .attack{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 6/7;
+        justify-self: center;
+    }
+    
+    .defense{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 7/8;
+        justify-self: center;
+    }
+    .speed{
+        display:flex;
+        flex-direction: column;
+        grid-column: 1/2;
+        grid-row: 8/9;
+        justify-self: center;
+    }
+    .url{
+        grid-column: 1/2;
+        grid-row: 9/10;
+        justify-self: center;
+        display: inline-flex;
+        justify-self: center;
+    }
+    .submitButton{
+        grid-column: 1/2;
+        justify-self: center;
+        grid-row: 13/14;
+    
+    }
+    .SelectedTypes{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        grid-column: 1/2;
+        grid-row: 11/12;
+        justify-content: center;
+        align-self:baseline;
+        max-width: 100%;
+        min-width: 50%;
+        margin-top: 10px;
+        
+    }
+
+    .Input{
+        max-width: 80%;
+        min-width: 20%;
+    }
+
+    .DropdownContent {
+        right:-80px;
+        top:-200px;
+        }
+
+        .Img{  
+            /* max-width: 80%;
+            max-height: 80%;
+            min-width: 20%;
+            min-height: 20%;  */
+
+            min-width: 120px;
+    min-height: 200px;
+    height: 100%;
+    width: 100%;
         }
   }
