@@ -37,5 +37,5 @@ conn.sync({ force: true }).then(() => {
 });
 
 setInterval(function () {
-  axios.get("/");
-}, 3000000); // every 5 minutes (300000)
+  axios.get("/types");
+}, 1500000); // every 25 minutes 
